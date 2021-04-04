@@ -3,6 +3,7 @@
 
 #include "datatypes.h"
 #include "virtualdragon.h"
+#include "vmutills.h"
 
 #define REGISTER_COUNT 32
 
@@ -14,14 +15,6 @@
 #define vmrelease       return
 
 typedef struct DVM DVM;
-
-typedef duint8      REGISTER8;
-typedef duint16     REGISTER16;
-typedef duint32     REGISTER32;
-typedef duint64     REGISTER64;
-typedef REGISTER64  REGISTER;
-
-typedef double      FREGISTER;
 
 struct DVM
 {

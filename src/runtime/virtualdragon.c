@@ -33,7 +33,7 @@ DVM* dvm_newState(DVM_CLASS* dvmClass)
     for (int i = 0; i < REGISTER_COUNT; ++i)
     {
         dvm->rn[i] = 0;
-        dvm->fp[i] = 0.0f;
+        dvm->fp[i] = 0.0;
     }
 
     dvm->flags      = 0;
