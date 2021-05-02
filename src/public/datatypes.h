@@ -86,7 +86,7 @@ typedef duint32          		dsize;
 #endif
 
 typedef void                    VOID;
-typedef void*           	    POINTER;
+typedef VOID*           	    POINTER;
 typedef POINTER                 MEMORY;
 typedef POINTER                 ADDRESS;
 

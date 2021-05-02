@@ -1,11 +1,20 @@
 #ifndef VIRTUALDRAGON_VMUTILLS_H
 #define VIRTUALDRAGON_VMUTILLS_H
 
-#define IP  31u     // instruction pointer
-#define SP  30u     // stack pointer
-#define BP  29u     // base pointer
-#define TP  28u     // this pointer
-#define RA  27u     // return address
+#include "datatypes.h"
+#include "virtualdragon.h"
+
+#define nIP  31     // n instruction pointer
+#define nSP  30     // n stack pointer
+#define nBP  29     // n base pointer
+#define nTP  28     // n this pointer
+#define nRA  27     // n return address
+
+#define IP  state->rn[ nIP ]    // instruction pointer
+#define SP  state->rn[ nSP ]    // stack pointer
+#define BP  state->rn[ nBP ]    // base pointer
+#define TP  state->rn[ nTP ]    // this pointer
+#define RA  state->rn[ nRA ]    // return address
 
 typedef duint8      REGISTER8;
 typedef duint16     REGISTER16;
@@ -15,19 +24,21 @@ typedef REGISTER64  REGISTER;
 
 typedef double      FREGISTER;
 
-void        SetIP(DVM* state, REGISTER ip);
-REGISTER    GetIP(DVM* state);
+////////////////////////////////////////////////////
+VOID dvm_sendMessage(DVM* state, const char* message);
+////////////////////////////////////////////////////
 
-void        SetSP(DVM* state, REGISTER sp);
-REGISTER    GetSP(DVM* state);
+REGISTER    dvm_getRegisterValue    (DVM* state, duint8 nReg);
+REGISTER*   dvm_getRegisterRef      (DVM* state, duint8 nReg);
 
-void        SetBP(DVM* state, REGISTER bp);
-REGISTER    GetBP(DVM* state);
+VOID dvm_pushByte   (DVM* state, duint8  _byte);
+VOID dvm_pushShort  (DVM* state, duint16 _short);
+VOID dvm_pushLong   (DVM* state, duint32 _long);
+VOID dvm_pushQuad   (DVM* state, duint64 _quad);
 
-void        SetTP(DVM* state, REGISTER tp);
-REGISTER    GetTP(DVM* state);
-
-void        SetRA(DVM* state, REGISTER ra);
-REGISTER    GetRA(DVM* state);
+duint8  dvm_popByte     (DVM* state);
+duint16 dvm_popShort    (DVM* state);
+duint32 dvm_popLong     (DVM* state);
+duint64 dvm_popQuad     (DVM* state);
 
 #endif // VIRTUALDRAGON_VMUTILLS_H
