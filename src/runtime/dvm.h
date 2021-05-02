@@ -5,17 +5,6 @@
 #include "virtualdragon.h"
 #include "vmutills.h"
 
-#define REGISTER_COUNT 32
-
-#define vmdispatch(o)	switch(o)
-#define vmswitch(o)     switch(o)
-#define vmcase(l)	    case l:
-#define vmbreak		    break
-#define vmdefault       default:
-#define vmrelease       return
-
-typedef struct DVM DVM;
-
 struct DVM
 {
     DVM_CLASS*  dvmClass;   // dvm base functions.

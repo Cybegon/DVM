@@ -4,18 +4,6 @@
 #include "datatypes.h"
 #include "virtualdragon.h"
 
-#define nIP  31     // n instruction pointer
-#define nSP  30     // n stack pointer
-#define nBP  29     // n base pointer
-#define nTP  28     // n this pointer
-#define nRA  27     // n return address
-
-#define IP  state->rn[ nIP ]    // instruction pointer
-#define SP  state->rn[ nSP ]    // stack pointer
-#define BP  state->rn[ nBP ]    // base pointer
-#define TP  state->rn[ nTP ]    // this pointer
-#define RA  state->rn[ nRA ]    // return address
-
 typedef duint8      REGISTER8;
 typedef duint16     REGISTER16;
 typedef duint32     REGISTER32;
