@@ -1,53 +1,65 @@
 #include "vmutills.h"
 
 #include "dvm.h"
+#include "dvmdef.h"
 
-void SetIP(DVM* state, REGISTER ip)
+////////////////////////////////////////////////////
+VOID dvm_sendMessage(DVM* state, const char* message)
 {
-    state->rn[ IP ] = ip;
+
+}
+////////////////////////////////////////////////////
+
+//
+// 0x1F Allows no more than 32 (REGISTER COUNT),
+// 0x1F have five bits included. 0x00011111b
+//
+REGISTER dvm_getRegisterValue(DVM* state, duint8 nReg)
+{
+    return state->rn[ ( nReg & 0x1Fu ) ];
 }
 
-REGISTER GetIP(DVM* state)
+REGISTER* dvm_getRegisterRef(DVM* state, duint8 nReg)
 {
-    return state->rn[ IP ];
+    return &( state->rn[ ( nReg & 0x1Fu ) ] );
 }
 
-void SetSP(DVM* state, REGISTER sp)
+VOID dvm_pushByte(DVM* state, duint8 _byte)
 {
-    state->rn[ SP ] = sp;
+    PUSH( duint16, _byte ); // aligned 16 bytes
 }
 
-REGISTER GetSP(DVM* state)
+VOID dvm_pushShort(DVM* state, duint16 _short)
 {
-    return state->rn[ SP ];
+    PUSH( duint16, _short ); // aligned 16 bytes
 }
 
-void SetBP(DVM* state, REGISTER bp)
+VOID dvm_pushLong(DVM* state, duint32 _long)
 {
-    state->rn[ BP ] = bp;
+    PUSH( duint32, _long ); // aligned 16 bytes
 }
 
-REGISTER GetBP(DVM* state)
+VOID dvm_pushQuad(DVM* state, duint64 _quad)
 {
-    return state->rn[ BP ];
+    PUSH( duint32, _quad ); // aligned 16 bytes
 }
 
-void SetTP(DVM* state, REGISTER tp)
+duint8 dvm_popByte(DVM* state)
 {
-    state->rn[ TP ] = tp;
+    return POP( duint16 ); // aligned 16 bytes
 }
 
-REGISTER GetTP(DVM* state)
+duint16 dvm_popShort(DVM* state)
 {
-    return state->rn[ TP ];
+    return POP( duint16 ); // aligned 16 bytes
 }
 
-void SetRA(DVM* state, REGISTER ra)
+duint32 dvm_popLong(DVM* state)
 {
-    state->rn[ RA ] = ra;
+    return POP( duint32 ); // aligned 16 bytes
 }
 
-REGISTER GetRA(DVM* state)
+duint64 dvm_popQuad(DVM* state)
 {
-    return state->rn[ RA ];
+    return POP( duint64 ); // aligned 16 bytes
 }
