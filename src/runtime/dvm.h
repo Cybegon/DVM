@@ -2,6 +2,7 @@
 #define VIRTUALDRAGON_DVM_H
 
 #include "datatypes.h"
+#include "dvmdef.h"
 #include "virtualdragon.h"
 #include "vmutills.h"
 
