@@ -4,7 +4,7 @@
 #define REGISTER_COUNT 32
 
 #if REGISTER_COUNT < 8
-#   error REGISTER_COUNT Minimum allowed value in REGISTER_COUNT 8
+#   error Minimum allowed value in REGISTER_COUNT 8
 #endif
 
 #define nIP  31     // n instruction pointer
