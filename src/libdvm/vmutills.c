@@ -1,7 +1,6 @@
 #include "vmutills.h"
 
 #include "dvm.h"
-#include "dvmdef.h"
 
 ////////////////////////////////////////////////////
 VOID dvm_sendMessage(DVM* state, const char* message)
@@ -10,21 +9,27 @@ VOID dvm_sendMessage(DVM* state, const char* message)
 }
 ////////////////////////////////////////////////////
 
-//
-// 0x1F Allows no more than 32 (REGISTER COUNT),
-// 0x1F have five bits included. 0x00011111b
-//
 REGISTER dvm_getRegisterValue(DVM* state, duint8 nReg)
 {
-    return state->rn[ ( nReg & 0x1Fu ) ];
+    return R(nReg);
 }
 
 REGISTER* dvm_getRegisterRef(DVM* state, duint8 nReg)
 {
-    return &( state->rn[ ( nReg & 0x1Fu ) ] );
+    return &R(nReg);
 }
 
-VOID dvm_pushByte(DVM* state, duint8 _byte)
+vm_code dvm_setSWI(DVM* state, DVM_INT* vector)
+{
+    if (vector == NULL)
+        return DVM_FAIL;
+
+    state->SVI = vector;
+
+    return DVM_SUCCESS;
+}
+
+VOID dvm_pushByte(DVM* state, duint16 _byte)
 {
     PUSH( duint16, _byte ); // aligned 16 bytes
 }
@@ -44,22 +49,33 @@ VOID dvm_pushQuad(DVM* state, duint64 _quad)
     PUSH( duint32, _quad ); // aligned 16 bytes
 }
 
-duint8 dvm_popByte(DVM* state)
+duint16 dvm_popByte(DVM* state)
 {
-    return POP( duint16 ); // aligned 16 bytes
+    duint16 retVal = POP( duint16 );
+    return retVal; // aligned 16 bytes
 }
 
 duint16 dvm_popShort(DVM* state)
 {
-    return POP( duint16 ); // aligned 16 bytes
+    duint16 retVal = POP( duint16 );
+    return retVal; // aligned 16 bytes
 }
 
 duint32 dvm_popLong(DVM* state)
 {
-    return POP( duint32 ); // aligned 16 bytes
+    duint32 retVal = POP( duint32 );
+    return retVal; // aligned 16 bytes
 }
 
 duint64 dvm_popQuad(DVM* state)
 {
-    return POP( duint64 ); // aligned 16 bytes
+    duint64 retVal = POP( duint64 );
+    return retVal; // aligned 16 bytes
+}
+
+duint8 dvm_getByteOrder()
+{
+    duint16 x = 0x0001;
+
+    return ( *( (duint8*)&x ) ? 0 : 1 );
 }

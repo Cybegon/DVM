@@ -7,6 +7,16 @@
 #define MB(VALUE) ( VALUE * 1024 * 1024 )
 #define GB(VALUE) ( VALUE * 1024 * 1024 * 1024 )
 
+//#ifdef defined(CYBEGON_COMPILER_GCC)
+//#   define DVM_CALLBACK __cdecl
+//#   define DVM_FASTCALL __fastcall
+//#elif defined(CYBEGON_COMPILER_MSVC)
+//#   define DVM_CALLBACK __cdecl
+//#   define DVM_FASTCALL __fastcall
+//#endif // CYBEGON_COMPILER_MSVC
+
+
+
 #if defined(CYBEGON_COMPILER_GCC) || defined(CYBEGON_COMPILER_CLANG)
 #   define PACKED_BEGIN
 #   define PACKED  __attribute__((__packed__))
@@ -52,13 +62,11 @@
 
 typedef unsigned char   duchar;
 typedef unsigned short  dushort;
-typedef unsigned        duint;
+typedef int             dint;      // 32 bit signed
+typedef unsigned int   	duint;     // 32 bit unsigned
 typedef unsigned long   dulong;
 typedef char           *dpchar;
 typedef duchar         *dpuchar;
-
-typedef int             		dint;      // 32 bit signed
-typedef unsigned int   			duint;     // 32 bit unsigned
 
 typedef unsigned char   		duint8;    // 8 bit unsigned
 typedef short           		dint16;    // 16 bit signed
@@ -86,8 +94,25 @@ typedef duint32          		dsize;
 #endif
 
 typedef void                    VOID;
+typedef VOID*           	    DESCRIPTOR;
 typedef VOID*           	    POINTER;
 typedef POINTER                 MEMORY;
 typedef POINTER                 ADDRESS;
+
+typedef struct GUID GUID;
+
+struct GUID
+{
+    duint32 data1;      // 32bit low time
+    duint16 data2;      // 16bit middle time
+    duint16 data3;      // 4bit version and 12 high bits of the time
+    // 1 to 3-bit "variant" in the most significant bits,
+    // followed by the 13 to 15-bit clock sequence
+    duint16 data4;
+    struct {
+        duint16 node_h;
+        duint32 node_l;
+    } node;
+};
 
 #endif //DATATYPE_GLOBAL_H
