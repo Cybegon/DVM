@@ -51,6 +51,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
             }
             vmcase(DVM_FORMAT_I) {
                 format_i(state, in->value32H);
+                vmbreak;
 //                // This is maddness!
 //                // no this is COSTYL!!!
 //                // for better performance with love :3
@@ -75,7 +76,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
             }
         }
 
-        IP += sizeof(INSTRUCTION);
+        IP += sizeof(in->value32H);
     } afterexec {
         // global ip ++
         GIP += IP;
