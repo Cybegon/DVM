@@ -4,7 +4,11 @@
 #include "datatypes.h"
 
 #define DVM_CALLBACK __cdecl
+#ifndef CYBEGON_LACKS_FASTCALL
 #define DVM_FASTCALL __fastcall
+#else
+#define DVM_FASTCALL
+#endif
 
 // Memory map allocator
 // Protection

@@ -31,12 +31,18 @@
 #if !defined(CYBEGON_PLATFORM_WINDOWS) || !defined(CYBEGON_PLATFORM_UNIX)
 #   if defined(_WIN32) || defined(_WIN64)
 #       define CYBEGON_PLATFORM_WINDOWS
+#   elif defined(__APPLE__)
+//      Apple are being egoists lately :P
+
+#       define CYBEGON_PLATFORM_UNIX
+#       define CYBEGON_PLATFORM_APPLE
+// https://bugzilla.mozilla.org/show_bug.cgi?id=323337 <-- Mac has no __fastcall
+
+#       define CYBEGON_LACKS_FASTCALL
 #   elif defined(unix) || defined(__unix__) || defined(__unix)
 #       define CYBEGON_PLATFORM_UNIX
 #       if defined(__linux__)
 #           define CYBEGON_PLATFORM_LINUX
-#       elif defined(__APPLE__)
-#           define CYBEGON_PLATFORM_APPLE
 #       elif defined(__ANDROID__)
 #           define CYBEGON_PLATFORM_ANDROID
 #       elif defined(__FreeBSD__)

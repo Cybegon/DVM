@@ -53,7 +53,7 @@ VOID DVM_CALLBACK freeMmapVM(DESCRIPTOR handle)
 VOID DVM_CALLBACK msgVM (Msg_t type, const char* message)
 {
     if (type)
-        printf("%s R0 = %llu | R1 = %llu\n", message, dvm_getRegisterValue(state, 0),
+        printf("%s R0 = %lu | R1 = %lu\n", message, dvm_getRegisterValue(state, 0),
             dvm_getRegisterValue(state, 1));
     else
         printf("%s\n", message);
