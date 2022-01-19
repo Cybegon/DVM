@@ -7,7 +7,8 @@ include_directories(${CMAKE_SOURCE_DIR}/src/public)
 include_directories(${CMAKE_SOURCE_DIR}/src/public/libdvm)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64/i32)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64/i64)
 
 set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -Ofast")
 #set(CMAKE_STATIC_LINKER_FLAGS "-nolibc")
