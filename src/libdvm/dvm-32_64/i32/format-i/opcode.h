@@ -6,15 +6,20 @@
 // Basic
 #define OP_MOV      ( 0x00 )
 #define OP_PUSH     ( 0x01 )
-#define OP_PUSHF    ( 0x02 )
-#define OP_POP      ( 0x03 )
-#define OP_POPF     ( 0x04 )
-#define OP_LEA      ( 0x05 )
+#define OP_PUSH16   ( 0x02 )
+#define OP_PUSH32   ( 0x03 )
+#define OP_PUSH64   ( 0x04 )
+#define OP_PUSHF    ( 0x05 )
+#define OP_POP      ( 0x06 )
+#define OP_POP32    ( 0x07 )
+#define OP_POP64    ( 0x08 )
+#define OP_POPF     ( 0x09 )
+#define OP_LEA      ( 0x0A )
 //#define OP_NOP      ( 0x03 )
 
 // interrupts
-#define OP_HWI  ( 0x0A ) // hardware/exception interrupts
-#define OP_SWI  ( 0x0B ) // software interrupts
+#define OP_HWI  ( 0x0D ) // hardware/exception interrupts
+#define OP_SWI  ( 0x0F ) // software interrupts
 
 // Integer arithmetic
 #define OP_ADD      ( 0x10 )

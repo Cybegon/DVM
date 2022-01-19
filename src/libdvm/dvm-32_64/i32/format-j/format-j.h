@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_FORMAT_J_H
 #define VIRTUALDRAGON_FORMAT_J_H
 
-#define DVM_FORMAT_I (3)
+#define DVM_FORMAT_J (3)
 
 #include "virtualdragon.h"
 #include "dvmclass.h"

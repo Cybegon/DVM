@@ -17,20 +17,21 @@ VOID format_i(DVM* state, duint32 instruction)
             PUSH(REGISTER, R(DVM_GET_R0(instruction)));
             vmbreak;
         }
-        vmcase(OP_PUSHF) {
-            PUSH(REGISTER, state->flags);
-        }
         vmcase(OP_POP) {
             R(DVM_GET_R0(instruction)) = POP(REGISTER);
+            vmbreak;
         }
         vmcase(OP_POPF) {
             state->flags = POP(REGISTER);
+            vmbreak;
         }
         vmcase(OP_LEA) {
             R(DVM_GET_R0(instruction)) = GIP + IP + DVM_GET_IMM16(instruction);
+            vmbreak;
         }
         vmcase(OP_SWI) {
             state->SVI[ DVM_GET_IMM16(instruction) & 0xFFu ](state);
+            vmbreak;
         }
 
         // !~IA - Integer arithmetic
@@ -133,26 +134,32 @@ VOID format_i(DVM* state, duint32 instruction)
         vmcase(OP_RET) {
             IP = POP(REGISTER);
             cpu_codeHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
         }
         vmcase(OP_ENTER) {
             PUSH(REGISTER, BP);
             BP = SP;
+            vmbreak;
         }
         vmcase(OP_LEAVE) {
             SP = BP;
             BP = POP(REGISTER);
+            vmbreak;
         }
         vmcase(OP_JMP) {
             IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
             cpu_codeHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
         }
         vmcase(OP_CALL) {
             PUSH(REGISTER, R(DVM_GET_R0(instruction)));
             IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
             cpu_codeHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
         }
         vmdefault: {
             dvm_getClass(state)->msgCallback(1, "INTERRUPT: illegal opcode \n");
+            vmbreak;
         }
     }
 }
