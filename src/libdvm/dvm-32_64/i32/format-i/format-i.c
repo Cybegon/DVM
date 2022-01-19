@@ -21,10 +21,6 @@ VOID format_i(DVM* state, duint32 instruction)
             R(DVM_GET_R0(instruction)) = POP(REGISTER);
             vmbreak;
         }
-        vmcase(OP_POPF) {
-            state->flags = POP(REGISTER);
-            vmbreak;
-        }
         vmcase(OP_LEA) {
             R(DVM_GET_R0(instruction)) = GIP + IP + DVM_GET_IMM16(instruction);
             vmbreak;
