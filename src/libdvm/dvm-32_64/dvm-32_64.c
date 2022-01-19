@@ -1,9 +1,9 @@
 #include "dvm-32_64.h"
 
 #include "vcpuclass.h"
-#include "dvm-32_64/format-i/encode.h"
 
 #include "format-i/format-i.h"
+#include "format-j/format-j.h"
 
 #define DVM_LONG_MODE   (7)
 #define DVM_FORMAT_NOP  (0)
@@ -52,20 +52,10 @@ vm_code DVM_CALLBACK entry(DVM* state)
             vmcase(DVM_FORMAT_I) {
                 format_i(state, in->value32H);
                 vmbreak;
-//                // This is maddness!
-//                // no this is COSTYL!!!
-//                // for better performance with love :3
-//                vmswitch() {
-//                    vmcase(DVM_TRANSFER_CONTROL) {
-//                        return DVM_TRANSFER_CONTROL;
-//                    }
-//                    vmcase(DVM_LOAD_PAGE) {
-//                        return DVM_LOAD_PAGE;
-//                    }
-//                    vmdefault:
-//                        vmbreak;
-//                }
-//                vmbreak;
+            }
+            vmcase(DVM_FORMAT_J) {
+                format_j(state, in->value32H);
+                vmbreak;
             }
             vmcase(DVM_LONG_MODE) {
                 longMode(state, in);
@@ -77,11 +67,11 @@ vm_code DVM_CALLBACK entry(DVM* state)
         }
 
         IP += sizeof(in->value32H);
-    } afterexec {
+    } /*afterexec {
         // global ip ++
         GIP += IP;
         IP  = 0;
-    }
+    } */
 
     return DVM_LOAD_PAGE;
 }
@@ -116,3 +106,20 @@ const VCPU d32_64 = {
         .debug  = { load, entry, unload },
         .jit    = {NULL, NULL, NULL},
 };
+
+////////////////////////////////////////////
+//                // This is maddness!
+//                // no this is COSTYL!!!
+//                // for better performance with love :3
+//                vmswitch() {
+//                    vmcase(DVM_TRANSFER_CONTROL) {
+//                        return DVM_TRANSFER_CONTROL;
+//                    }
+//                    vmcase(DVM_LOAD_PAGE) {
+//                        return DVM_LOAD_PAGE;
+//                    }
+//                    vmdefault:
+//                        vmbreak;
+//                }
+//                vmbreak;
+////////////////////////////////////////////
