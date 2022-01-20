@@ -7,4 +7,5 @@ cmake-build-debug-visual-studio/
 cmake-build-release-visual-studio/
 libraries/
 build/
+out/
 CMakeLists.txt.user
