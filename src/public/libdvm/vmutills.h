@@ -8,6 +8,14 @@ typedef duint64         REGISTER;
 typedef dint64          IREGISTER;
 typedef float           FREGISTER;
 
+typedef duint64         REGISTER64;
+typedef duint32         REGISTER32;
+typedef duint16         REGISTER16;
+
+typedef dint64          IREGISTER64;
+typedef dint32          IREGISTER32;
+typedef dint16          IREGISTER16;
+
 typedef vm_code (*DVM_INT)          (DVM* state);
 typedef vm_code (*DVM_LOAD)         (DVM* state);
 typedef vm_code (*DVM_ENTRY)        (DVM* state);

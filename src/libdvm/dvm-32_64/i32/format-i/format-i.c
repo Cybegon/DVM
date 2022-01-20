@@ -6,6 +6,8 @@
 #include "opcode.h"
 #include "vcpu.h"
 
+#define C4146_FIX(o, m) (REGISTER)(o(IREGISTER)m)
+
 VOID format_i(DVM* state, duint32 instruction)
 {
     vmswitch(DVM_GET_OPCODE(instruction)) {
@@ -80,13 +82,13 @@ VOID format_i(DVM* state, duint32 instruction)
         vmcase(OP_ROL) {
             R(DVM_GET_R0(instruction)) =
                     ( R(DVM_GET_R0(instruction)) << DVM_GET_IMM16(instruction) ) | // or
-                    ( R(DVM_GET_R0(instruction)) >> ( -DVM_GET_IMM16(instruction) & 63u ) );
+                    ( R(DVM_GET_R0(instruction)) >> ( C4146_FIX(-,DVM_GET_IMM16(instruction)) & 63u ) );
             vmbreak;
         }
         vmcase(OP_ROR) {
             R(DVM_GET_R0(instruction)) =
                     ( R(DVM_GET_R0(instruction)) >> DVM_GET_IMM16(instruction) ) | // or
-                    ( R(DVM_GET_R0(instruction)) << ( -DVM_GET_IMM16(instruction) & 63u ) );
+                    ( R(DVM_GET_R0(instruction)) << ( C4146_FIX(-,DVM_GET_IMM16(instruction)) & 63u ) );
             vmbreak;
         }
 
@@ -122,7 +124,7 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_NEG) {
-            R(DVM_GET_R0(instruction)) = -R(DVM_GET_R0(instruction));
+            R(DVM_GET_R0(instruction)) = C4146_FIX(-, R(DVM_GET_R0(instruction)));
             vmbreak;
         }
 

@@ -46,7 +46,7 @@ VOID dvm_pushLong(DVM* state, duint32 _long)
 
 VOID dvm_pushQuad(DVM* state, duint64 _quad)
 {
-    PUSH( duint32, _quad ); // aligned 16 bytes
+    PUSH( duint64, _quad ); // aligned 16 bytes
 }
 
 duint16 dvm_popByte(DVM* state)

@@ -6,26 +6,19 @@
 // Basic
 #define OP_MOV      ( 0x00 )
 #define OP_PUSH     ( 0x01 )
-#define OP_PUSH16   ( 0x02 )
-#define OP_PUSH32   ( 0x03 )
-#define OP_PUSH64   ( 0x04 )
-#define OP_PUSHF    ( 0x05 )
-#define OP_POP      ( 0x06 )
-#define OP_POP32    ( 0x07 )
-#define OP_POP64    ( 0x08 )
-#define OP_POPF     ( 0x09 )
-#define OP_LEA      ( 0x0A )
+#define OP_POP      ( 0x02 )
+#define OP_LEA      ( 0x03 )
 //#define OP_NOP      ( 0x03 )
 
 // interrupts
-#define OP_HWI  ( 0x0D ) // hardware/exception interrupts
-#define OP_SWI  ( 0x0F ) // software interrupts
+#define OP_HWI  ( 0x0A ) // hardware/exception interrupts
+#define OP_SWI  ( 0x0B ) // software interrupts
 
 // Integer arithmetic
 #define OP_ADD      ( 0x10 )
 #define OP_SUB      ( 0x11 )
-#define OP_ADDF     ( 0x12 )
-#define OP_SUBF     ( 0x13 )
+#define OP_EADD     ( 0x12 )
+#define OP_ESUB     ( 0x13 )
 #define OP_ADC      ( 0x14 )
 #define OP_SBB      ( 0x15 )
 
@@ -97,9 +90,7 @@ INSTRUCTION_INFO inf[] = {
              .instructionMap = DEFAULT_MAP,
              .description    = "SP -= 8, RAM[SP] = Reg"
      },
-}
-
-
+};
 
 #endif
 
