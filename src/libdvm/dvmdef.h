@@ -3,11 +3,17 @@
 
 #include "virtualdragon.h"
 
-#define REGISTER_COUNT  ( 32u ) // do not edit
-#define REGISTER_MASK   ( REGISTER_COUNT - 1u ) // equals 0b00011111
+#define REGISTER_COUNT          ( 32u ) // do not edit
+#define REGISTER_MASK           ( REGISTER_COUNT - 1u ) // equals 0b00011111
 
 #define nR(n)   ( n & REGISTER_MASK )
 #define  R(n)   ( state->rn[ nR(n) ] )
+
+#define SPECIAL_REGISTER_COUNT  ( 8u )
+#define SPECIAL_REGISTER_MASK   ( SPECIAL_REGISTER_COUNT - 1u )
+
+#define nSR(n)   ( n & SPECIAL_REGISTER_MASK )
+#define  SR(n)   ( state->sr[ nSR(n) ] )
 
 #define GIP state->gip
 #define IP  R(31u) // instruction pointer
@@ -16,6 +22,8 @@
 #define TP  R(28u) // this pointer
 // ...
 #define RA  R(0u)  // Using for return address or value. accumulator
+
+
 
 #define DVM_FETCH(s) (( (INSTRUCTION)( &(((duint8*)s->text)[ IP ]) ) ))
 

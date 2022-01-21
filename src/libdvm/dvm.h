@@ -17,17 +17,17 @@ struct DVM
 
     // 32 general purpose registers.
     REGISTER    rn[ REGISTER_COUNT ]; // real number registers.
+    // 8 special registers.
+    REGISTER    sr[ SPECIAL_REGISTER_COUNT ]; // flags, ip, etc..
     // 32 floating point registers.
     FREGISTER   fp[ REGISTER_COUNT ]; // float point registers.
-    REGISTER    flags;      // flags.
-    REGISTER    gip;        // global instruction pointer
-
-    DVM_INT*    HVI;        // pointer to hardware vector interrupt
-    DVM_INT*    SVI;        // pointer to software vector interrupt
 
     MEMORY      text;       // program memory space.
     MEMORY      data;       // data memory space.
     MEMORY      stack;      // machine stack.
+
+    DVM_INT*    HVI;        // pointer to hardware vector interrupt
+    DVM_INT*    SVI;        // pointer to software vector interrupt
 
     const VCPU** vcpus;
     duint32 processorID; // default: 0
@@ -37,8 +37,5 @@ struct DVM
 //struct DVM_Thread {
 //    duint32  id;
 //};
-
-
-
 
 #endif // VIRTUALDRAGON_DVM_H
