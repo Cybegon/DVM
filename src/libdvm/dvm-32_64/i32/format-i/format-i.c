@@ -24,7 +24,7 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_LEA) {
-            R(DVM_GET_R0(instruction)) = GIP + IP + DVM_GET_IMM16(instruction);
+            R(DVM_GET_R0(instruction)) = IP + DVM_GET_IMM16(instruction);
             vmbreak;
         }
         vmcase(OP_SWI) {

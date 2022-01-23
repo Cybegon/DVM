@@ -12,13 +12,23 @@
 // 3 bits for format
 #define DVM_GET_FORMAT(i)   ( (i & 0xF0000000u) >> 28u )
 
-typedef union INSTRUCTION* INSTRUCTION;
+typedef union INSTRUCTION64* INSTRUCTION;
+typedef union INSTRUCTION64* INSTRUCTION64;
+typedef union INSTRUCTION32* INSTRUCTION32;
 
-union INSTRUCTION {
+union INSTRUCTION64 {
     duint64 value64;
     struct {
         duint32 value32H;
         duint32 value32L;
+    };
+};
+
+union INSTRUCTION32 {
+    duint32 value32;
+    struct {
+        duint16 value16H;
+        duint16 value16L;
     };
 };
 
@@ -42,7 +52,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
     DVM_CLASS* dvmClass = dvm_getClass(state);
 
     INSTRUCTION in;
-    vmpagexec(dvmClass) {
+    vmchunkexec(dvmClass) {
         in = DVM_FETCH(state);
         vmdispatch(DVM_GET_FORMAT(in->value32H)) {
             vmcase(DVM_FORMAT_NOP) {
@@ -58,21 +68,45 @@ vm_code DVM_CALLBACK entry(DVM* state)
                 vmbreak;
             }
             vmcase(DVM_LONG_MODE) {
-                longMode(state, in);
-                continue;
+                R(3u) = in->value32L;
+                dvmClass->msgCallback(1, "this is sparta!");
+                vmsignal(SKIP);
             }
             vmdefault: {
                 return DVM_TRANSFER_CONTROL;
             }
         }
-
-        IP += sizeof(in->value32H);
+        vmdispatch(DVM_GET_FORMAT(in->value32L)) {
+            vmcase(DVM_FORMAT_NOP) {
+                // No operation
+                vmbreak;
+            }
+            vmcase(DVM_FORMAT_I) {
+                format_i(state, in->value32L);
+                vmbreak;
+            }
+            vmcase(DVM_FORMAT_J) {
+                format_j(state, in->value32L);
+                vmbreak;
+            }
+            vmcase(DVM_LONG_MODE) {
+                IP += sizeof(INSTRUCTION) / 2;
+                dvmClass->msgCallback(1, "this is DEBIL!");
+                return DVM_LOAD_PAGE;
+            }
+            vmdefault: {
+                return DVM_TRANSFER_CONTROL;
+            }
+        }
+        vmslot(SKIP)
+        IP += sizeof(INSTRUCTION);
     } /*afterexec {
         // global ip ++
         GIP += IP;
         IP  = 0;
     } */
 
+vmslot(OUT)
     return DVM_LOAD_PAGE;
 }
 

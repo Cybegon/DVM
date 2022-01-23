@@ -13,10 +13,10 @@
 // Memory map allocator
 // Protection
 #define DVM_MEM_NONE    ( 0x01u )
-#define DVM_MEM_EXEC    ( 0x02u )
-#define DVM_MEM_STACK   ( 0x04u )    // top down
-#define DVM_MEM_READ    ( 0x08u )
-#define DVM_MEM_WRITE   ( 0x10u )
+#define DVM_MEM_EXEC    ( 0x04u )
+#define DVM_MEM_STACK   ( 0x08u )    // top down
+#define DVM_MEM_READ    ( 0x10u )
+#define DVM_MEM_WRITE   ( 0x11u )
 
 #define DVM_MEM_READWRITE ( DVM_MEM_READ | DVM_MEM_WRITE )
 
@@ -35,15 +35,15 @@ typedef struct DVM_CLASS DVM_CLASS;
 
 // DVM_CLASS functions
 // Memory allocator
-typedef MEMORY     (DVM_CALLBACK *MemAllocator)        (dsize size);
+typedef MEMORY     (DVM_CALLBACK *MemAllocator)        (dsize size, duint32 flags, duint32 protection);
 typedef MEMORY     (DVM_CALLBACK *MemReAllocator)      (MEMORY address, dsize size);
-typedef VOID       (DVM_CALLBACK *MemFree)             (MEMORY address);
+typedef void       (DVM_CALLBACK *MemFree)             (MEMORY address);
 // Memory map
-typedef DESCRIPTOR (DVM_CALLBACK *CreateMemMapFunc)    (MEMORY address, dsize size, duint32 protection, duint32 flags);
+typedef DESCRIPTOR (DVM_CALLBACK *CreateMemMapFunc)    (MEMORY address, dsize size, duint32 flags, duint32 protection);
 typedef MEMORY     (DVM_CALLBACK *MemMapAccessFunc)    (DESCRIPTOR handle, duint64 offset, duint64 length);
-typedef VOID       (DVM_CALLBACK *UnmapMemFunc)        (DESCRIPTOR handle);
+typedef void       (DVM_CALLBACK *UnmapMemFunc)        (DESCRIPTOR handle);
 // Callback funcs
-typedef VOID       (DVM_CALLBACK *MsgCallbackFunc)     (Msg_t type, const char* message);
+typedef void       (DVM_CALLBACK *MsgCallbackFunc)     (Msg_t type, const char* message);
 typedef ADDRESS    (DVM_CALLBACK *FGT)                 (const char* importName);
 
 //  DVM MetaClass
@@ -60,7 +60,8 @@ struct DVM_CLASS
     MemMapAccessFunc    viewMemoryMap;
     UnmapMemFunc        unmapMemoryMap;
 
-    DESCRIPTOR          programDescriptor;  // Must contain the program file image
+    DESCRIPTOR          imageDescriptor;  // Must contain the program file image
+    dsize               granularity;
     // dsize codeChunkSize & dataChunkSize
     // Prefetch N bytes from the programDescriptor,
     // Size can affect performance

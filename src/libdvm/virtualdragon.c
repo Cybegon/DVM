@@ -27,27 +27,22 @@ DVM* dvm_newState(DVM_CLASS* dvmClass)
 //        dvmClass->msgCallback( DVM_MSG_ERROR, "Global table is not defined.");
 
     // New state
-    DVM* state = dvmClass->alloc( sizeof( DVM ) );
+    DVM* state = dvmClass->alloc( sizeof( DVM ), 0, DVM_MEM_READWRITE);
     for (int i = 0; i < sizeof( DVM ); ++i) // !!!improve later
     {
         ( ( duint8* )state )[i] = 0;
     }
 
-    DESCRIPTOR stackDesc = dvmClass->createMemoryMap(NULL, dvmClass->stackSize, // address, size
-                                                     DVM_MEM_READWRITE          // protection start
-                                                     | DVM_MEM_STACK
-                                                     | DVM_MEM_PRIVATE,         // protection end
-                                                     0);                        // flags
     state->dvmClass     = dvmClass;
-    state->text         = dvmClass->viewMemoryMap(dvmClass->programDescriptor, IP, dvmClass->codeChunkSize);
-    state->stack        = dvmClass->viewMemoryMap(stackDesc, 0, dvmClass->stackSize);
-
-    state->flags        = 0;
+    state->text         = dvmClass->viewMemoryMap(dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize);
+    state->stack        = dvmClass->alloc(dvmClass->stackSize, // address, size
+                                           DVM_MEM_STACK, // flags
+                                           DVM_MEM_READWRITE | DVM_MEM_PRIVATE);
 
     state->processorID = 0;
     state->extensionID = 1;
 
-    state->vcpus = (const VCPU **) dvmClass->alloc(sizeof(VCPU *) * 2);
+    state->vcpus = (const VCPU **) dvmClass->alloc(sizeof(VCPU *) * 2, 0, DVM_MEM_READWRITE);
     state->vcpus[0] = dvm_32_64_getVCPU(state);
     state->vcpus[1] = NULL;
 

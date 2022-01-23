@@ -93,15 +93,18 @@ typedef duint32          		dsize;
 #   error Unsupported architecture
 #endif
 
+#if !defined(DT_DISABLE_VOID) || !defined(VOID)
 typedef void                    VOID;
-typedef VOID*           	    DESCRIPTOR;
-typedef VOID*           	    POINTER;
+#endif
+typedef void*           	    DESCRIPTOR;
+typedef void*           	    POINTER;
 typedef POINTER                 MEMORY;
 typedef POINTER                 ADDRESS;
 
-typedef struct GUID GUID;
+#if !defined(DT_DISABLE_GUID)
+typedef struct DVM_GUID DVM_GUID;
 
-struct GUID
+struct DVM_GUID
 {
     duint32 data1;      // 32bit low time
     duint16 data2;      // 16bit middle time
@@ -114,5 +117,7 @@ struct GUID
         duint32 node_l;
     } node;
 };
+
+#endif
 
 #endif //DATATYPE_GLOBAL_H

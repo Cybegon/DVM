@@ -5,7 +5,7 @@ typedef struct VCPU VCPU;
 
 struct VCPU
 {
-    GUID guid;
+    DVM_GUID guid;
     duint8 vendorID[16];
 
     enum {

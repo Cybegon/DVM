@@ -6,10 +6,10 @@
     vmswitch(c) {                                                                                               \
         vmcase(DVM_LOAD_PAGE)                                                                                   \
             s->text = s->dvmClass                                                                               \
-                    ->viewMemoryMap(s->dvmClass->programDescriptor, GIP, s->dvmClass->codeChunkSize);            \
+                    ->viewMemoryMap(s->dvmClass->imageDescriptor, IP, s->dvmClass->codeChunkSize);            \
             vmbreak;                                                                                            \
         vmcase(DVM_TRANSFER_CONTROL)                                                                            \
-            if (s->flags & TF)                                                                                  \
+            if (FR & TF)                                                                                        \
                 c = s->vcpus[s->extensionID]->main.pipeline(s);                                                 \
             else                                                                                                \
                 c = s->vcpus[s->processorID]->main.pipeline(s);                                                 \
