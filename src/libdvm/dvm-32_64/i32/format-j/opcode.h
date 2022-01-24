@@ -2,11 +2,12 @@
 #define VIRTUALDRAGON_OPCODE_H
 
 #define OP_JMP  ( 0x00 )
-#define OP_JE   ( 0x01 )
+#define OP_JEQ  ( 0x01 )
 #define OP_JNE  ( 0x02 )
-#define OP_JL   ( 0x03 )
-#define OP_JGE  ( 0x04 )
-//#define OP_
+#define OP_JLT  ( 0x03 )
+#define OP_JGT  ( 0x04 )
+#define OP_JGE  ( 0x05 )
+#define OP_JLE  ( 0x06 )
 
 #if defined(DASM)
 
