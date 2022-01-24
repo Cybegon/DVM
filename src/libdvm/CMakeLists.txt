@@ -7,6 +7,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/public)
 include_directories(${CMAKE_SOURCE_DIR}/src/public/libdvm)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64/i32)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64/i64)
 
