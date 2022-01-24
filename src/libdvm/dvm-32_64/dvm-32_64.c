@@ -4,6 +4,7 @@
 
 #include "format-i/format-i.h"
 #include "format-j/format-j.h"
+#include "format-c/format-c.h"
 
 #define DVM_LONG_MODE   (7)
 #define DVM_FORMAT_NOP  (0)
@@ -67,6 +68,10 @@ vm_code DVM_CALLBACK entry(DVM* state)
                 format_j(state, in->value32H);
                 vmbreak;
             }
+            vmcase(DVM_FORMAT_C) {
+                format_c(state, in->value32H);
+                vmbreak;
+            }
             vmcase(DVM_LONG_MODE) {
                 R(3u) = in->value32L;
                 dvmClass->msgCallback(1, "this is sparta!");
@@ -87,6 +92,10 @@ vm_code DVM_CALLBACK entry(DVM* state)
             }
             vmcase(DVM_FORMAT_J) {
                 format_j(state, in->value32L);
+                vmbreak;
+            }
+            vmcase(DVM_FORMAT_C) {
+                format_c(state, in->value32L);
                 vmbreak;
             }
             vmcase(DVM_LONG_MODE) {
