@@ -131,7 +131,7 @@ VOID format_i(DVM* state, duint32 instruction)
         // !~F - Flow
         vmcase(OP_RET) {
             IP = POP(REGISTER);
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_ENTER) {
@@ -146,13 +146,13 @@ VOID format_i(DVM* state, duint32 instruction)
         }
         vmcase(OP_JMP) {
             IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_CALL) {
             PUSH(REGISTER, R(DVM_GET_R0(instruction)));
             IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmdefault: {

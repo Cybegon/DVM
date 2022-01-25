@@ -15,37 +15,37 @@ VOID DVM_FASTCALL format_j(DVM* state, duint32 instruction)
     vmswitch(DVM_GET_OPCODE(instruction)) {
         vmcase(OP_JMP) {
             IP = DVM_GET_IMM24(instruction);
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_JEQ) {
             IF_EQ() { JUMP(); }
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_JNE) {
             IF_NE() { JUMP(); }
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_JLT) {
             IF_LT() { JUMP(); }
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_JGT) {
             IF_GT() { JUMP(); }
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_JLE) {
             IF_LE() { JUMP(); }
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmcase(OP_JGE) {
             IF_GE() { JUMP(); }
-            cpu_codeHandler(state, DVM_LOAD_PAGE);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
     }

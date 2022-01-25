@@ -31,7 +31,7 @@ vm_code cpu_init(DVM* state)
     return 0; // return code replace later
 }
 
-vm_code cpu_codeHandler(DVM* state, vm_code vmCode) {
+vm_code cpu_stateHandler(DVM* state, vm_code vmCode) {
     HANDLER(state, vmCode)
 
     return vmCode;
