@@ -11,9 +11,7 @@
 #define RESERVED2 0x1000000000000000u // feature: TRAP FLAG
 
 #define EQ  ( 1ULL << 56ULL ) // equal
-#define LT  ( 1ULL << 55ULL ) // less than
-#define CF  ( 1ULL << 54ULL ) // carry
-
-
+#define LO  ( 1ULL << 55ULL ) // unsigned lower
+#define LT  ( 1ULL << 54ULL ) // signed less than
 
 #endif //VIRTUALDRAGON_FLAGS_H

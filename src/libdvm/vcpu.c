@@ -6,7 +6,7 @@
     vmswitch(c) {                                                                                               \
         vmcase(DVM_LOAD_PAGE)                                                                                   \
             s->text = s->dvmClass                                                                               \
-                    ->viewMemoryMap(s->dvmClass->imageDescriptor, IP, s->dvmClass->codeChunkSize);            \
+                    ->viewMemoryMap(s->dvmClass->imageDescriptor, IP, s->dvmClass->codeChunkSize);              \
             vmbreak;                                                                                            \
         vmcase(DVM_TRANSFER_CONTROL)                                                                            \
             if (FR & TF)                                                                                        \
