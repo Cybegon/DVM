@@ -137,6 +137,7 @@ VOID format_i(DVM* state, duint32 instruction)
         vmcase(OP_ENTER) {
             PUSH(REGISTER, BP);
             BP = SP;
+            SP += DVM_GET_IMM16(instruction);
             vmbreak;
         }
         vmcase(OP_LEAVE) {
