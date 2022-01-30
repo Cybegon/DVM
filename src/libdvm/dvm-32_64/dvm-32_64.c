@@ -98,11 +98,6 @@ vm_code DVM_CALLBACK entry(DVM* state)
                 format_c(state, in->value32L);
                 vmbreak;
             }
-            vmcase(DVM_LONG_MODE) {
-                IP += sizeof(INSTRUCTION) / 2;
-                dvmClass->msgCallback(1, "this is DEBIL!");
-                return DVM_LOAD_PAGE;
-            }
             vmdefault: {
                 return DVM_TRANSFER_CONTROL;
             }

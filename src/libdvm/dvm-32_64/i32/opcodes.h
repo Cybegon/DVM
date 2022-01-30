@@ -1,7 +1,5 @@
-#ifndef VIRTUALDRAGON_OPCODE_H
-#define VIRTUALDRAGON_OPCODE_H
-
-#include "datatypes.h"
+#ifndef VIRTUALDRAGON_OPCODES_H
+#define VIRTUALDRAGON_OPCODES_H
 
 // Basic
 #define OP_MOV      ( 0x00 )
@@ -20,8 +18,8 @@
 #define OP_SUB      ( 0x11 )
 #define OP_EADD     ( 0x12 )
 #define OP_ESUB     ( 0x13 )
-#define OP_ADC      ( 0x14 )
-#define OP_SBB      ( 0x15 )
+#define OP_EADC     ( 0x14 )
+#define OP_ESBB     ( 0x15 )
 
 #define OP_INC      ( 0x14 )
 #define OP_DEC      ( 0x15 )
@@ -58,41 +56,24 @@
 #define OP_TST      ( 0x3B )
 
 // Flow
-#define OP_RET      ( 0x40 )
-#define OP_ENTER    ( 0x4A )
-#define OP_LEAVE    ( 0x4B )
-#define OP_JMP      ( 0x50 )
-#define OP_CALL     ( 0x60 )
+#define OP_JMP      ( 0x40 )
+#define OP_JEQ      ( 0x41 )
+#define OP_JNE      ( 0x42 )
+#define OP_JLT      ( 0x43 )
+#define OP_JGT      ( 0x44 )
+#define OP_JGE      ( 0x45 )
+#define OP_JLE      ( 0x46 )
 
-// Easter egg
-#define OP_RAWR ( 0x47 ) // I'm a dragon
-#define OP_RLL  ( 0x75 ) // R Loves L
+#define OP_CALL     ( 0x50 )
+#define OP_CEQ      ( 0x51 )
+#define OP_CNE      ( 0x52 )
+#define OP_CLT      ( 0x53 )
+#define OP_CGT      ( 0x54 )
+#define OP_CGE      ( 0x55 )
+#define OP_CLE      ( 0x56 )
 
-#if defined(DASM)
+#define OP_RET      ( 0x60 )
+#define OP_ENTER    ( 0x6A )
+#define OP_LEAVE    ( 0x6B )
 
-#include "assembler/opcode_struct.h"
-
-#define DEFAULT_MAP "0|000|0000000|00000|0000000000000000-sw|f|op|r|imm"
-
-INSTRUCTION_INFO inf[] = {
-     {
-            .category       = "BASIC",
-            .mnemonic       = "MOV",
-            .template       = "%mnemonic %regDst, %imm",
-            .opcode         = OP_MOV,
-            .instructionMap = DEFAULT_MAP,
-            .description    = "RegDst = Imm"
-     },
-     {
-             .category       = "BASIC",
-             .mnemonic       = "PUSH",
-             .template       = "%mnemonic %regDst",
-             .opcode         = OP_PUSH,
-             .instructionMap = DEFAULT_MAP,
-             .description    = "SP -= 8, RAM[SP] = Reg"
-     },
-};
-
-#endif
-
-#endif //VIRTUALDRAGON_OPCODE_H
+#endif //VIRTUALDRAGON_OPCODES_H
