@@ -3,6 +3,10 @@
 .vs/
 cmake-build-debug/
 cmake-build-release/
+cmake-build-debug-llvm/
+cmake-build-release-llvm/
+cmake-build-debug-mingw/
+cmake-build-release-mingw/
 cmake-build-debug-visual-studio/
 cmake-build-release-visual-studio/
 libraries/
