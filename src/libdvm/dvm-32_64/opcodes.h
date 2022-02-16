@@ -5,8 +5,9 @@
 #define OP_MOV      ( 0x00 )
 #define OP_PUSH     ( 0x01 )
 #define OP_POP      ( 0x02 )
-#define OP_LEA      ( 0x03 )
 #define OP_SWP      ( 0x04 )
+#define OP_LD       ( 0x07 )
+#define OP_ST       ( 0x08 )
 //#define OP_NOP      ( 0x03 )
 
 // interrupts
