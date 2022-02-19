@@ -1,5 +1,5 @@
-#ifndef VIRTUALDRAGON_OPCODE_H
-#define VIRTUALDRAGON_OPCODE_H
+#ifndef VIRTUALDRAGON_LOPCODES_H
+#define VIRTUALDRAGON_LOPCODES_H
 
 #define OP_CALL ( 0x00 )
 #define OP_CEQ  ( 0x01 )
@@ -9,4 +9,4 @@
 #define OP_CGE  ( 0x05 )
 #define OP_CLE  ( 0x06 )
 
-#endif //VIRTUALDRAGON_OPCODE_H
+#endif //VIRTUALDRAGON_LOPCODES_H

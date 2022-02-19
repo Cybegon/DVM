@@ -6,7 +6,7 @@
 
 typedef duint64         REGISTER;
 typedef dint64          IREGISTER;
-typedef float           FREGISTER;
+typedef double          FREGISTER;
 
 typedef duint64         REGISTER64;
 typedef duint32         REGISTER32;

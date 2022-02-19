@@ -2,7 +2,7 @@
 
 #include "dvmdef.h"
 #include "encode.h"
-#include "opcode.h"
+#include "lopcodes.h"
 #include "vcpu.h"
 
 #define DVM_ENABLE_JUMP

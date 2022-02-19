@@ -3,7 +3,7 @@
 
 #include "dvmdef.h"
 #include "encode.h"
-#include "opcode.h"
+#include "lopcodes.h"
 #include "vcpu.h"
 
 #define C4146_FIX(o, m) (REGISTER)(o(IREGISTER)m)
