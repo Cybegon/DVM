@@ -1,2 +1,1 @@
-# DVM
-Dragon virtual machine
+# DVM - Dragon Virtual Machine

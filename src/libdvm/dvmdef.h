@@ -3,6 +3,8 @@
 
 #include "virtualdragon.h"
 
+typedef struct FLREGISTER FLREGISTER;
+
 #define REGISTER_COUNT          ( 32u ) // do not edit
 #define REGISTER_MASK           ( REGISTER_COUNT - 1u ) // equals 0b00011111
 
@@ -25,6 +27,8 @@
 #define TP  R(28u) // this pointer
 // ...
 #define RA  R(0u)  // Using for return address or value. accumulator
+
+#define cvtR2FR(r) ((FLREGISTER*)&r)
 
 #define DVM_FETCH(s) (( (INSTRUCTION)( &(((duint8*)s->text)[ IP ]) ) ))
 
@@ -52,7 +56,7 @@
 ///////////////// DEPRECATED /////////////////
 
 #define vmchunkexec(c)  for(REGISTER codeChunkSize = c->codeChunkSize + IP; IP < codeChunkSize;) // Chunk
-#define afterexec
+//#define afterexec
 #define vmdispatch(o)	switch(o)
 #define vmswitch(o)     switch(o)
 #define vmcase(l)	    case l:
@@ -76,5 +80,13 @@
 
 #define DVM_SWAP( varA, varB ) \
         ( ( &(varA) == &(varB) ) ? (varA) : DVM_SWAP_UNSAFE( varA, varB ) )
+
+struct FLREGISTER {
+    duint8  vm_control;
+    duint8  vm_status;
+    duint8  vm_privilege;
+    duint8  vm_reserved;
+    duint32 vm_user;
+};
 
 #endif // VIRTUALDRAGON_DVMDEF_H

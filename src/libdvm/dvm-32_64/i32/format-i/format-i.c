@@ -3,7 +3,7 @@
 
 #include "dvmdef.h"
 #include "encode.h"
-#include "lopcodes.h"
+#include "opcodes.h"
 #include "vcpu.h"
 
 #define C4146_FIX(o, m) (REGISTER)(o(IREGISTER)m)
@@ -21,10 +21,6 @@ VOID format_i(DVM* state, duint32 instruction)
         }
         vmcase(OP_POP) {
             R(DVM_GET_R0(instruction)) = POP(REGISTER);
-            vmbreak;
-        }
-        vmcase(OP_LEA) {
-            R(DVM_GET_R0(instruction)) = IP + DVM_GET_IMM16(instruction);
             vmbreak;
         }
         vmcase(OP_SWI) {
@@ -129,6 +125,17 @@ VOID format_i(DVM* state, duint32 instruction)
         }
 
         // !~F - Flow
+        vmcase(OP_JMP) {
+            IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_CALL) {
+            PUSH(REGISTER, R(DVM_GET_R0(instruction)));
+            IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
         vmcase(OP_RET) {
             IP = POP(REGISTER);
             cpu_stateHandler(state, DVM_LOAD_PAGE);
@@ -143,17 +150,6 @@ VOID format_i(DVM* state, duint32 instruction)
         vmcase(OP_LEAVE) {
             SP = BP;
             BP = POP(REGISTER);
-            vmbreak;
-        }
-        vmcase(OP_JMP) {
-            IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
-            cpu_stateHandler(state, DVM_LOAD_PAGE);
-            vmbreak;
-        }
-        vmcase(OP_CALL) {
-            PUSH(REGISTER, R(DVM_GET_R0(instruction)));
-            IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
-            cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
         vmdefault: {

@@ -15,10 +15,11 @@
 typedef struct DVM DVM;
 typedef dint32 vm_code;
 
-DVM*        dvm_newState            (DVM_CLASS* dvmClass);
-vm_code     dvm_execute             (DVM* state);
-vm_code     dvm_exit                (DVM* state, dint exitCode);
+DVM*        dvm_newState            ( DVM_CLASS* dvmClass );
+vm_code     dvm_execute             ( DVM* state );
+vm_code     dvm_reset               ( DVM* state );
+vm_code     dvm_exit                ( DVM* state, dint exitCode );
 
-DVM_CLASS*  dvm_getClass            (DVM* state);
+DVM_CLASS*  dvm_getClass            ( DVM* state );
 
 #endif // VIRTUALDRAGON_VIRTUALDRAGON_H

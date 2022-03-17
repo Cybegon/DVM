@@ -8,5 +8,10 @@
 #define OP_CGT  ( 0x04 )
 #define OP_CGE  ( 0x05 )
 #define OP_CLE  ( 0x06 )
+#define OP_CLS  ( 0x07 )
+#define OP_CHS  ( 0x08 )
+#define OP_CLO  ( 0x09 )
+#define OP_CHI  ( 0x0A )
+#define OP_INV  ( 0x0F )
 
 #endif //VIRTUALDRAGON_LOPCODES_H

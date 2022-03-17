@@ -1,54 +1,13 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 
+#define DT_DISABLE_GUID
 #include "libdvm/virtualdragon.h"
 #include "libdvm/vmutills.h"
 
+#include "memory.h"
+
 static DVM* state;
-
-MEMORY DVM_CALLBACK allocVM (dsize size)
-{
-    return (MEMORY)malloc(size);
-}
-
-MEMORY DVM_CALLBACK reallocVM (MEMORY address, dsize size)
-{
-    return (MEMORY) realloc(address, size);
-}
-
-VOID  DVM_CALLBACK freeVM (MEMORY address)
-{
-    free(address);
-}
-
-DESCRIPTOR  DVM_CALLBACK mmapVM(MEMORY address, dsize size, duint32 protection, duint32 flags)
-{
-    MEMORY address1 = NULL;
-    if (address == NULL)
-        address1 = malloc(size);
-    else
-        address1 = realloc(address, size);
-
-    if (protection & DVM_MEM_STACK)
-    {
-        duint8* tmp = (duint8*)address1;
-        tmp += size;
-        address1 = tmp;
-    }
-
-    return address1;
-}
-
-MEMORY DVM_CALLBACK viewMmapVM (DESCRIPTOR handle, duint64 offset, duint64 length)
-{
-    return handle;
-}
-
-VOID DVM_CALLBACK freeMmapVM(DESCRIPTOR handle)
-{
-    free(handle);
-}
 
 VOID DVM_CALLBACK msgVM (Msg_t type, const char* message)
 {
@@ -57,8 +16,8 @@ VOID DVM_CALLBACK msgVM (Msg_t type, const char* message)
         printf("%s R0 = %lu | R1 = %lu\n", message, dvm_getRegisterValue(state, 0),
             dvm_getRegisterValue(state, 1));
 #else
-        printf("%s R0 = %llu | R1 = %llu\n", message, dvm_getRegisterValue(state, 0),
-               dvm_getRegisterValue(state, 1));
+        printf("%s R0 = %llu | R1 = %llu | R3 = %llu\n", message, dvm_getRegisterValue(state, 0),
+               dvm_getRegisterValue(state, 1), dvm_getRegisterValue(state, 3));
 #endif
     else
         printf("%s\n", message);
@@ -85,6 +44,13 @@ int main(int argc, char* argv[])
     for (int i = 1; i < 0xFF; ++i) {
         swiVector[i] = emptyInterrupt;
     }
+
+    HANDLE hFile = CreateFile("G:/dvm_code.dex", GENERIC_READ, 0, NULL,
+                              OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, NULL);
+
+    HANDLE hMapping = CreateFileMapping(hFile, NULL, PAGE_READONLY,
+                                        0, 0, NULL);
     
     // mov  r0, 255
     // mov  r1, 127
@@ -92,14 +58,16 @@ int main(int argc, char* argv[])
     // mov  r1, 0
     // push r0
     // int  0 ; exit
-    const unsigned char code[24] = {
-        0xFF, 0x00, 0x00, 0x10, // mov  r0, 255
-        0x7F, 0x00, 0x01, 0x10, // mov  r1, 127
-        0x80, 0x00, 0x01, 0x12, // add  r1, 128
-        0x00, 0x00, 0x01, 0x10, // mov  r1, 0
-        0x00, 0x00, 0x21, 0x10, // push r0
-        0x00, 0x00, 0x60, 0x11, // int  0 ; exit
-        };
+//    const unsigned char code[32] = {
+//        0xFF, 0x00, 0x00, 0x10, // mov  r0, 255
+//        0x7F, 0x00, 0x01, 0x10, // mov  r1, 127
+//        0x80, 0x00, 0x01, 0x12, // add  r1, 128
+//        0x00, 0x00, 0x01, 0x10, // mov  r1, 0
+//        0x00, 0x00, 0x21, 0x10, // push r0
+//        0x00, 0x00, 0x01, 0x70, // 64bit
+//        0xFF, 0xFF, 0xFF, 0xFF, // 64bit
+//        0x00, 0x00, 0x60, 0x11, // int  0 ; exit
+//        };
 
     DVM_CLASS dvmClass;
     dvmClass.msgCallback        = msgVM;
@@ -113,8 +81,8 @@ int main(int argc, char* argv[])
     dvmClass.unmapMemoryMap     = freeMmapVM;
 
     dvmClass.stackSize          = MB(1);
-    dvmClass.programDescriptor  = (DESCRIPTOR)&code;
-    dvmClass.codeChunkSize      = MB(4);
+    dvmClass.imageDescriptor    = hMapping;
+    dvmClass.codeChunkSize      = 32;
 
     state = dvm_newState(&dvmClass);
 

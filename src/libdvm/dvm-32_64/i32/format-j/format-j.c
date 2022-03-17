@@ -48,5 +48,25 @@ VOID DVM_FASTCALL format_j(DVM* state, duint32 instruction)
             cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
+        vmcase(OP_JLS) {
+            IF_LS() { JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_JHS) {
+            IF_HS() { JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_JLO) {
+            IF_LO() { JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_JHI) {
+            IF_HI() { JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
     }
 }

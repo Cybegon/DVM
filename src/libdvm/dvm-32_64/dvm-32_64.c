@@ -18,18 +18,18 @@ typedef union INSTRUCTION64* INSTRUCTION64;
 typedef union INSTRUCTION32* INSTRUCTION32;
 
 union INSTRUCTION64 {
-    duint64 value64;
+    duint64 v64;
     struct {
-        duint32 value32H;
-        duint32 value32L;
+        duint32 v32H;
+        duint32 v32L;
     };
 };
 
 union INSTRUCTION32 {
-    duint32 value32;
+    duint32 v32;
     struct {
-        duint16 value16H;
-        duint16 value16L;
+        duint16 v16H;
+        duint16 v16L;
     };
 };
 
@@ -55,25 +55,25 @@ vm_code DVM_CALLBACK entry(DVM* state)
     INSTRUCTION in;
     vmchunkexec(dvmClass) {
         in = DVM_FETCH(state);
-        vmdispatch(DVM_GET_FORMAT(in->value32H)) {
+        vmdispatch(DVM_GET_FORMAT(in->v32H)) {
             vmcase(DVM_FORMAT_NOP) {
                 // No operation
                 vmbreak;
             }
             vmcase(DVM_FORMAT_I) {
-                format_i(state, in->value32H);
+                format_i(state, in->v32H);
                 vmbreak;
             }
             vmcase(DVM_FORMAT_J) {
-                format_j(state, in->value32H);
+                format_j(state, in->v32H);
                 vmbreak;
             }
             vmcase(DVM_FORMAT_C) {
-                format_c(state, in->value32H);
+                format_c(state, in->v32H);
                 vmbreak;
             }
             vmcase(DVM_LONG_MODE) {
-                R(3u) = in->value32L;
+                R(3u) = in->v32L;
                 dvmClass->msgCallback(1, "this is sparta!");
                 vmsignal(SKIP);
             }
@@ -81,21 +81,21 @@ vm_code DVM_CALLBACK entry(DVM* state)
                 return DVM_TRANSFER_CONTROL;
             }
         }
-        vmdispatch(DVM_GET_FORMAT(in->value32L)) {
+        vmdispatch(DVM_GET_FORMAT(in->v32L)) {
             vmcase(DVM_FORMAT_NOP) {
                 // No operation
                 vmbreak;
             }
             vmcase(DVM_FORMAT_I) {
-                format_i(state, in->value32L);
+                format_i(state, in->v32L);
                 vmbreak;
             }
             vmcase(DVM_FORMAT_J) {
-                format_j(state, in->value32L);
+                format_j(state, in->v32L);
                 vmbreak;
             }
             vmcase(DVM_FORMAT_C) {
-                format_c(state, in->value32L);
+                format_c(state, in->v32L);
                 vmbreak;
             }
             vmdefault: {
@@ -116,7 +116,7 @@ vmslot(OUT)
 
 vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION in)
 {
-
+//    vmdispatch()
     return DVM_SUCCESS;
 }
 

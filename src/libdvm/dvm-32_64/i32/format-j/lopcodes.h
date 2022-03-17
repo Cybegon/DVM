@@ -8,6 +8,10 @@
 #define OP_JGT  ( 0x04 )
 #define OP_JGE  ( 0x05 )
 #define OP_JLE  ( 0x06 )
+#define OP_JLS  ( 0x07 )
+#define OP_JHS  ( 0x08 )
+#define OP_JLO  ( 0x09 )
+#define OP_JHI  ( 0x0A )
 
 #if defined(DASM)
 

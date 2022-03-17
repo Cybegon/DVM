@@ -9,7 +9,7 @@
                     ->viewMemoryMap(s->dvmClass->imageDescriptor, IP, s->dvmClass->codeChunkSize);              \
             vmbreak;                                                                                            \
         vmcase(DVM_TRANSFER_CONTROL)                                                                            \
-            if (FR & TF)                                                                                        \
+            if (cvtR2FR(FR)->vm_control & VF)                                                                   \
                 c = s->vcpus[s->extensionID]->main.pipeline(s);                                                 \
             else                                                                                                \
                 c = s->vcpus[s->processorID]->main.pipeline(s);                                                 \

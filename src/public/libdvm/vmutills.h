@@ -4,6 +4,9 @@
 #include "datatypes.h"
 #include "virtualdragon.h"
 
+#define DEFAULT_PAGE_SIZE   512
+#define DEFAULT_PAGE_SHIFT  3
+
 typedef duint64         REGISTER;
 typedef dint64          IREGISTER;
 typedef double          FREGISTER;

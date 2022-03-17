@@ -47,5 +47,25 @@ VOID DVM_FASTCALL format_c(DVM* state, duint32 instruction) {
             cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
+        vmcase(OP_CLS) {
+            IF_LS() { PUSH(REGISTER, IP); JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_CHS) {
+            IF_HS() { PUSH(REGISTER, IP); JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_CLO) {
+            IF_LO() { PUSH(REGISTER, IP); JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_CHI) {
+            IF_HI() { PUSH(REGISTER, IP); JUMP(); }
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
     }
 }

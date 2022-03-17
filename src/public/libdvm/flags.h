@@ -1,17 +1,16 @@
 #ifndef VIRTUALDRAGON_FLAGS_H
 #define VIRTUALDRAGON_FLAGS_H
 
+// state
+
 // ENDIAN FLAG
 // 1xxx... = big-endian
-#define EF ( 1ULL << 63ULL ) // endian flag
-#define TF ( 1ULL << 62ULL )
+#define EF ( 1u << 7u ) // endian flag
+#define TF ( 1u << 6u ) // trap flag
+#define VF ( 1u << 5u ) // vcpu flag
 
-#define RESERVED0 0x4000000000000000u //
-#define RESERVED1 0x2000000000000000u //
-#define RESERVED2 0x1000000000000000u // feature: TRAP FLAG
-
-#define EQ  ( 1ULL << 56ULL ) // equal
-#define LO  ( 1ULL << 55ULL ) // unsigned lower
-#define LT  ( 1ULL << 54ULL ) // signed less than
+#define EQ ( 1u << 7u ) // equal
+#define LO ( 1u << 6u ) // unsigned lower
+#define LT ( 1u << 5u ) // signed less than
 
 #endif //VIRTUALDRAGON_FLAGS_H

@@ -21,7 +21,9 @@ struct DVM_ID
         char    vendorID[16];
         duint32 bits; // example 64 = 64bit arch
         duint32 archID;
-    } arch; // The architecture on which dvm works
+    } cpu_id; // The architecture on which dvm works
+
+
 };
 
 #endif // VIRTUALDRAGON_DVMID_H
