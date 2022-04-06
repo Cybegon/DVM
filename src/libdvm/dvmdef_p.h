@@ -1,20 +1,20 @@
-#ifndef VIRTUALDRAGON_DVMDEF_H
-#define VIRTUALDRAGON_DVMDEF_H
+#ifndef VIRTUALDRAGON_DVMDEF_P_H
+#define VIRTUALDRAGON_DVMDEF_P_H
 
-#include "virtualdragon.h"
+#include "dvm.h"
 
 typedef struct FLREGISTER FLREGISTER;
 
 #define REGISTER_COUNT          ( 32u ) // do not edit
 #define REGISTER_MASK           ( REGISTER_COUNT - 1u ) // equals 0b00011111
 
-#define nR(n)                   ( n & REGISTER_MASK )
+#define nR(n)                   ( (n) & REGISTER_MASK )
 #define  R(n)                   ( state->rn[ nR(n) ] )
 
 #define SPECIAL_REGISTER_COUNT  ( 8u )
 #define SPECIAL_REGISTER_MASK   ( SPECIAL_REGISTER_COUNT - 1u )
 
-#define nSR(n)                  ( n & SPECIAL_REGISTER_MASK )
+#define nSR(n)                  ( (n) & SPECIAL_REGISTER_MASK )
 #define  SR(n)                  ( state->sr[ nSR(n) ] )
 
 #define FR  SR(7u) // flag register
@@ -28,16 +28,16 @@ typedef struct FLREGISTER FLREGISTER;
 // ...
 #define RA  R(0u)  // Using for return address or value. accumulator
 
-#define cvtR2FR(r) ((FLREGISTER*)&r)
+#define cvtR2FR(r) ((FLREGISTER*)&(r))
 
-#define DVM_FETCH(s) (( (INSTRUCTION)( &(((duint8*)s->text)[ IP ]) ) ))
+#define DVM_FETCH(s) (( (INSTRUCTION)( &(((duint8*)(s)->text)[ IP ]) ) ))
 
 //#define DVM_NEXT_INSTRUCTION(ip, s) \
 //    ip += sizeof( s );              \
 //    om_nom_nom += sizeof( s )
 
 #define PUSH( type, var ) \
-    ( *((type*) (&((duint8*)state->stack)[ SP -= sizeof(type) ])) = var )
+    ( *((type*) (&((duint8*)state->stack)[ SP -= sizeof(type) ])) = (var) )
 
 #define POP( type ) \
     *((type*)(&((duint8*)state->stack)[ SP ])); \
@@ -55,7 +55,7 @@ typedef struct FLREGISTER FLREGISTER;
 //    ((type*)state->stack)[ SP ]
 ///////////////// DEPRECATED /////////////////
 
-#define vmchunkexec(c)  for(REGISTER codeChunkSize = c->codeChunkSize + IP; IP < codeChunkSize;) // Chunk
+#define vmchunkexec(c)  for(REGISTER codeChunkSize = (c)->codeChunkSize + IP; IP < codeChunkSize;) // Chunk
 //#define afterexec
 #define vmdispatch(o)	switch(o)
 #define vmswitch(o)     switch(o)
@@ -67,7 +67,7 @@ typedef struct FLREGISTER FLREGISTER;
 #define vmrelease(c)    return c;
 
 #define DVM_BIT_GET( var, pos ) \
-        ( (var >> pos)  & 0x01u )
+        ( ((var) >> (pos))  & 0x01u )
 
 #define DVM_BIT_SET( var, pos ) \
         ( (var) |= (1u << (pos) ) )
@@ -81,6 +81,11 @@ typedef struct FLREGISTER FLREGISTER;
 #define DVM_SWAP( varA, varB ) \
         ( ( &(varA) == &(varB) ) ? (varA) : DVM_SWAP_UNSAFE( varA, varB ) )
 
+#define DVM_BSWAP64( var ) \
+    (var) = ( ( (var) << 8u  ) & 0xFF00FF00FF00FF00ull ) | ( ( (var) >> 8u  ) & 0x00FF00FF00FF00FFull );    \
+    (var) = ( ( (var) << 16u ) & 0xFFFF0000FFFF0000ull ) | ( ( (var) >> 16u ) & 0x0000FFFF0000FFFFull );  \
+    (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
+
 struct FLREGISTER {
     duint8  vm_control;
     duint8  vm_status;
@@ -89,4 +94,4 @@ struct FLREGISTER {
     duint32 vm_user;
 };
 
-#endif // VIRTUALDRAGON_DVMDEF_H
+#endif // VIRTUALDRAGON_DVMDEF_P_H

@@ -1,12 +1,12 @@
-#ifndef VIRTUALDRAGON_DVM_H
-#define VIRTUALDRAGON_DVM_H
+#ifndef VIRTUALDRAGON_DVM_P_H
+#define VIRTUALDRAGON_DVM_P_H
 
 #include "datatypes.h"
 
 #include "dvmid.h"
+#include "dvmdef_p.h"
+#include "dvm.h"
 #include "dvmdef.h"
-#include "virtualdragon.h"
-#include "vmutills.h"
 
 #include "vcpuclass.h"
 
@@ -38,4 +38,4 @@ struct DVM
 //    duint32  id;
 //};
 
-#endif // VIRTUALDRAGON_DVM_H
+#endif // VIRTUALDRAGON_DVM_P_H

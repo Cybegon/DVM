@@ -16,7 +16,7 @@ if(MSVC)
     set(CMAKE_SHARED_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO /sdl")
     set(CMAKE_STATIC_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -Ofast")
+    set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -Os")
     #set(CMAKE_STATIC_LINKER_FLAGS "-nolibc")
 endif()
 

@@ -1,12 +1,12 @@
-#include <dvm.h>
+#include <dvm_p.h>
 #include "format-i.h"
 
-#include "dvmdef.h"
+#include "dvmdef_p.h"
 #include "encode.h"
 #include "opcodes.h"
 #include "vcpu.h"
 
-#define C4146_FIX(o, m) (REGISTER)(o(IREGISTER)m)
+#include "auxiliary.h"
 
 VOID format_i(DVM* state, duint32 instruction)
 {
@@ -15,12 +15,21 @@ VOID format_i(DVM* state, duint32 instruction)
             R(DVM_GET_R0(instruction)) = DVM_GET_IMM16(instruction);
             vmbreak;
         }
-        vmcase(OP_PUSH) {
-            PUSH(REGISTER, R(DVM_GET_R0(instruction)));
+        vmcase(OP_PUSH) { // here
+            PUSH(REGISTER, DVM_GET_R0(instruction)); // here
             vmbreak;
         }
         vmcase(OP_POP) {
             R(DVM_GET_R0(instruction)) = POP(REGISTER);
+            vmbreak;
+        }
+        vmcase(OP_SWP) {
+            DVM_BSWAP64(R(DVM_GET_R0(instruction)));
+            vmbreak;
+        }
+        vmcase(OP_LD) {
+            PUSH()
+            R(DVM_GET_R0(instruction)) =
             vmbreak;
         }
         vmcase(OP_SWI) {

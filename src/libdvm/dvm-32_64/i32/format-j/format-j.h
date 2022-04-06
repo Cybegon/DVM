@@ -3,7 +3,7 @@
 
 #define DVM_FORMAT_J (3)
 
-#include "virtualdragon.h"
+#include "dvm.h"
 #include "dvmclass.h"
 
 // jump 24 bit imm

@@ -3,7 +3,7 @@
 
 #define DVM_FORMAT_I (1)
 
-#include "virtualdragon.h"
+#include "dvm.h"
 #include "dvmclass.h"
 
 // I - immediate format

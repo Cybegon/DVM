@@ -6,6 +6,4 @@
 #define DVM_GET_R1(i)       ( (i & 0x0000F800u) >> 11u )    // 5    bit
 #define DVM_GET_R2(i)       ( (i & 0x000007C0u) >> 6u )     // 5    bit
 
-#define DVM_GET_IMM16(i)    ( i & 0x0000FFFFu ) // 16   bit
-
 #endif //VIRTUALDRAGON_ENCODE_H

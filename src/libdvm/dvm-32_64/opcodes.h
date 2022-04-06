@@ -85,4 +85,6 @@
 #define OP_ENTER    ( 0x6A )
 #define OP_LEAVE    ( 0x6B )
 
+#define OP_BK
+
 #endif //VIRTUALDRAGON_OPCODES_H

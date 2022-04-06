@@ -18,9 +18,10 @@ struct DVM_ID
 
     struct
     {
-        char    vendorID[16];
-        duint32 bits; // example 64 = 64bit arch
-        duint32 archID;
+        char        vendorID[32];
+        char        brand[64];
+        duint32     bits; // example 64 = 64bit arch
+        duint32     archID; // DVM CLASSIFICATION
     } cpu_id; // The architecture on which dvm works
 
 

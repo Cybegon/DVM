@@ -1,6 +1,6 @@
 #include "format-j.h"
 
-#include "dvmdef.h"
+#include "dvmdef_p.h"
 #include "encode.h"
 #include "lopcodes.h"
 #include "vcpu.h"

@@ -1,0 +1,13 @@
+/////////////////////////// DANGER ///////////////////////////
+#include "dvmdef.h"
+
+#include "dvm_p.h"
+#include "vcpu.h"
+
+
+VOID dvm_sendMessage(DVM* state, const char* message)
+{
+
+}
+/////////////////////////// DANGER ///////////////////////////
+

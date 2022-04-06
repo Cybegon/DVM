@@ -1,11 +1,21 @@
-#ifndef VIRTUALDRAGON_VMUTILLS_H
-#define VIRTUALDRAGON_VMUTILLS_H
+#ifndef VIRTUALDRAGON_DVMDEF_H
+#define VIRTUALDRAGON_DVMDEF_H
 
 #include "datatypes.h"
-#include "virtualdragon.h"
 
 #define DEFAULT_PAGE_SIZE   512
 #define DEFAULT_PAGE_SHIFT  3
+
+#define DVM_EXIT                (0)
+#define DVM_SUCCESS             (1)
+#define DVM_FAIL                (2)
+#define DVM_UNDEFINED_VMCODE    (3)
+
+#define DVM_LOAD_PAGE           (8) // get next block to cache
+#define DVM_TRANSFER_CONTROL    (65535)
+
+typedef struct DVM DVM;
+typedef dint32 vm_code;
 
 typedef duint64         REGISTER;
 typedef dint64          IREGISTER;
@@ -24,6 +34,8 @@ typedef vm_code (*DVM_LOAD)         (DVM* state);
 typedef vm_code (*DVM_ENTRY)        (DVM* state);
 typedef vm_code (*DVM_UNLOAD)       (DVM* state);
 
+
+/////////////////////////// DANGER ///////////////////////////
 //union REGISTER
 //{
 //    // machine word deps on the architecture
@@ -35,27 +47,10 @@ typedef vm_code (*DVM_UNLOAD)       (DVM* state);
 //    REGISTER8   T8;
 //};
 
-////////////////////////////////////////////////////
 VOID dvm_sendMessage(DVM* state, const char* message);
-////////////////////////////////////////////////////
-
-REGISTER    dvm_getRegisterValue    (DVM* state, duint8 nReg);
-REGISTER*   dvm_getRegisterRef      (DVM* state, duint8 nReg);
-vm_code     dvm_setSWI              (DVM* state, DVM_INT* vector);
-
-VOID dvm_pushByte   (DVM* state, duint16  _byte);
-VOID dvm_pushShort  (DVM* state, duint16 _short);
-VOID dvm_pushLong   (DVM* state, duint32 _long);
-VOID dvm_pushQuad   (DVM* state, duint64 _quad);
-
-duint16 dvm_popByte     (DVM* state);
-duint16 dvm_popShort    (DVM* state);
-duint32 dvm_popLong     (DVM* state);
-duint64 dvm_popQuad     (DVM* state);
-
-duint8 dvm_getByteOrder ();
 
 //ADDRESS dvm_getLabel(const char* labelName);
 //vm_code dvm_precompileFromLabel(ADDRESS functionAddress);
+/////////////////////////// DANGER ///////////////////////////
 
-#endif // VIRTUALDRAGON_VMUTILLS_H
+#endif // VIRTUALDRAGON_DVMDEF_H

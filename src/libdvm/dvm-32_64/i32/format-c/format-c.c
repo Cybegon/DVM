@@ -1,6 +1,6 @@
 #include "format-c.h"
 
-#include "dvmdef.h"
+#include "dvmdef_p.h"
 #include "encode.h"
 #include "lopcodes.h"
 #include "vcpu.h"
@@ -65,6 +65,10 @@ VOID DVM_FASTCALL format_c(DVM* state, duint32 instruction) {
         vmcase(OP_CHI) {
             IF_HI() { PUSH(REGISTER, IP); JUMP(); }
             cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
+        vmcase(OP_INV) { // invoke
+            state->SVI[ 0x0F ](state);
             vmbreak;
         }
     }

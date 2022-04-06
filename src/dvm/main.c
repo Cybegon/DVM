@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 #define DT_DISABLE_GUID
-#include "libdvm/virtualdragon.h"
-#include "libdvm/vmutills.h"
+#include "libdvm/dvm.h"
+#include "libdvm/dvmdef.h"
 
 #include "memory.h"
 
@@ -28,7 +28,7 @@ static DVM_INT swiVector[256] = { 0 };
 vm_code dvmExit(DVM* dvmState) {
     printf("Interrupt exit\n");
 
-    duint32 exitCode = (duint32)dvm_popQuad(state);
+    dint32 exitCode = (dint32)dvm_popQuad(state);
     dvm_exit(state, exitCode);
     exit(exitCode);
 }

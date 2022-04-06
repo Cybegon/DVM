@@ -4,14 +4,17 @@
 
 ## Opcode structure
 
-| Mode  | Format | OP     | RegDst | Immediate |
+| Mode  | Format | Opcode | RegDst | Immediate |
 |-------|--------|--------|--------|-----------|
 | 1 bit | 3 bit  | 7 bit  | 5 bit  | 16 bit    |
 
 ### Opcodes
 
-| Category  | Mnemonic  | OP     | Operand1 | Operand2  | Operand3  | Operand4  | Description                                       |
-|-----------|-----------|--------|----------|-----------|-----------|-----------|---------------------------------------------------|
-| Basic     | MOV       | `0x00` | RegDst   | Immediate | None      | None      | RegDst = Imm16                                    |
-|           | PUSH      | `0x01` | RegDst   | None      | None      | None      | RegDst = Imm16                                    |
+##### Basic
 
+| Mnemonic | Opcode | Op1    | Op2   | Description                 |
+|----------|--------|--------|-------|-----------------------------|
+| MOV      | `0x00` | RegDst | IMM16 | RegDst = IMM16              |
+| PUSH     | `0x01` | Reg    | None  | SP -= 8, STACK[SP] = Reg    |
+| POP      | `0x02` | RegDst | None  | RegDst = STACK[SP], SP += 8 |
+| SWP      | `0x03` | RegDst | None  | Byte Swap                   |
