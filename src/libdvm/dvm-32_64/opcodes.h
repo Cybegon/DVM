@@ -15,11 +15,11 @@
 #define OP_HWI  ( 0x0A ) // hardware/exception interrupts
 #define OP_SWI  ( 0x0B ) // software interrupts
 
+#define OP_BK   ( 0x0C ) // breakpoint ()
+
 // Integer arithmetic
 #define OP_ADD      ( 0x10 )
 #define OP_SUB      ( 0x11 )
-#define OP_ADC      ( 0x12 )
-#define OP_SBB      ( 0x13 )
 
 #define OP_INC      ( 0x14 )
 #define OP_DEC      ( 0x15 )
@@ -85,6 +85,5 @@
 #define OP_ENTER    ( 0x6A )
 #define OP_LEAVE    ( 0x6B )
 
-#define OP_BK
 
 #endif //VIRTUALDRAGON_OPCODES_H

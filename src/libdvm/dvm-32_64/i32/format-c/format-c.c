@@ -67,6 +67,11 @@ VOID DVM_FASTCALL format_c(DVM* state, duint32 instruction) {
             cpu_stateHandler(state, DVM_LOAD_PAGE);
             vmbreak;
         }
+        vmcase(OP_RET) {
+            IP = POP(REGISTER);
+            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            vmbreak;
+        }
         vmcase(OP_INV) { // invoke
             state->SVI[ 0x0F ](state);
             vmbreak;

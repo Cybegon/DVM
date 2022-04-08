@@ -12,6 +12,8 @@ vm_code     dvm_exit                ( DVM* state, dint exitCode );
 
 DVM_CLASS*  dvm_getClass            ( DVM* state );
 
+// Call hardware interrupt
+vm_code     dvm_callHVI             ( DVM* state, duint8 interruptNumber );
 vm_code     dvm_call                ( DVM* state, REGISTER address );
 
 REGISTER    dvm_getRegisterValue    (DVM* state, duint8 nReg);

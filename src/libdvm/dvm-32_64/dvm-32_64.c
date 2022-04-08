@@ -53,7 +53,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
     DVM_CLASS* dvmClass = dvm_getClass(state);
 
     INSTRUCTION in;
-    vmchunkexec(dvmClass) {
+    vmchunkexec() {
         in = DVM_FETCH(state);
         vmdispatch(DVM_GET_FORMAT(in->v32H)) {
             vmcase(DVM_FORMAT_NOP) {

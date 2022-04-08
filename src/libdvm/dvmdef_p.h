@@ -18,8 +18,8 @@ typedef struct FLREGISTER FLREGISTER;
 #define  SR(n)                  ( state->sr[ nSR(n) ] )
 
 #define FR  SR(7u) // flag register
-#define AX  SR(5u) // auxiliary register
-#define CH  SR(2u) // cache register
+#define BH  SR(3u) // border high
+#define BL  SR(2u) // border low
 #define IP  SR(0u) // instruction pointer
 
 #define SP  R(30u) // stack pointer
@@ -55,8 +55,8 @@ typedef struct FLREGISTER FLREGISTER;
 //    ((type*)state->stack)[ SP ]
 ///////////////// DEPRECATED /////////////////
 
-#define vmchunkexec(c)  for(REGISTER codeChunkSize = (c)->codeChunkSize + IP; IP < codeChunkSize;) // Chunk
-//#define afterexec
+#define vmchunkexec()   for(; IP < BH;) // Chunk
+#define afterexec
 #define vmdispatch(o)	switch(o)
 #define vmswitch(o)     switch(o)
 #define vmcase(l)	    case l:

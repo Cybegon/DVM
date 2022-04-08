@@ -28,8 +28,20 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_LD) {
-            PUSH()
-            R(DVM_GET_R0(instruction)) =
+            PUSH(REGISTER, IP += (IREGISTER)DVM_GET_IMM16(instruction));
+            state->SVI[ 0x10 ](state);
+
+            R(DVM_GET_R0(instruction)) = POP(REGISTER);
+            vmbreak;
+        }
+        vmcase(OP_ST) {
+            PUSH(REGISTER, IP += (IREGISTER)DVM_GET_IMM16(instruction));
+            PUSH(REGISTER, R(DVM_GET_R0(instruction)));
+            state->SVI[ 0x11 ](state);
+            vmbreak;
+        }
+        vmcase(OP_HWI) {
+            state->HVI[ DVM_GET_IMM16(instruction) & 0xFFu ](state);
             vmbreak;
         }
         vmcase(OP_SWI) {

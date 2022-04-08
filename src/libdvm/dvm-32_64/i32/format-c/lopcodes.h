@@ -12,6 +12,7 @@
 #define OP_CHS  ( 0x08 )
 #define OP_CLO  ( 0x09 )
 #define OP_CHI  ( 0x0A )
+#define OP_RET  ( 0x0B )
 #define OP_INV  ( 0x0F )
 
 #endif //VIRTUALDRAGON_LOPCODES_H

@@ -3,8 +3,6 @@
 
 #include "datatypes.h"
 
-#define
-
 // Remove later
 #if defined(DASM)
 
