@@ -123,6 +123,14 @@ vm_code dvm_setSWI(DVM* state, DVM_INT* vector)
     return DVM_SUCCESS;
 }
 
+vm_code dvm_setEndian(DVM* state, duint8 endian) {
+    (endian >= 1)
+    ? DVM_BIT_SET(cvtR2FR(FR)->vm_control, 7u)
+    : DVM_BIT_CLEAR(cvtR2FR(FR)->vm_control, 7u);
+
+    return DVM_SUCCESS;
+}
+
 VOID dvm_pushByte(DVM* state, duint16 _byte)
 {
     PUSH( duint16, _byte ); // aligned 16 bytes

@@ -45,13 +45,13 @@ int main(int argc, char* argv[])
         swiVector[i] = emptyInterrupt;
     }
 
-    HANDLE hFile = CreateFile("G:/dvm_code.dex", GENERIC_READ, 0, NULL,
+    HANDLE hFile = CreateFile("G:/dvm_code_be.dex", GENERIC_READ, 0, NULL,
                               OPEN_EXISTING,
                               FILE_ATTRIBUTE_NORMAL, NULL);
 
     HANDLE hMapping = CreateFileMapping(hFile, NULL, PAGE_READONLY,
                                         0, 0, NULL);
-    
+
     // mov  r0, 255
     // mov  r1, 127
     // add  r1, 128
@@ -85,6 +85,8 @@ int main(int argc, char* argv[])
     dvmClass.codeChunkSize      = 32;
 
     state = dvm_newState(&dvmClass);
+
+    dvm_setEndian(state, 1);
 
     dvm_setSWI(state, swiVector);
     dvm_execute(state);

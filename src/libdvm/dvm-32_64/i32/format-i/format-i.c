@@ -109,12 +109,6 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
 
-        // !~BO - Bitwise operation // make later
-        vmcase(OP_BT) {
-            // DVM_BIT_GET(R(DVM_GET_R0(instruction)), DVM_GET_IMM16(instruction) & 63u);
-            vmbreak;
-        }
-
         // !~L - Logic
         vmcase(OP_AND) {
             R(DVM_GET_R0(instruction)) &= DVM_GET_IMM16(instruction);

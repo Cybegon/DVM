@@ -4,7 +4,7 @@
 
 #define HANDLER(s, c) \
     BL = (IP / state->dvmClass->codeChunkSize) * state->dvmClass->codeChunkSize;                                \
-    BH += BL + state->dvmClass->codeChunkSize;                                                                  \
+    BH = BL + state->dvmClass->codeChunkSize;                                                                   \
     vmswitch(c) {                                                                                               \
         vmcase(DVM_LOAD_PAGE)                                                                                   \
             s->text = s->dvmClass                                                                               \

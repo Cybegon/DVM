@@ -18,7 +18,9 @@ vm_code     dvm_call                ( DVM* state, REGISTER address );
 
 REGISTER    dvm_getRegisterValue    (DVM* state, duint8 nReg);
 REGISTER*   dvm_getRegisterRef      (DVM* state, duint8 nReg);
+
 vm_code     dvm_setSWI              (DVM* state, DVM_INT* vector);
+vm_code     dvm_setEndian           (DVM* state, duint8 endian);
 
 VOID dvm_pushByte   (DVM* state, duint16  _byte);
 VOID dvm_pushShort  (DVM* state, duint16 _short);

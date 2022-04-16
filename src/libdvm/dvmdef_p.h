@@ -30,7 +30,7 @@ typedef struct FLREGISTER FLREGISTER;
 
 #define cvtR2FR(r) ((FLREGISTER*)&(r))
 
-#define DVM_FETCH(s) (( (INSTRUCTION)( &(((duint8*)(s)->text)[ IP ]) ) ))
+#define DVM_FETCH(s) (( (INSTRUCTION*)( &(((duint8*)(s)->text)[ IP ]) ) ))
 
 //#define DVM_NEXT_INSTRUCTION(ip, s) \
 //    ip += sizeof( s );              \
@@ -82,7 +82,7 @@ typedef struct FLREGISTER FLREGISTER;
         ( ( &(varA) == &(varB) ) ? (varA) : DVM_SWAP_UNSAFE( varA, varB ) )
 
 #define DVM_BSWAP64( var ) \
-    (var) = ( ( (var) << 8u  ) & 0xFF00FF00FF00FF00ull ) | ( ( (var) >> 8u  ) & 0x00FF00FF00FF00FFull );    \
+    (var) = ( ( (var) << 8u  ) & 0xFF00FF00FF00FF00ull ) | ( ( (var) >> 8u  ) & 0x00FF00FF00FF00FFull );  \
     (var) = ( ( (var) << 16u ) & 0xFFFF0000FFFF0000ull ) | ( ( (var) >> 16u ) & 0x0000FFFF0000FFFFull );  \
     (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
 

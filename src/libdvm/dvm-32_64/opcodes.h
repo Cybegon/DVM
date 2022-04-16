@@ -35,13 +35,6 @@
 #define OP_ROL      ( 0x22 )
 #define OP_ROR      ( 0x23 )
 
-// Bit operations
-#define OP_BS       ( 0x2B ) // bit scan
-#define OP_BT       ( 0x2C ) // bit test
-#define OP_BTS      ( 0x2D ) // bit test & set
-#define OP_BTR      ( 0x2E ) // bit test & reset
-#define OP_BTC      ( 0x2F ) // bit test & invert
-
 // Logic
 #define OP_AND      ( 0x30 )
 #define OP_NAND     ( 0x31 )
