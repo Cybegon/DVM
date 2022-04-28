@@ -10,7 +10,16 @@
 
 
 #include "libdvm/dvmclass.h"
+#ifdef CYBEGON_PLATFORM_WINDOWS
 #include <windows.h>
+#else
+// TODO: not all platforms that are not Windows are UNIX-compatible
+#include <fcntl.h>
+#include <sys/errno.h>
+#include <sys/mman.h>
+
+#include <string.h>
+#endif
 #include "datatypes.h"
 
 MEMORY  DVM_CALLBACK allocVM    (dsize size, duint32 flags, duint32 protection);

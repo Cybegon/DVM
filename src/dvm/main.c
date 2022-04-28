@@ -9,6 +9,24 @@
 
 static DVM* state;
 
+#ifndef CYBEGON_PLATFORM_WINDOWS
+void* unbufFD(FILE* desc) {
+    // retreive file size
+    fseek(desc, SEEK_END, 0L);
+    duint32 size = ftell(desc);
+    
+    rewind(desc);
+    
+    // read the contents of the file into a buffer
+    void* result = malloc(size);
+    bzero(result, size);
+    fread(result, 1, size, desc);
+    
+    fclose(desc);
+    return result;
+}
+#endif
+
 VOID DVM_CALLBACK msgVM (Msg_t type, const char* message)
 {
     if (type)
@@ -39,18 +57,44 @@ vm_code emptyInterrupt(DVM* dvmState) {
 
 int main(int argc, char* argv[])
 {
+    // file to read & execute
+    const char* desiredFileP = (argc >= 2) ? argv[1] : NULL;
+    
+    if (!desiredFileP) {
+        fprintf(stderr, "Usage: %s DEX_FILE_PATH\n", argv[0]);
+        return 1;
+    }
 
     swiVector[0] = dvmExit;
     for (int i = 1; i < 0xFF; ++i) {
         swiVector[i] = emptyInterrupt;
     }
 
-    HANDLE hFile = CreateFile("G:/dvm_code_be.dex", GENERIC_READ, 0, NULL,
+#ifdef CYBEGON_PLATFORM_WINDOWS
+    HANDLE hFile = CreateFile(desiredFileP, GENERIC_READ, 0, NULL,
                               OPEN_EXISTING,
                               FILE_ATTRIBUTE_NORMAL, NULL);
+                              
+    if (!hFile) {
+        // on failure
+        fprintf(stderr, "%s\n", GetLastError());
+        return 2;
+    }
 
     HANDLE hMapping = CreateFileMapping(hFile, NULL, PAGE_READONLY,
                                         0, 0, NULL);
+#else
+    // TODO: perform mmap-ing instead
+    FILE* hFile = fopen(desiredFileP, "r");
+    
+    if (hFile < 0) {
+        // on failure
+        fprintf(stderr, "%s\n", strerror(errno));
+        return 2;
+    }
+    
+    void* hMapping = unbufFD(hFile);
+#endif
 
     // mov  r0, 255
     // mov  r1, 127
