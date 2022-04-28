@@ -8,14 +8,16 @@
 #define OP_SWP      ( 0x03 )
 #define OP_LD       ( 0x04 )
 #define OP_ST       ( 0x05 )
-
-//#define OP_NOP      ( 0x03 )
+#define OP_BK       ( 0x09 ) // breakpoint ()
 
 // interrupts
 #define OP_HWI  ( 0x0A ) // hardware/exception interrupts
 #define OP_SWI  ( 0x0B ) // software interrupts
 
-#define OP_BK   ( 0x0C ) // breakpoint ()
+#define OP_ENTER    ( 0x0C )
+#define OP_LEAVE    ( 0x0D )
+#define OP_INV      ( 0x0F )
+//#define OP_NOP      ( 0x03 )
 
 // Integer arithmetic
 #define OP_ADD      ( 0x10 )
@@ -72,11 +74,7 @@
 #define OP_CHS      ( 0x58 )
 #define OP_CLO      ( 0x59 )
 #define OP_CHI      ( 0x5A )
-#define OP_INV      ( 0x5F )
 
 #define OP_RET      ( 0x60 )
-#define OP_ENTER    ( 0x6A )
-#define OP_LEAVE    ( 0x6B )
-
 
 #endif //VIRTUALDRAGON_OPCODES_H

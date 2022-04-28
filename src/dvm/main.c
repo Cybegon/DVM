@@ -82,11 +82,9 @@ int main(int argc, char* argv[])
 
     dvmClass.stackSize          = MB(1);
     dvmClass.imageDescriptor    = hMapping;
-    dvmClass.codeChunkSize      = 32;
+    dvmClass.codeChunkSize      = 8;
 
     state = dvm_newState(&dvmClass);
-
-    dvm_setEndian(state, 1);
 
     dvm_setSWI(state, swiVector);
     dvm_execute(state);

@@ -1,6 +1,7 @@
 #include "dvm.h"
 
 #include "dvm_p.h"
+#include "dvmdef_p.h"
 #include "flags.h"
 
 #include "vcpu.h"
@@ -9,25 +10,34 @@
 
 #define IMAGE_BASE_ADDRESS 0
 
+vm_code dvm_validateClass( DVM_CLASS* dvmClass )
+{
+    if (dvmClass->msgCallback == NULL)
+        return DVM_FAIL;
+
+#if defined(DVM_NO_MESSAGE) || defined(DVM_LIGHTWEIGHT)
+    if (dvmClass->codeChunkSize < sizeof(INSTRUCTION))
+        dvmClass->msgCallback(DVM_MSG_ERROR, "Code chunk is smaller less then 8 bytes");
+    if (dvmClass->imageDescriptor == NULL)
+        dvmClass->msgCallback(DVM_MSG_ERROR, "Image descriptor cannot be NULL");
+    if (dvmClass->stackSize < 256)
+        dvmClass->msgCallback(DVM_MSG_ERROR, "Minimum stack size 256 bytes");
+    if (dvmClass->stackSize < KB(1))
+        dvmClass->msgCallback(DVM_MSG_WARNING, "Minimum desired stack size 1kb");
+#endif
+
+    if (dvmClass->codeChunkSize < sizeof(INSTRUCTION))
+        return DVM_FAIL;
+    if (dvmClass->imageDescriptor == NULL)
+        return DVM_FAIL;
+    if (dvmClass->stackSize < 256)
+        return DVM_FAIL;
+
+    return DVM_SUCCESS;
+}
+
 DVM* dvm_newState( DVM_CLASS* dvmClass )
 {
-    // DVM Messages
-    if ( dvmClass->msgCallback == NULL )
-        return NULL;
-//
-//    // Memory access
-//    if ( dvmClass->memExec.memoryAccess == NULL )
-//        dvmClass->msgCallback( DVM_MSG_ERROR, "Code access is not assigned to DVM_CLASS.\n" );
-//    if ( dvmClass->memExec.memoryAccessBlockSize < 4 )
-//        dvmClass->msgCallback( DVM_MSG_ERROR, "Code access block size must be at least 4 bytes.\n" );
-//
-//    // Stack
-//    if ( dvmClass->stackSize < KB( 1 ) )
-//        dvmClass->msgCallback( DVM_MSG_ERROR, "Stack size must be at least 1 kilobytes.\n" );
-//
-//    if (dvmClass->callGlobalTable == NULL)
-//        dvmClass->msgCallback( DVM_MSG_ERROR, "Global table is not defined.");
-
     // New state
     DVM* state = dvmClass->alloc( sizeof( DVM ), 0, DVM_MEM_READWRITE );
     for (int i = 0; i < sizeof( DVM ); ++i) // !!!improve later
@@ -48,6 +58,10 @@ DVM* dvm_newState( DVM_CLASS* dvmClass )
     state->vcpus    = (const VCPU **) dvmClass->alloc( sizeof(VCPU *) * 2, 0, DVM_MEM_READWRITE );
     state->vcpus[0] = dvm_32_64_getVCPU( state );
     state->vcpus[1] = NULL;
+
+    dvm_setEndian(state, dvm_getByteOrder());
+
+    SP = dvmClass->stackSize - sizeof(INSTRUCTION);
 
     return state;
 }
@@ -179,5 +193,5 @@ duint8 dvm_getByteOrder()
 {
     duint16 x = 0x0001;
 
-    return ( *( (duint8*)&x ) ? 0 : 1 );
+    return ( *( (duint8*)&x ) ? DVM_ENDIAN_BIG : DVM_ENDIAN_LITTLE );
 }

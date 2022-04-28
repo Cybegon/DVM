@@ -1,5 +1,6 @@
 #include "dvm-32_64.h"
 
+#include "dvmdef_p.h"
 #include "vcpuclass.h"
 #include "flags.h"
 
@@ -14,27 +15,6 @@
 // 3 bits for format
 #define DVM_GET_FORMAT(i)   ( (i & 0xF0000000u) >> 28u )
 
-typedef union INSTRUCTION64 INSTRUCTION64;
-typedef union INSTRUCTION32 INSTRUCTION32;
-
-typedef INSTRUCTION64 INSTRUCTION;
-
-union INSTRUCTION64 {
-    duint64 i64;
-    struct {
-        duint32 i32H;
-        duint32 i32L;
-    };
-};
-
-union INSTRUCTION32 {
-    duint32 v32;
-    struct {
-        duint16 v16H;
-        duint16 v16L;
-    };
-};
-
 extern const VCPU d32_64;
 
 const VCPU* dvm_32_64_getVCPU(DVM* state)
@@ -44,7 +24,7 @@ const VCPU* dvm_32_64_getVCPU(DVM* state)
 
 vm_code DVM_CALLBACK load(DVM* state)
 {
-    state->dvmClass->msgCallback( 0, "LOAD\n" );
+    state->dvmClass->msgCallback( 0, "LOAD" );
 
     return 0;
 }
@@ -62,41 +42,13 @@ vm_code DVM_CALLBACK entry(DVM* state)
 //    DVM_BSWAP64(in->v64);
 
     vmchunkexec() {
+        in = DVM_FETCH(state);
         if (cvtR2FR(FR)->vm_control & EF) {
-            in = DVM_FETCH(state);          // set pointer
             tmp = *in;                      // copy to temporary instruction
             DVM_BSWAP64(tmp.i64);           // swap data
             in = &tmp;                      // set pointer to temporary instruction
-        } else {
-            in = DVM_FETCH(state);
         }
 
-        vmdispatch(DVM_GET_FORMAT(in->i32H)) {
-            vmcase(DVM_FORMAT_NOP) {
-                // No operation
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_I) {
-                format_i(state, in->i32H);
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_J) {
-                format_j(state, in->i32H);
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_C) {
-                format_c(state, in->i32H);
-                vmbreak;
-            }
-            vmcase(DVM_LONG_MODE) {
-                R(3u) = in->i32L;
-                dvmClass->msgCallback(1, "this is sparta!");
-                vmsignal(SKIP);
-            }
-            vmdefault: {
-                return DVM_TRANSFER_CONTROL;
-            }
-        }
         vmdispatch(DVM_GET_FORMAT(in->i32L)) {
             vmcase(DVM_FORMAT_NOP) {
                 // No operation
@@ -114,12 +66,38 @@ vm_code DVM_CALLBACK entry(DVM* state)
                 format_c(state, in->i32L);
                 vmbreak;
             }
+            vmcase(DVM_LONG_MODE) {
+                R(3u) = in->i32H;
+                dvmClass->msgCallback(1, "this is spart1a!");
+                vmsignal(SKIP);
+            }
+            vmdefault: {
+                return DVM_TRANSFER_CONTROL;
+            }
+        }
+        vmdispatch(DVM_GET_FORMAT(in->i32H)) {
+            vmcase(DVM_FORMAT_NOP) {
+                // No operation
+                vmbreak;
+            }
+            vmcase(DVM_FORMAT_I) {
+                format_i(state, in->i32H);
+                vmbreak;
+            }
+            vmcase(DVM_FORMAT_J) {
+                format_j(state, in->i32H);
+                vmbreak;
+            }
+            vmcase(DVM_FORMAT_C) {
+                format_c(state, in->i32H);
+                vmbreak;
+            }
             vmdefault: {
                 return DVM_TRANSFER_CONTROL;
             }
         }
         vmslot(SKIP)
-        IP += sizeof(INSTRUCTION);
+        IP += 8;
     } /*afterexec {
         // global ip ++
         GIP += IP;

@@ -3,16 +3,30 @@
 
 #include "datatypes.h"
 
-#define DEFAULT_PAGE_SIZE   512
-#define DEFAULT_PAGE_SHIFT  3
+#define DVM_DEFAULT_PAGE_SIZE   512u
+#define DVM_DEFAULT_PAGE_SHIFT  3u
 
-#define DVM_EXIT                (0)
-#define DVM_SUCCESS             (1)
-#define DVM_FAIL                (2)
-#define DVM_UNDEFINED_VMCODE    (3)
+#define DVM_ENDIAN_BIG      1u
+#define DVM_ENDIAN_LITTLE   0u
 
-#define DVM_LOAD_PAGE           (8) // get next block to cache
-#define DVM_TRANSFER_CONTROL    (65535)
+#define DVM_EXIT                (0u)
+#define DVM_SUCCESS             (1u)
+#define DVM_FAIL                (2u)
+#define DVM_UNDEFINED_VMCODE    (3u)
+
+#define DVM_LOAD_PAGE           (8u) // get next block to cache
+#define DVM_TRANSFER_CONTROL    (65535u)
+
+// Special registers
+#define DVM_IP (0u) // Instruction pointer
+#define DVM_FR (7u) // Flag register
+
+// Registers
+#define DVM_RA (0u)     // Accumulator
+
+#define DVM_TP (29u)    // This pointer
+#define DVM_BP (30u)    // Base pointer
+#define DVM_SP (31u)    // Stack pointer
 
 typedef struct DVM DVM;
 typedef dint32 vm_code;

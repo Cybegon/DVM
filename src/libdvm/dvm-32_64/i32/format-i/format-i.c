@@ -6,6 +6,9 @@
 #include "opcodes.h"
 #include "vcpu.h"
 
+#define DVM_ENABLE_JUMP16
+
+#include "flags.h"
 #include "auxiliary.h"
 
 VOID format_i(DVM* state, duint32 instruction)
@@ -15,8 +18,8 @@ VOID format_i(DVM* state, duint32 instruction)
             R(DVM_GET_R0(instruction)) = DVM_GET_IMM16(instruction);
             vmbreak;
         }
-        vmcase(OP_PUSH) { // here
-            PUSH(REGISTER, DVM_GET_R0(instruction)); // here
+        vmcase(OP_PUSH) {
+            PUSH(REGISTER, R(DVM_GET_R0(instruction)));
             vmbreak;
         }
         vmcase(OP_POP) {
@@ -27,25 +30,44 @@ VOID format_i(DVM* state, duint32 instruction)
             DVM_BSWAP64(R(DVM_GET_R0(instruction)));
             vmbreak;
         }
-        vmcase(OP_LD) {
+        vmcase(OP_LD) { // make
             PUSH(REGISTER, IP += (IREGISTER)DVM_GET_IMM16(instruction));
             state->SVI[ 0x10 ](state);
 
             R(DVM_GET_R0(instruction)) = POP(REGISTER);
             vmbreak;
         }
-        vmcase(OP_ST) {
+        vmcase(OP_ST) { // make
             PUSH(REGISTER, IP += (IREGISTER)DVM_GET_IMM16(instruction));
             PUSH(REGISTER, R(DVM_GET_R0(instruction)));
             state->SVI[ 0x11 ](state);
             vmbreak;
         }
+        vmcase(OP_BK) {
+            state->SVI[ SVI_BREAKPOINT ](state);
+            vmbreak;
+        }
         vmcase(OP_HWI) {
-            state->HVI[ DVM_GET_IMM16(instruction) & 0xFFu ](state);
+            state->HVI[ DVM_GET_IMM8(instruction) ](state);
             vmbreak;
         }
         vmcase(OP_SWI) {
-            state->SVI[ DVM_GET_IMM16(instruction) & 0xFFu ](state);
+            state->SVI[ DVM_GET_IMM8(instruction) ](state);
+            vmbreak;
+        }
+        vmcase(OP_ENTER) {
+            PUSH(REGISTER, BP);
+            BP = SP;
+            SP += DVM_GET_IMM16(instruction);
+            vmbreak;
+        }
+        vmcase(OP_LEAVE) {
+            SP = BP;
+            BP = POP(REGISTER);
+            vmbreak;
+        }
+        vmcase(OP_INV) { // invoke
+            state->SVI[ SVI_INVOKE ](state);
             vmbreak;
         }
 
@@ -138,38 +160,112 @@ VOID format_i(DVM* state, duint32 instruction)
             R(DVM_GET_R0(instruction)) = C4146_FIX(-, R(DVM_GET_R0(instruction)));
             vmbreak;
         }
+        vmdefault: {
+            vmsignal(FLOW);
+            vmbreak;
+        }
+    }
+    return;
 
+vmslot(FLOW)
+    vmswitch(DVM_GET_OPCODE(instruction)) {
         // !~F - Flow
         vmcase(OP_JMP) {
-            IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
-            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            IP = CP + DVM_GET_IMM16(instruction);
+            vmbreak;
+        }
+        vmcase(OP_JEQ) {
+            IF_EQ() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JNE) {
+            IF_NE() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JLT) {
+            IF_LT() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JGT) {
+            IF_GT() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JLE) {
+            IF_LE() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JGE) {
+            IF_GE() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JLS) {
+            IF_LS() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JHS) {
+            IF_HS() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JLO) {
+            IF_LO() { JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_JHI) {
+            IF_HI() { JUMP16(); }
             vmbreak;
         }
         vmcase(OP_CALL) {
-            PUSH(REGISTER, R(DVM_GET_R0(instruction)));
-            IP = R(DVM_GET_R0(instruction)) + DVM_GET_IMM16(instruction);
-            cpu_stateHandler(state, DVM_LOAD_PAGE);
+            PUSH(REGISTER, IP); JUMP16();
+            vmbreak;
+        }
+        vmcase(OP_CEQ) {
+            IF_EQ() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CNE) {
+            IF_NE() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CLT) {
+            IF_LT() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CGT) {
+            IF_GT() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CLE) {
+            IF_LE() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CGE) {
+            IF_GE() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CLS) {
+            IF_LS() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CHS) {
+            IF_HS() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CLO) {
+            IF_LO() { PUSH(REGISTER, IP); JUMP16(); }
+            vmbreak;
+        }
+        vmcase(OP_CHI) {
+            IF_HI() { PUSH(REGISTER, IP); JUMP16(); }
             vmbreak;
         }
         vmcase(OP_RET) {
             IP = POP(REGISTER);
-            cpu_stateHandler(state, DVM_LOAD_PAGE);
-            vmbreak;
-        }
-        vmcase(OP_ENTER) {
-            PUSH(REGISTER, BP);
-            BP = SP;
-            SP += DVM_GET_IMM16(instruction);
-            vmbreak;
-        }
-        vmcase(OP_LEAVE) {
-            SP = BP;
-            BP = POP(REGISTER);
             vmbreak;
         }
         vmdefault: {
-            dvm_getClass(state)->msgCallback(1, "INTERRUPT: illegal opcode \n");
+            state->SVI[ SVI_ILLEGAL_OPCODE ](state);
             vmbreak;
         }
     }
+    cpu_stateHandler(state, DVM_LOAD_PAGE);
 }

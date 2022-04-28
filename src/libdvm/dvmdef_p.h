@@ -3,8 +3,6 @@
 
 #include "dvm.h"
 
-typedef struct FLREGISTER FLREGISTER;
-
 #define REGISTER_COUNT          ( 32u ) // do not edit
 #define REGISTER_MASK           ( REGISTER_COUNT - 1u ) // equals 0b00011111
 
@@ -18,13 +16,15 @@ typedef struct FLREGISTER FLREGISTER;
 #define  SR(n)                  ( state->sr[ nSR(n) ] )
 
 #define FR  SR(7u) // flag register
+#define CP  SR(5u) // code pointer
+#define DP  SR(4u) // data pinter
 #define BH  SR(3u) // border high
 #define BL  SR(2u) // border low
 #define IP  SR(0u) // instruction pointer
 
-#define SP  R(30u) // stack pointer
-#define BP  R(29u) // base pointer
-#define TP  R(28u) // this pointer
+#define SP  R(31u) // stack pointer
+#define BP  R(30u) // base pointer
+#define TP  R(29u) // this pointer
 // ...
 #define RA  R(0u)  // Using for return address or value. accumulator
 
@@ -85,6 +85,29 @@ typedef struct FLREGISTER FLREGISTER;
     (var) = ( ( (var) << 8u  ) & 0xFF00FF00FF00FF00ull ) | ( ( (var) >> 8u  ) & 0x00FF00FF00FF00FFull );  \
     (var) = ( ( (var) << 16u ) & 0xFFFF0000FFFF0000ull ) | ( ( (var) >> 16u ) & 0x0000FFFF0000FFFFull );  \
     (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
+
+typedef struct FLREGISTER FLREGISTER;
+
+typedef union INSTRUCTION64 INSTRUCTION64;
+typedef union INSTRUCTION32 INSTRUCTION32;
+
+typedef INSTRUCTION64 INSTRUCTION;
+
+union INSTRUCTION64 {
+    duint64 i64;
+    struct {
+        duint32 i32H;
+        duint32 i32L;
+    };
+};
+
+union INSTRUCTION32 {
+    duint32 v32;
+    struct {
+        duint16 v16H;
+        duint16 v16L;
+    };
+};
 
 struct FLREGISTER {
     duint8  vm_control;

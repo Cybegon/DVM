@@ -5,6 +5,8 @@
 #include "dvmclass.h"
 #include "dvmdef.h"
 
+vm_code     dvm_validateClass       ( DVM_CLASS* dvmClass );
+
 DVM*        dvm_newState            ( DVM_CLASS* dvmClass );
 vm_code     dvm_execute             ( DVM* state );
 vm_code     dvm_reset               ( DVM* state );

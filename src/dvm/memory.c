@@ -19,7 +19,7 @@ MEMORY DVM_CALLBACK allocVM(dsize size, duint32 flags, duint32 protection)
 
     if (flags & DVM_MEM_STACK)
     {
-        address1 = ((MEMORY)(((duint8*)address1) + size));
+        //address1 = ((MEMORY)(((duint8*)address1) + size));
     }
 
     return address1;
