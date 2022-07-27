@@ -68,11 +68,11 @@ struct DVM_CLASS
 
     GetChunk            getChunk;
 
-    CreateMemMapFunc    createMemoryMap; // return programDescriptor
-    // accepts an DESCRIPTOR
-    // return data with programCacheSize
-    MemMapAccessFunc    viewMemoryMap;
-    UnmapMemFunc        unmapMemoryMap;
+//    CreateMemMapFunc    createMemoryMap; // return programDescriptor
+//    // accepts an DESCRIPTOR
+//    // return data with programCacheSize
+//    MemMapAccessFunc    viewMemoryMap;
+//    UnmapMemFunc        unmapMemoryMap;
 
     DESCRIPTOR          imageDescriptor;  // Must contain the program file image
     // dsize chunkSize Prefetch N bytes

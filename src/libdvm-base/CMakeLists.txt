@@ -18,4 +18,4 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 add_library(dvm-base STATIC dvmbase.c ${PHSRC})
-target_link_libraries(dvm-base zip)
+target_link_libraries(dvm-base geff zip)

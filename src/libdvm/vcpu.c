@@ -3,12 +3,12 @@
 #include "flags.h"
 
 #define HANDLER(s, c) \
-    BL = (IP / state->dvmClass->chunkSize) * state->dvmClass->chunkSize;                                        \
-    BH = BL + state->dvmClass->chunkSize;                                                                       \
+    BL = (IP / s->dvmClass->chunkSize) * s->dvmClass->chunkSize;                                                \
+    BH = BL + s->dvmClass->chunkSize;                                                                           \
     vmswitch(c) {                                                                                               \
         vmcase(DVM_LOAD_PAGE)                                                                                   \
             s->text = s->dvmClass                                                                               \
-                    ->viewMemoryMap(s->dvmClass->imageDescriptor, IP, s->dvmClass->chunkSize);                  \
+                    ->getChunk(s->dvmClass->imageDescriptor, IP, s->dvmClass->chunkSize);                       \
             vmbreak;                                                                                            \
         vmcase(DVM_TRANSFER_CONTROL)                                                                            \
             if (cvtR2FR(FR)->vm_control & VF)                                                                   \

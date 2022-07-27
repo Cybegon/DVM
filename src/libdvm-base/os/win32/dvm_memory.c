@@ -60,7 +60,7 @@ MEMORY DVM_CALLBACK dvm_vAlloc(ADDRESS base, dsize size, duint32 flags, duint32 
     duint32 localProtection = 0;
     duint32 granularity     = dvm_getGranularity();
 
-    if (flags == 0 || protection)
+    if (flags == 0 || protection == 0)
         return NULL;
 
     if (flags & DVM_MEM_COMMIT)

@@ -3,7 +3,8 @@
 
 #include "datatypes.h"
 
-#define GEFF_SIGNATURE  (0x47454646)
+#define GEFF_SIGNATURE_HEADER   (0x4745464601010000)
+#define GEFF_SIGNATURE_SECTION  (0x4745464601020000)
 
 #define GEFF_TYPE_NON   (0x0000)
 #define GEFF_TYPE_KER   (0x0001)
@@ -36,6 +37,7 @@ struct GEFF_SECTION
 {
     duint64 signature;
     // Section name includes NULL
+    duint32 crc32;
     char name[32];
     duint64 sectionSize;
     duint64 physicalAddress;
@@ -45,6 +47,6 @@ struct GEFF_SECTION
 
 dint geff_validateGEFFHeader(struct GEFF_HEADER* header);
 dsize geff_calculateAllSectionSize(struct GEFF_HEADER* header);
-struct GEFF_SECTION* dvm_getSectionById(struct GEFF_HEADER* header, duint16 sectionId);
+struct GEFF_SECTION* geff_getSectionById(struct GEFF_HEADER* header, duint16 sectionId);
 
 #endif // !VIRTUALDRAGON_GEFF_H

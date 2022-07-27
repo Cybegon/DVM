@@ -39,22 +39,22 @@ vm_code emptyInterrupt(DVM* dvmState) {
 
 int main(int argc, char* argv[])
 {
-    DESCRIPTOR fileImage = dvm_openExecutableFile("G:/app.zip");
-    dvm_createVMImage(fileImage);
+    DESCRIPTOR fileImage = dvm_openExecutableFile("W:/VM.dex");
+    fileImage = dvm_createVMImage(fileImage, 0);
 
-//    for (int i = 0; i < 0xFF; ++i) {
-//        swiVector[i] = emptyInterrupt;
-//    }
-//    swiVector[0] = dvmExit;
-//
-//    DVM_CLASS dvmClass;
-//    dvm_initClass(&dvmClass, dFile);
-//
-//    state = dvm_newState(&dvmClass);
-//
-//    dvm_setSWI(state, swiVector);
-//    dvm_execute(state);
-//
-//    printf("END PROGRAM\n");
+    for (int i = 0; i < 0xFF; ++i) {
+        swiVector[i] = emptyInterrupt;
+    }
+    swiVector[0] = dvmExit;
+
+    DVM_CLASS dvmClass;
+    dvm_initClass(&dvmClass, fileImage);
+
+    state = dvm_newState(&dvmClass);
+
+    dvm_setSWI(state, swiVector);
+    dvm_execute(state);
+
+    printf("END PROGRAM\n");
     return 0;
 }

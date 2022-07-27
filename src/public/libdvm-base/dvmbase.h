@@ -10,15 +10,9 @@
 #define FILE_TYPE_RAW 0
 #define FILE_TYPE_VEX 1
 
-struct DESCRIPTOR
-{
-    struct vapp_t*  imageFile;
-    MEMORY          vMemBase;
-};
-
 DESCRIPTOR  dvm_openExecutableFile(const char* fileName);
 MEMORY      dvm_createVMImage(DESCRIPTOR dvmExecutableFile, duint16 fileType);
-DVM_CLASS*  dvm_initClass(DVM_CLASS* dvmClass, DESCRIPTOR fileImage);
+DVM_CLASS*  dvm_initClass(DVM_CLASS* dvmClass, MEMORY VMImage);
 
 // memory
 MEMORY  DVM_CALLBACK dvm_malloc     (dsize size);
