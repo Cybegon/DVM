@@ -11,6 +11,8 @@
 #include "flags.h"
 #include "auxiliary.h"
 
+#define STUB return
+
 VOID format_i(DVM* state, duint32 instruction)
 {
     vmswitch(DVM_GET_OPCODE(instruction)) {
@@ -165,7 +167,7 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
     }
-    return;
+    STUB;
 
 vmslot(FLOW)
     vmswitch(DVM_GET_OPCODE(instruction)) {

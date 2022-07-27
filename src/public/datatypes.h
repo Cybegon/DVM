@@ -7,6 +7,9 @@
 #define MB(VALUE) ( VALUE * 1024 * 1024 )
 #define GB(VALUE) ( VALUE * 1024 * 1024 * 1024 )
 
+#define ALIGN_SIZE(s, a) (s / a + 1) * a
+#define ALIGN_ADDRESS(s, a) ALIGN_SIZE(s, a)
+
 //#ifdef defined(CYBEGON_COMPILER_GCC)
 //#   define DVM_CALLBACK __cdecl
 //#   define DVM_FASTCALL __fastcall
@@ -14,7 +17,6 @@
 //#   define DVM_CALLBACK __cdecl
 //#   define DVM_FASTCALL __fastcall
 //#endif // CYBEGON_COMPILER_MSVC
-
 
 
 #if defined(CYBEGON_COMPILER_GCC) || defined(CYBEGON_COMPILER_CLANG)
@@ -31,6 +33,14 @@
 
 #if !defined(M_PI)
 #   define M_PI			3.14159265358979323846
+#endif
+
+#if !defined(MIN)
+#   define MIN(a,b) ( ((a) < (b)) ? (a) : (b) )
+#endif
+
+#if !defined(MAX)
+#   define MAX(a,b) ( ((a) > (b)) ? (a) : (b) )
 #endif
 
 #if defined(__cplusplus)
@@ -53,6 +63,14 @@
 #   else
 #       define NULL ((void*)0)
 #   endif
+#endif
+
+#if !defined(TRUE)
+#   define TRUE 1
+#endif
+
+#if !defined(FALSE)
+#   define FALSE 0
 #endif
 
 #if defined(__cplusplus)

@@ -1,0 +1,4 @@
+[submodule "extlibs/zip"]
+	path = extlibs/zip
+	url = https://github.com/kuba--/zip.git
+	branch = v0.2.4

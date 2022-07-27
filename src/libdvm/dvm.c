@@ -12,10 +12,7 @@
 
 vm_code dvm_validateClass( DVM_CLASS* dvmClass )
 {
-    if (dvmClass->msgCallback == NULL)
-        return DVM_FAIL;
-
-#if defined(DVM_NO_MESSAGE) || defined(DVM_LIGHTWEIGHT)
+#if defined(DVM_NO_MESSAGE) || defined(DVM_LIGHTWEIGHT) // make later
     if (dvmClass->codeChunkSize < sizeof(INSTRUCTION))
         dvmClass->msgCallback(DVM_MSG_ERROR, "Code chunk is smaller less then 8 bytes");
     if (dvmClass->imageDescriptor == NULL)
@@ -26,7 +23,7 @@ vm_code dvm_validateClass( DVM_CLASS* dvmClass )
         dvmClass->msgCallback(DVM_MSG_WARNING, "Minimum desired stack size 1kb");
 #endif
 
-    if (dvmClass->codeChunkSize < sizeof(INSTRUCTION))
+    if (dvmClass->chunkSize < sizeof(INSTRUCTION))
         return DVM_FAIL;
     if (dvmClass->imageDescriptor == NULL)
         return DVM_FAIL;
@@ -39,29 +36,30 @@ vm_code dvm_validateClass( DVM_CLASS* dvmClass )
 DVM* dvm_newState( DVM_CLASS* dvmClass )
 {
     // New state
-    DVM* state = dvmClass->alloc( sizeof( DVM ), 0, DVM_MEM_READWRITE );
+    DVM* state = dvmClass->malloc( sizeof( DVM ) );
     for (int i = 0; i < sizeof( DVM ); ++i) // !!!improve later
     {
         ( ( duint8* )state )[i] = 0;
     }
 
+    // Setting up registers
+    BL = 0;
+    BH = dvmClass->chunkSize;
+    SP = dvmClass->stackSize - sizeof( INSTRUCTION );
+
     state->dvmClass     = dvmClass;
-    state->text         = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
-    state->data         = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, 0 );
-    state->stack        = dvmClass->alloc( dvmClass->stackSize, // address, size
-                                           DVM_MEM_STACK, // flags
-                                           DVM_MEM_READWRITE | DVM_MEM_PRIVATE );
+    state->text         = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
+    state->data         = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
+    state->stack        = dvmClass->malloc( dvmClass->stackSize );
 
     state->processorID = 0;
     state->extensionID = 1;
 
-    state->vcpus    = (const VCPU **) dvmClass->alloc( sizeof(VCPU *) * 2, 0, DVM_MEM_READWRITE );
+    state->vcpus    = (const VCPU **) dvmClass->malloc( sizeof( VCPU* ) * 2 );
     state->vcpus[0] = dvm_32_64_getVCPU( state );
     state->vcpus[1] = NULL;
 
-    dvm_setEndian(state, dvm_getByteOrder());
-
-    SP = dvmClass->stackSize - sizeof(INSTRUCTION);
+    dvm_setEndian( state, dvm_getByteOrder() );
 
     return state;
 }
@@ -94,8 +92,8 @@ vm_code dvm_reset( DVM* state )
     state->processorID = 0;
     state->extensionID = 0;
 
-    state->text = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
-    state->data = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
+//    state->text = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
+//    state->data = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
 
     return DVM_SUCCESS;
 }

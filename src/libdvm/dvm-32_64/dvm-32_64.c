@@ -24,9 +24,8 @@ const VCPU* dvm_32_64_getVCPU(DVM* state)
 
 vm_code DVM_CALLBACK load(DVM* state)
 {
-    state->dvmClass->msgCallback( 0, "LOAD" );
 
-    return 0;
+    return DVM_SUCCESS;
 }
 
 vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION in);
@@ -36,10 +35,6 @@ vm_code DVM_CALLBACK entry(DVM* state)
 
     INSTRUCTION*    in;
     INSTRUCTION     tmp;
-//    in->v32H = 10;
-//    in->v32L = 20;
-//    dvmClass->msgCallback(1, "Test");
-//    DVM_BSWAP64(in->v64);
 
     vmchunkexec() {
         in = DVM_FETCH(state);
@@ -68,7 +63,6 @@ vm_code DVM_CALLBACK entry(DVM* state)
             }
             vmcase(DVM_LONG_MODE) {
                 R(3u) = in->i32H;
-                dvmClass->msgCallback(1, "this is spart1a!");
                 vmsignal(SKIP);
             }
             vmdefault: {
@@ -97,7 +91,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
             }
         }
         vmslot(SKIP)
-        IP += 8;
+        IP += sizeof(INSTRUCTION);
     } /*afterexec {
         // global ip ++
         GIP += IP;
@@ -116,9 +110,7 @@ vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION in)
 
 vm_code DVM_CALLBACK unload(DVM* state)
 {
-    dvm_getClass(state)->msgCallback(0, "UNLOAD\n");
-
-    return 0;
+    return DVM_SUCCESS;
 }
 
 const VCPU d32_64 = {

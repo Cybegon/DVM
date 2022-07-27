@@ -13,3 +13,4 @@ libraries/
 build/
 out/
 CMakeLists.txt.user
+README_RU.md

@@ -28,6 +28,7 @@
 // ...
 #define RA  R(0u)  // Using for return address or value. accumulator
 
+// Convert Register to flag register
 #define cvtR2FR(r) ((FLREGISTER*)&(r))
 
 #define DVM_FETCH(s) (( (INSTRUCTION*)( &(((duint8*)(s)->text)[ IP ]) ) ))
