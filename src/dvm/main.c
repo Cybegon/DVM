@@ -38,8 +38,8 @@ vm_code emptyInterrupt(DVM* dvmState) {
 }
 
 int main(int argc, char* argv[])
-{
-    DESCRIPTOR fileImage = dvm_openExecutableFile("W:/VM.dex");
+{   
+    DESCRIPTOR fileImage = dvm_openExecutableFile("/Users/timk/Downloads/VM.dex");
     fileImage = dvm_createVMImage(fileImage, 0);
 
     for (int i = 0; i < 0xFF; ++i) {

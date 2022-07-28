@@ -1,6 +1,10 @@
 #include "dvmbase.h"
 
-#include "os/win32/dvm_memory.c"
+#ifndef _WIN32
+#   include "os/unix/dvm_memory.c"
+#else
+#   include "os/win32/dvm_memory.c"
+#endif
 #include "zip.h"
 
 #include "libgeff/geff.h"
@@ -29,10 +33,16 @@ duint dvm_loadSectionIntoMemory(MEMORY VMImage, DESCRIPTOR dvmExecutableFile, st
     if (section->flags & GEFF_FLAG_EXECUTE)
         localProtection |= DVM_PROT_EXEC;
 
+#ifndef _WIN32
+    mem = VMImage;
+    dvm_vProt((ADDRESS)((duint64)VMImage + (duint64)section->virtualAddress),
+              section->sectionSize, DVM_PROT_READWRITE);
+#else
     mem = dvm_vAlloc((ADDRESS)((duint64)VMImage + (duint64)section->virtualAddress),
                section->sectionSize,
                DVM_MEM_COMMIT,
                      DVM_PROT_READWRITE);
+#endif
 
     zip_entry_open(zip, section->name);
     {
