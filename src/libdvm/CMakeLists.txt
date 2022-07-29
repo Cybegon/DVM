@@ -17,7 +17,6 @@ if(MSVC)
     set(CMAKE_STATIC_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -Os")
-    #set(CMAKE_STATIC_LINKER_FLAGS "-nolibc")
 endif()
 
 add_library(dvm STATIC ${SRC} ${PHSRC} ${HSRC})

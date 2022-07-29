@@ -2,8 +2,6 @@
 
 #include "datatypes.h"
 
-#include "stdio.h"
-
 dint geff_validateGEFFHeader(struct GEFF_HEADER* header)
 {
     return (header->signature == GEFF_SIGNATURE_SECTION) ? TRUE : FALSE;

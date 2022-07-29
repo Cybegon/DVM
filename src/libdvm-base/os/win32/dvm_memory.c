@@ -3,7 +3,6 @@
 
 #include <windows.h>
 
-
 MEMORY DVM_CALLBACK dvm_malloc(dsize size)
 {
     MEMORY block =
@@ -91,8 +90,6 @@ MEMORY DVM_CALLBACK dvm_vAlloc(ADDRESS base, dsize size, duint32 flags, duint32 
     if (flags & DVM_MEM_NULL) {
         // !!make later
     }
-
-
 
     return mem;
 }
