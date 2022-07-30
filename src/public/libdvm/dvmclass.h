@@ -3,11 +3,20 @@
 
 #include "datatypes.h"
 
-#define DVM_CALLBACK __cdecl
-#if !defined(CYBEGON_LACKS_FASTCALL)
-#define DVM_FASTCALL __fastcall
+#if defined(CYBEGON_COMPILER_GCC)
+#   define DVM_CALLBACK __attribute__((__cdecl__))
+#   define DVM_FASTCALL __attribute__((__fastcall__))
+#elif defined(CYBEGON_COMPILER_MSVC)
+#   define DVM_CALLBACK __cdecl
+#   define DVM_FASTCALL __fastcall
 #else
-#define DVM_FASTCALL
+#   define DVM_CALLBACK
+#   define DVM_FASTCALL
+#endif
+
+#if defined(CYBEGON_LACKS_FASTCALL)
+#   undef DVM_FASTCALL
+#   define DVM_FASTCALL
 #endif
 
 //// Memory map allocator
