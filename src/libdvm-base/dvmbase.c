@@ -1,10 +1,11 @@
 #include "dvmbase.h"
 
-#ifndef _WIN32
+#if defined(CYBEGON_PLATFORM_UNIX)
 #   include "os/unix/dvm_memory.c"
 #else
 #   include "os/win32/dvm_memory.c"
 #endif
+
 #include "zip.h"
 
 #include "libgeff/geff.h"
@@ -33,16 +34,9 @@ duint dvm_loadSectionIntoMemory(MEMORY VMImage, DESCRIPTOR dvmExecutableFile, st
     if (section->flags & GEFF_FLAG_EXECUTE)
         localProtection |= DVM_PROT_EXEC;
 
-#ifndef _WIN32
     mem = VMImage;
     dvm_vProt((ADDRESS)((duint64)VMImage + (duint64)section->virtualAddress),
               section->sectionSize, DVM_PROT_READWRITE);
-#else
-    mem = dvm_vAlloc((ADDRESS)((duint64)VMImage + (duint64)section->virtualAddress),
-               section->sectionSize,
-               DVM_MEM_COMMIT,
-                     DVM_PROT_READWRITE);
-#endif
 
     zip_entry_open(zip, section->name);
     {
@@ -87,7 +81,7 @@ MEMORY dvm_createVMImage(DESCRIPTOR dvmExecutableFile, duint16 fileType)
 
     duint size = geff_calculateAllSectionSize(header);
 
-    VMImage = dvm_vAlloc(NULL, size, DVM_MEM_RESERVE, DVM_PROT_READ);
+    VMImage = dvm_vAlloc(NULL, size, DVM_PROT_READ);
     if (VMImage == NULL)
         return NULL; // can't create image
 

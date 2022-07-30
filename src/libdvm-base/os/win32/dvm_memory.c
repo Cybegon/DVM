@@ -3,10 +3,27 @@
 
 #include <windows.h>
 
+#define DVM_CVT_PROT_FLAGS(prot, localProt)               \
+        if (prot & DVM_PROT_EXEC) {                       \
+            if (prot & DVM_PROT_READ)                     \
+                localProt |= PAGE_EXECUTE_READ;           \
+            if (prot & DVM_PROT_READWRITE)                \
+                localProt |= PAGE_EXECUTE_READWRITE;      \
+            if (prot & DVM_PROT_WRITECPY)                 \
+                localProt |= PAGE_EXECUTE_WRITECOPY;      \
+        } else {                                          \
+            if (prot & DVM_PROT_READ)                     \
+                localProt |= PAGE_READONLY;               \
+            if (prot & DVM_PROT_READWRITE)                \
+                localProt |= PAGE_READWRITE;              \
+            if (prot & DVM_PROT_WRITECPY)                 \
+                localProt |= PAGE_WRITECOPY;              \
+        }
+
 MEMORY DVM_CALLBACK dvm_malloc(dsize size)
 {
     MEMORY block =
-            HeapAlloc(GetProcessHeap(), 0, size);
+            (MEMORY)HeapAlloc(GetProcessHeap(), 0, size);
 
     if (block)
         return block;
@@ -36,14 +53,6 @@ VOID DVM_CALLBACK dvm_free(MEMORY address)
     HeapFree(GetProcessHeap(), 0, address);
 }
 
-duint32 DVM_CALLBACK dvm_getGranularity()
-{
-    SYSTEM_INFO systemInfo;
-    GetSystemInfo(&systemInfo);
-
-    return (duint32)systemInfo.dwAllocationGranularity;
-}
-
 duint32 DVM_CALLBACK dvm_getPageSize()
 {
     SYSTEM_INFO systemInfo;
@@ -52,44 +61,28 @@ duint32 DVM_CALLBACK dvm_getPageSize()
     return (duint32)systemInfo.dwPageSize;
 }
 
-// !~MM Memory mapping
-MEMORY DVM_CALLBACK dvm_vAlloc(ADDRESS base, dsize size, duint32 flags, duint32 protection)
+duint32 DVM_CALLBACK dvm_getGranularity()
 {
-    duint32 localFlags      = 0;
+    SYSTEM_INFO systemInfo;
+    GetSystemInfo(&systemInfo);
+
+    return (duint32)systemInfo.dwAllocationGranularity;
+}
+
+// !~MM Memory mapping
+MEMORY DVM_CALLBACK dvm_vAlloc(ADDRESS base, dsize size, duint32 protection)
+{
     duint32 localProtection = 0;
     duint32 granularity     = dvm_getGranularity();
 
-    if (flags == 0 || protection == 0)
+    if (protection == 0)
         return NULL;
 
-    if (flags & DVM_MEM_COMMIT)
-        localFlags |= MEM_COMMIT;
-    if (flags & DVM_MEM_RESERVE)
-        localFlags |= MEM_RESERVE;
-
-    if (protection & DVM_PROT_EXEC) {
-        if (protection & DVM_PROT_READ)
-            localProtection |= PAGE_EXECUTE_READ;
-        if (protection & DVM_PROT_READWRITE)
-            localProtection |= PAGE_EXECUTE_READWRITE;
-        if (protection & DVM_PROT_WRITECPY)
-            localProtection |= PAGE_EXECUTE_WRITECOPY;
-    } else {
-        if (protection & DVM_PROT_READ)
-            localProtection |= PAGE_READONLY;
-        if (protection & DVM_PROT_READWRITE)
-            localProtection |= PAGE_READWRITE;
-        if (protection & DVM_PROT_WRITECPY)
-            localProtection |= PAGE_WRITECOPY;
-    }
+    DVM_CVT_PROT_FLAGS(protection, localProtection)
 
     size = ALIGN_SIZE(size, granularity);
     MEMORY mem = VirtualAlloc((LPVOID)base, (SIZE_T)size,
-                              (DWORD)localFlags, (DWORD)localProtection);
-
-    if (flags & DVM_MEM_NULL) {
-        // !!make later
-    }
+                              MEM_COMMIT, (DWORD)localProtection);
 
     return mem;
 }
@@ -100,40 +93,16 @@ dint dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
     duint32 localProtection = 0;
     duint32 pageSize        = dvm_getPageSize();
 
-    if (protection & DVM_PROT_EXEC) {
-        if (protection & DVM_PROT_READ)
-            localProtection |= PAGE_EXECUTE_READ;
-        if (protection & DVM_PROT_READWRITE)
-            localProtection |= PAGE_EXECUTE_READWRITE;
-        if (protection & DVM_PROT_WRITECPY)
-            localProtection |= PAGE_EXECUTE_WRITECOPY;
-    } else {
-        if (protection & DVM_PROT_READ)
-            localProtection |= PAGE_READONLY;
-        if (protection & DVM_PROT_READWRITE)
-            localProtection |= PAGE_READWRITE;
-        if (protection & DVM_PROT_WRITECPY)
-            localProtection |= PAGE_WRITECOPY;
-    }
+    DVM_CVT_PROT_FLAGS(protection, localProtection)
 
     size = ALIGN_SIZE(size, pageSize);
     dint status = VirtualProtect(chunk, size,
                                  localProtection, (PDWORD)&oldProtection);
 
-    if (status)
-        return TRUE;
-    else
-        return FALSE;
+    return (status != 0) ?  TRUE : FALSE;
 }
 
 void dvm_vFree(ADDRESS address, dsize size, dint32 freeType)
 {
-    duint32 localFreeType = 0;
-
-    if (freeType & DVM_MEM_DECOMMIT)
-        localFreeType |= MEM_DECOMMIT;
-    if (freeType & DVM_MEM_RELEASE)
-        localFreeType |= MEM_RELEASE;
-
-    VirtualFree(address, size, localFreeType);
+    VirtualFree(address, size, MEM_RELEASE);
 }
