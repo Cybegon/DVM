@@ -93,7 +93,7 @@ MEMORY dvm_createVMImage(DESCRIPTOR dvmExecutableFile, duint16 fileType)
 
 MEMORY dvm_getChunk(DESCRIPTOR VMImage, dsize offset, dsize size)
 {
-    return VMImage + offset;
+    return ((MEMORY)((char*)VMImage + offset));
 }
 
 DVM_CLASS* dvm_initClass(DVM_CLASS* dvmClass, DESCRIPTOR VMImage)
