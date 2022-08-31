@@ -8,7 +8,7 @@ if(MSVC)
     set(CMAKE_SHARED_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO /sdl")
     set(CMAKE_STATIC_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO")
 elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib")
+    set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
 add_library(geff STATIC ${PHSRC} ${SRC})

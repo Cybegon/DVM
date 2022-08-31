@@ -1,7 +1,0 @@
-#ifndef VIRTUALDRAGON_FORMAT_M_H
-#define VIRTUALDRAGON_FORMAT_M_H
-// matrix
-
-#define FORMAT_R (6)
-
-#endif //VIRTUALDRAGON_FORMAT_M_H

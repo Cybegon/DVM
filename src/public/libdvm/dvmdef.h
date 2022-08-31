@@ -14,19 +14,21 @@
 #define DVM_FAIL                (2u)
 #define DVM_UNDEFINED_VMCODE    (3u)
 
-#define DVM_LOAD_PAGE           (8u) // get next block to cache
+#define DVM_LOAD_PAGE           (8u) // get next block to cache // Hello transition delay ;)
 #define DVM_TRANSFER_CONTROL    (65535u)
 
+#define DVM_R(n) n
+
 // Special registers
-#define DVM_IP (0u) // Instruction pointer
-#define DVM_FR (7u) // Flag register
+#define DVM_IP DVM_R(0u) // Instruction pointer
+#define DVM_FR DVM_R(7u) // Flag register
 
 // Registers
-#define DVM_RA (0u)     // Accumulator
+#define DVM_RA DVM_R(0u)     // Accumulator
 
-#define DVM_TP (29u)    // This pointer
-#define DVM_BP (30u)    // Base pointer
-#define DVM_SP (31u)    // Stack pointer
+#define DVM_TP DVM_R(29u)    // This pointer
+#define DVM_BP DVM_R(30u)    // Base pointer
+#define DVM_SP DVM_R(31u)    // Stack pointer
 
 typedef struct DVM DVM;
 typedef dint32 vm_code;

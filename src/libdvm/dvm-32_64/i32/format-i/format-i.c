@@ -2,7 +2,6 @@
 #include "format-i.h"
 
 #include "dvmdef_p.h"
-#include "encode.h"
 #include "opcodes.h"
 #include "vcpu.h"
 
@@ -10,8 +9,6 @@
 
 #include "flags.h"
 #include "auxiliary.h"
-
-#define STUB return
 
 VOID format_i(DVM* state, duint32 instruction)
 {
@@ -66,10 +63,6 @@ VOID format_i(DVM* state, duint32 instruction)
         vmcase(OP_LEAVE) {
             SP = BP;
             BP = POP(REGISTER);
-            vmbreak;
-        }
-        vmcase(OP_INV) { // invoke
-            state->SVI[ SVI_INVOKE ](state);
             vmbreak;
         }
 

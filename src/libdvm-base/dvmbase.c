@@ -1,12 +1,12 @@
 #include "dvmbase.h"
 
+#include "zip.h"
+
 #if defined(CYBEGON_PLATFORM_UNIX)
 #   include "os/unix/dvm_memory.c"
 #else
 #   include "os/win32/dvm_memory.c"
 #endif
-
-#include "zip.h"
 
 #include "libgeff/geff.h"
 

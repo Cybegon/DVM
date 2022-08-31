@@ -1,7 +1,17 @@
-| 31        | 30        | 29        | 28    | 27    | 26    | 25        | 24    |
-|-----------|-----------|-----------|-------|-------|-------|-----------|-------|
-| ENDIAN    | RESERVED  | RESERVED  | TRAP  | ZERO  | Carry | Overflow  | Sign  |
+| 1 Byte     | 1 Byte    | 1 Byte       | 1 Byte      | 4 Bytes |
+|------------|-----------|--------------|-------------|---------|
+| vm_control | vm_status | vm_privilege | vm_reserved | vm_user |
 
-| 23 | 22 | 21       | 20       | 19       | 18       | 17       | 16       |
-|----|----|----------|----------|----------|----------|----------|----------|
-| EQ | LT | RESERVED | RESERVED | RESERVED | RESERVED | RESERVED | RESERVED |
+
+
+## vm_control
+
+| 7   | 6   | 5   | 4   | 3   | 2   | 1   | 0   |
+|-----|-----|-----|-----|-----|-----|-----|-----|
+| EF  | TF  | VF  | RES | RES | RES | RES | RES |
+
+## vm_status
+
+| 7   | 6   | 5   | 4   | 3   | 2   | 1   | 0   |
+|-----|-----|-----|-----|-----|-----|-----|-----|
+| EQ  | LO  | LT  | RES | RES | RES | RES | RES |

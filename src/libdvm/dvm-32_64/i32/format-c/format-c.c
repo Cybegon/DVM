@@ -1,7 +1,6 @@
 #include "format-c.h"
 
 #include "dvmdef_p.h"
-#include "encode.h"
 #include "lopcodes.h"
 #include "vcpu.h"
 
@@ -11,7 +10,7 @@
 #include "auxiliary.h"
 
 VOID DVM_FASTCALL format_c(DVM* state, duint32 instruction) {
-    vmswitch(DVM_GET_OPCODE(instruction)) {
+    vmswitch(DVM_GET_OPCODE4(instruction)) {
         vmcase(OP_CALL) {
             PUSH(REGISTER, IP); JUMP24();
             vmbreak;

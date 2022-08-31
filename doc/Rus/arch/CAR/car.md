@@ -1,13 +1,14 @@
 # Cybegon Aachitecture
 
-# CAR Instruction Formats
+# CAR Instruction formats
 - N-Type (NOP)
 - I-Type (Immediate)
 - R-Type (Register)
+- F-Type (Float)
 - J-Type (Jump)
 - C-Type (Call)
-- M-Type (Matrix)
-- F-Type (Float)
+- T-Type (Tensor)
 
-# Feature
+
+# Future
 - L-Type (Long)
