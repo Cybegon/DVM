@@ -155,6 +155,20 @@ VOID format_i(DVM* state, duint32 instruction)
             R(GET_R0(instruction)) = C4146_FIX(-, R(GET_R0(instruction)));
             vmbreak;
         }
+        vmcase(OP_CMP) {
+            cvtR2FR(FR)->vm_status &= ~( EQ | LO | LT ); // clear flags
+            cvtR2FR(FR)->vm_status |=
+                    (((REGISTER)R(GET_R0(instruction)) < (REGISTER)GET_IMM16(instruction)) ? LO : 0) |
+                    (((REGISTER)R(GET_R0(instruction)) == (REGISTER)GET_IMM16(instruction)) ? EQ : 0);
+            vmbreak;
+        }
+        vmcase(OP_ICMP) {
+            cvtR2FR(FR)->vm_status &= ~( EQ | LO | LT ); // clear flags
+            cvtR2FR(FR)->vm_status |=
+                    (((IREGISTER)R(GET_R0(instruction)) < (IREGISTER)GET_IMM16(instruction)) ? LT : 0) |
+                    (((IREGISTER)R(GET_R0(instruction)) == (IREGISTER)GET_IMM16(instruction)) ? EQ : 0);
+            vmbreak;
+        }
         vmdefault: {
             vmsignal(FLOW);
             vmbreak;
