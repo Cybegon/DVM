@@ -36,7 +36,7 @@
 |                    | SHL      | 0x20   | RegDst   | IMM16    | RegDst <<= IMM16                                               |
 |                    | SHR      | 0x21   | RegDst   | IMM16    | RegDst >>= IMM16                                               |
 |                    | ROL      | 0x24   | RegDst   | IMM16    | RegDst >>>>= IMM16                                             |
-|                    | ROR      | 0x24   | RegDst   | IMM16    | RegDst <<<<= IMM16                                             |
+|                    | ROR      | 0x25   | RegDst   | IMM16    | RegDst <<<<= IMM16                                             |
 | Logic              | AND      | 0x30   | RegDst   | IMM16    | RegDst &= IMM16                                                |
 |                    | NAND     | 0x31   | RegDst   | IMM16    | RegDst &= !IMM16                                               |
 |                    | OR       | 0x32   | RegDst   | IMM16    | RegDst &#124;= IMM16                                           |                                                       |= IMM16                                               |
