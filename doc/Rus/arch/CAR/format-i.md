@@ -39,11 +39,13 @@
 |                    | ROR      | 0x25   | RegDst   | IMM16    | RegDst <<<<= IMM16                                             |
 | Logic              | AND      | 0x30   | RegDst   | IMM16    | RegDst &= IMM16                                                |
 |                    | NAND     | 0x31   | RegDst   | IMM16    | RegDst &= !IMM16                                               |
-|                    | OR       | 0x32   | RegDst   | IMM16    | RegDst &#124;= IMM16                                           |                                                       |= IMM16                                               |
-|                    | NOR      | 0x33   | RegDst   | IMM16    | RegDst &#124;= !IMM16                                          |    
-|                    | XOR      | 0x34   | RegDst   | IMM16    | RegDst ^= IMM16                                                |    
-|                    | NOT      | 0x35   | RegDst   | IMM16    | RegDst = !IMM16                                                |    
-|                    | NEG      | 0x36   | RegDst   | IMM16    | RegDst = -IMM16                                                |    
-
-##### Basic
-
+|                    | OR       | 0x32   | RegDst   | IMM16    | RegDst &#124;= IMM16                                           |
+|                    | NOR      | 0x33   | RegDst   | IMM16    | RegDst &#124;= !IMM16                                          |
+|                    | XOR      | 0x34   | RegDst   | IMM16    | RegDst ^= IMM16                                                |
+|                    | NOT      | 0x35   | RegDst   | IMM16    | RegDst = !IMM16                                                |
+|                    | NEG      | 0x36   | RegDst   | IMM16    | RegDst = -IMM16                                                |
+| Compare            | CMP      | 0x3A   | RegDst   | IMM16    | FR &#124;= (RegDst < IMM16) &#124 (RegDst == IMM16)            |
+|                    | ICMP     | 0x3B   | RegDst   | IMM16    | FR &#124;= (RegDst < IMM16) &#124 (RegDst == IMM16) (Signed)   |
+| Flow               | JMP      | 0x40   |          | IMM16    | IP = CP + IMM16                                                |
+|                    | JEQ      | 0x41   |          | IMM16    | If flag EQ then IP = CP + IMM16                                |
+|                    | JNE      | 0x42   |          | IMM16    | If flag !EQ then IP = CP + IMM16                               |
