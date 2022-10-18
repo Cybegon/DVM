@@ -1,4 +1,4 @@
-#include "dvm-32_64.h"
+#include "car.h"
 
 #include "dvmdef_p.h"
 #include "vcpuclass.h"
@@ -13,13 +13,13 @@
 
 // 1 bit transfer control,
 // 3 bits for format
-#define DVM_GET_FORMAT(i)   ( (i & 0xF0000000u) >> 28u )
+#define GET_FORMAT(i)   ( (i & 0xF0000000u) >> 28u )
 
-extern const VCPU d32_64;
+extern const VCPU CAR;
 
-const VCPU* dvm_32_64_getVCPU(DVM* state)
+const VCPU* dvm_CAR_getVCPU(DVM* state)
 {
-    return &d32_64;
+    return &CAR;
 }
 
 vm_code DVM_CALLBACK load(DVM* state)
@@ -44,7 +44,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
             in = &tmp;                      // set pointer to temporary instruction
         }
 
-        vmdispatch(DVM_GET_FORMAT(in->i32L)) {
+        vmdispatch(GET_FORMAT(in->i32L)) {
             vmcase(DVM_FORMAT_NOP) {
                 // No operation
                 vmbreak;
@@ -69,7 +69,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
                 return DVM_TRANSFER_CONTROL;
             }
         }
-        vmdispatch(DVM_GET_FORMAT(in->i32H)) {
+        vmdispatch(GET_FORMAT(in->i32H)) {
             vmcase(DVM_FORMAT_NOP) {
                 // No operation
                 vmbreak;
@@ -113,7 +113,7 @@ vm_code DVM_CALLBACK unload(DVM* state)
     return DVM_SUCCESS;
 }
 
-const VCPU d32_64 = {
+const VCPU CAR = {
         .guid = {
                 .data1 = 0xbbac154c,
                 .data2 = 0x308b,
@@ -124,7 +124,7 @@ const VCPU d32_64 = {
                     .node_l = 0x5222866b
                 }
         },
-        .vendorID = "DVM-32_64",
+        .vendorID = "CAR",
         .vcpuOpcodeBitType = BASIC_SET,
         .main   = { load, entry, unload },
         .debug  = { load, entry, unload },

@@ -7,9 +7,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src/public)
 include_directories(${CMAKE_SOURCE_DIR}/src/public/libdvm)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64/i32)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dvm-32_64/i64)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/car)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/car/i32)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/car/i64)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/sdl")

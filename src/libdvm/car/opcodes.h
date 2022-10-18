@@ -11,9 +11,10 @@
 #define OP_BK       ( 0x09 ) // breakpoint ()
 
 // interrupts
-#define OP_HWI  ( 0x0A ) // hardware/exception interrupts
-#define OP_SWI  ( 0x0B ) // software interrupts
+#define OP_HWI      ( 0x0A ) // hardware/exception interrupts
+#define OP_SWI      ( 0x0B ) // software interrupts
 
+// Special
 #define OP_ENTER    ( 0x0C )
 #define OP_LEAVE    ( 0x0D )
 #define OP_INV      ( 0x0F )
@@ -28,14 +29,14 @@
 
 #define OP_MUL      ( 0x16 )
 #define OP_DIV      ( 0x17 )
-#define OP_IMUL     ( 0x1A )
-#define OP_IDIV     ( 0x1B )
-#define OP_MOD      ( 0x1F )
+#define OP_IMUL     ( 0x18 )
+#define OP_IDIV     ( 0x19 )
+#define OP_MOD      ( 0x1A )
 
 #define OP_SHL      ( 0x20 )
 #define OP_SHR      ( 0x21 )
-#define OP_ROL      ( 0x22 )
-#define OP_ROR      ( 0x23 )
+#define OP_ROL      ( 0x24 )
+#define OP_ROR      ( 0x25 )
 
 // Logic
 #define OP_AND      ( 0x30 )

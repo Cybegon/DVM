@@ -6,7 +6,7 @@
 
 #include "vcpu.h"
 
-#include "dvm-32_64/dvm-32_64.h"
+#include "car/car.h"
 
 #define IMAGE_BASE_ADDRESS 0
 
@@ -56,7 +56,7 @@ DVM* dvm_newState( DVM_CLASS* dvmClass )
     state->extensionID = 1;
 
     state->vcpus    = (const VCPU **) dvmClass->malloc( sizeof( VCPU* ) * 2 );
-    state->vcpus[0] = dvm_32_64_getVCPU( state );
+    state->vcpus[0] = dvm_CAR_getVCPU( state );
     state->vcpus[1] = NULL;
 
     dvm_setEndian( state, dvm_getByteOrder() );
