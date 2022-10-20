@@ -4,7 +4,6 @@
 #define DVM_FORMAT_I (1)
 
 #include "dvm.h"
-#include "dvmclass.h"
 
 // I - immediate format
 VOID DVM_FASTCALL format_i(DVM* state, duint32 instruction);

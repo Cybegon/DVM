@@ -16,5 +16,11 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(dvm-base STATIC dvmbase.c ${PHSRC})
-target_link_libraries(dvm-base geff zip)
+add_library(libdvm-base STATIC dvmbase.c ${PHSRC})
+target_link_libraries(libdvm-base libgeff zip)
+set_target_properties(libdvm-base PROPERTIES OUTPUT_NAME "dvm-base")
+
+target_include_directories(libdvm-base PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm-base>
+        $<INSTALL_INTERFACE:include/libdvm-base>
+        )

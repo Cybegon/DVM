@@ -12,6 +12,7 @@
 #define GEFF_TYPE_EXE   (0x0010)
 #define GEFF_TYPE_SRV   (0x0020)
 #define GEFF_TYPE_DYN   (0x0030)
+#define GEFF_TYPE_OBJ   (0xDF2D)
 
 #define GEFF_FLAG_READ      (0x00000100)
 #define GEFF_FLAG_WRITE     (0x00000200)

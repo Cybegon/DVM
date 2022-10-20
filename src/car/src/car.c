@@ -1,7 +1,6 @@
-#include "car.h"
+#include "libcar/car.h"
 
-#include "dvmdef_p.h"
-#include "vcpuclass.h"
+#include "dvm_state.h"
 #include "flags.h"
 
 #include "format-i/format-i.h"
@@ -17,7 +16,7 @@
 
 extern const VCPU CAR;
 
-const VCPU* dvm_CAR_getVCPU(DVM* state)
+const VCPU* car_getVCPU(DVM* state)
 {
     return &CAR;
 }

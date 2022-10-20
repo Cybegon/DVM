@@ -1,9 +1,9 @@
-#include <dvm_p.h>
+#include <dvm_state.h>
 #include "format-i.h"
 
-#include "dvmdef_p.h"
+#include "dvmdef.h"
 #include "opcodes.h"
-#include "vcpu.h"
+#include "libdvm/vcpu.h"
 
 #define DVM_ENABLE_JUMP16
 
@@ -276,5 +276,6 @@ vmslot(FLOW)
             vmbreak;
         }
     }
+
     cpu_stateHandler(state, DVM_LOAD_PAGE);
 }

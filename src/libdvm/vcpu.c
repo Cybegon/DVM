@@ -1,5 +1,6 @@
 #include "vcpu.h"
 
+#include "dvm_state.h"
 #include "flags.h"
 
 #define HANDLER(s, c) \
@@ -10,11 +11,6 @@
             s->text = s->dvmClass                                                                               \
                     ->getChunk(s->dvmClass->imageDescriptor, IP, s->dvmClass->chunkSize);                       \
             vmbreak;                                                                                            \
-        vmcase(DVM_TRANSFER_CONTROL)                                                                            \
-            if (cvtR2FR(FR)->vm_control & VF)                                                                   \
-                c = s->vcpus[s->extensionID]->main.pipeline(s);                                                 \
-            else                                                                                                \
-                c = s->vcpus[s->processorID]->main.pipeline(s);                                                 \
         vmcase(DVM_SUCCESS)                                                                                     \
         vmcase(DVM_FAIL)                                                                                        \
             vmrelease(c)                                                                                        \
@@ -24,13 +20,7 @@
 
 vm_code cpu_init(DVM* state)
 {
-    for (duint32 i = 0; state->vcpus[i] != NULL; ++i) // &state->vcpus[i] like (state->vcpus + i)
-    {
-        if (state->vcpus[i]->main.init != NULL)
-            state->vcpus[i]->main.init(state);
-    }
-
-    return 0; // return code replace later
+    return state->vcpu->main.init(state); // return code replace later
 }
 
 vm_code cpu_stateHandler(DVM* state, vm_code vmCode) {
@@ -44,7 +34,7 @@ vm_code cpu_attach(DVM* state)
     vm_code vmCode;
 
     for (;;) {
-        vmCode = state->vcpus[state->processorID]->main.pipeline(state);
+        vmCode = state->vcpu->main.pipeline(state);
 
         HANDLER(state, vmCode)
     }
@@ -52,14 +42,5 @@ vm_code cpu_attach(DVM* state)
 
 vm_code cpu_unload(DVM* state)
 {
-    vm_code processorCode;
-    vm_code coprocessorCode;
-
-    for (duint32 i = 0; state->vcpus[i] != NULL; ++i) // &state->vcpus[i] like (state->vcpus + i)
-    {
-        if (state->vcpus[i]->main.unload != NULL)
-            state->vcpus[i]->main.unload(state);
-    }
-
-    return 0; // return code replace later
+    return state->vcpu->main.unload(state); // return code replace later
 }

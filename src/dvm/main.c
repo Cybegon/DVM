@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define DT_DISABLE_GUID
 #include "libdvm/dvm.h"
 #include "libdvm/dvmdef.h"
 
 #include "libdvm-base/dvmbase.h"
+
+#include "libcar/car.h"
 
 static DVM* state;
 
@@ -52,6 +53,7 @@ int main(int argc, char* argv[])
 
     state = dvm_newState(&dvmClass);
 
+    dvm_setVCPU( state, car_getVCPU(state) );
     dvm_setSWI(state, swiVector);
     dvm_execute(state);
 

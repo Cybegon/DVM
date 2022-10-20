@@ -1,6 +1,6 @@
-add_executable(DVM main.c)
+add_executable(dvm main.c)
 include_directories(${CMAKE_SOURCE_DIR}/src/public)
-target_link_libraries(DVM dvm dvm-base)
+target_link_libraries(dvm libdvm libdvm-base libcar)
 
 file(COPY ${CMAKE_SOURCE_DIR}/test/VM.dex
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

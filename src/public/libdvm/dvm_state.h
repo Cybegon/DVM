@@ -1,12 +1,12 @@
-#ifndef VIRTUALDRAGON_DVM_P_H
-#define VIRTUALDRAGON_DVM_P_H
+#ifndef VIRTUALDRAGON_DVM_STATE_H
+#define VIRTUALDRAGON_DVM_STATE_H
 
 #include "datatypes.h"
 
-#include "dvmid.h"
-#include "dvmdef_p.h"
 #include "dvm.h"
 #include "dvmdef.h"
+#include "dvmid.h"
+
 
 #include "vcpuclass.h"
 
@@ -29,13 +29,11 @@ struct DVM
     DVM_INT*    HVI;        // pointer to hardware vector interrupt
     DVM_INT*    SVI;        // pointer to software vector interrupt
 
-    const VCPU** vcpus;
-    duint32 processorID; // default: 0
-    duint32 extensionID; // default: 1
+    const VCPU* vcpu;
 };
 
 //struct DVM_Thread {
 //    duint32  id;
 //};
 
-#endif // VIRTUALDRAGON_DVM_P_H
+#endif // VIRTUALDRAGON_DVM_STATE_H

@@ -1,12 +1,10 @@
 #include "dvm.h"
 
-#include "dvm_p.h"
-#include "dvmdef_p.h"
+#include "dvm_state.h"
+#include "dvmdef.h"
 #include "flags.h"
 
 #include "vcpu.h"
-
-#include "car/car.h"
 
 #define IMAGE_BASE_ADDRESS 0
 
@@ -52,13 +50,6 @@ DVM* dvm_newState( DVM_CLASS* dvmClass )
     state->data         = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
     state->stack        = dvmClass->malloc( dvmClass->stackSize );
 
-    state->processorID = 0;
-    state->extensionID = 1;
-
-    state->vcpus    = (const VCPU **) dvmClass->malloc( sizeof( VCPU* ) * 2 );
-    state->vcpus[0] = dvm_CAR_getVCPU( state );
-    state->vcpus[1] = NULL;
-
     dvm_setEndian( state, dvm_getByteOrder() );
 
     return state;
@@ -69,12 +60,20 @@ DVM_CLASS* dvm_getClass( DVM* state )
     return state->dvmClass;
 }
 
+vm_code dvm_setVCPU( DVM* state, const VCPU* vcpu )
+{
+    state->vcpu = vcpu;
+
+    return DVM_SUCCESS;
+}
+
 vm_code dvm_execute( DVM* state )
 {
     cpu_init    ( state );
     cpu_attach  ( state );
     cpu_unload  ( state );
-    return 0;
+
+    return DVM_SUCCESS; // TODO: replace
 }
 
 vm_code dvm_reset( DVM* state )
@@ -89,20 +88,17 @@ vm_code dvm_reset( DVM* state )
         state->sr[i] = 0;
     }
 
-    state->processorID = 0;
-    state->extensionID = 0;
-
 //    state->text = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
 //    state->data = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
 
-    return DVM_SUCCESS;
+    return DVM_SUCCESS; // TODO: replace
 }
 
 vm_code dvm_exit( DVM* state, dint exitCode )
 {
     cpu_unload( state );
 
-    return DVM_EXIT;
+    return DVM_EXIT; // TODO: replace
 }
 
 vm_code dvm_call( DVM* state, REGISTER address )
@@ -112,7 +108,7 @@ vm_code dvm_call( DVM* state, REGISTER address )
     IP = address;
     cpu_stateHandler( state, DVM_LOAD_PAGE);
 
-    return DVM_SUCCESS;
+    return DVM_SUCCESS; // TODO: replace
 }
 
 REGISTER dvm_getRegisterValue(DVM* state, duint8 nReg)

@@ -17,56 +17,106 @@
 #define DVM_LOAD_PAGE           (8u) // get next block to cache // Hello transition delay ;)
 #define DVM_TRANSFER_CONTROL    (65535u)
 
-#define DVM_R(n) n
+#define REGISTER_COUNT          ( 32u ) // do not edit
+#define REGISTER_MASK           ( REGISTER_COUNT - 1u ) // equals 0b00011111
 
-// Special registers
-#define DVM_IP DVM_R(0u) // Instruction pointer
-#define DVM_FR DVM_R(7u) // Flag register
+#define nR(n)                   ( (n) & REGISTER_MASK )
+#define  R(n)                   ( state->rn[ nR(n) ] )
 
-// Registers
-#define DVM_RA DVM_R(0u)     // Accumulator
+#define SPECIAL_REGISTER_COUNT  ( 8u )
+#define SPECIAL_REGISTER_MASK   ( SPECIAL_REGISTER_COUNT - 1u )
 
-#define DVM_TP DVM_R(29u)    // This pointer
-#define DVM_BP DVM_R(30u)    // Base pointer
-#define DVM_SP DVM_R(31u)    // Stack pointer
+#define nSR(n)                  ( (n) & SPECIAL_REGISTER_MASK )
+#define  SR(n)                  ( state->sr[ nSR(n) ] )
 
-typedef struct DVM DVM;
-typedef dint32 vm_code;
+#define FR  SR(7u) // flag register
+#define CP  SR(5u) // code pointer
+#define DP  SR(4u) // data pinter
+#define BH  SR(3u) // border high
+#define BL  SR(2u) // border low
+#define IP  SR(0u) // instruction pointer
 
-typedef duint64         REGISTER;
-typedef dint64          IREGISTER;
-typedef double          FREGISTER;
+#define SP  R(31u) // stack pointer
+#define BP  R(30u) // base pointer
+#define TP  R(29u) // this pointer
+// ...
+#define RA  R(0u)  // Using for return address or value. accumulator
 
-typedef duint64         REGISTER64;
-typedef duint32         REGISTER32;
-typedef duint16         REGISTER16;
+// Convert Register to flag register
+#define cvtR2FR(r) ((FLREGISTER*)&(r))
 
-typedef dint64          IREGISTER64;
-typedef dint32          IREGISTER32;
-typedef dint16          IREGISTER16;
+#define DVM_FETCH(s) (( (INSTRUCTION*)( &(((duint8*)(s)->text)[ IP ]) ) ))
 
-typedef vm_code (*DVM_INT)          (DVM* state);
-typedef vm_code (*DVM_LOAD)         (DVM* state);
-typedef vm_code (*DVM_ENTRY)        (DVM* state);
-typedef vm_code (*DVM_UNLOAD)       (DVM* state);
+//#define DVM_NEXT_INSTRUCTION(ip, s) \
+//    ip += sizeof( s );              \
+//    om_nom_nom += sizeof( s )
+
+#define PUSH( type, var ) \
+    ( *((type*) (&((duint8*)state->stack)[ SP -= sizeof(type) ])) = (var) )
+
+#define POP( type ) \
+    *((type*)(&((duint8*)state->stack)[ SP ])); \
+    SP += sizeof(type)
+
+#define vmchunkexec()   for(; IP < BH;) // Chunk
+#define afterexec
+#define vmdispatch(o)	switch(o)
+#define vmswitch(o)     switch(o)
+#define vmcase(l)	    case l:
+#define vmbreak		    break
+#define vmdefault       default
+#define vmslot(s)       s:
+#define vmsignal(s)     goto s
+#define vmrelease(c)    return c;
+
+#define DVM_BIT_GET( var, pos ) \
+        ( ((var) >> (pos))  & 0x01u )
+
+#define DVM_BIT_SET( var, pos ) \
+        ( (var) |= (1u << (pos) ) )
+
+#define DVM_BIT_CLEAR( var, pos ) \
+        ( (var) &= ~(1u << (pos) ) )
+
+#define DVM_SWAP_UNSAFE( varA, varB ) \
+        ( (varA) ^= (varB), (varB) ^= (varA), (varA) ^= (varB) )
+
+#define DVM_SWAP( varA, varB ) \
+        ( ( &(varA) == &(varB) ) ? (varA) : DVM_SWAP_UNSAFE( varA, varB ) )
+
+#define DVM_BSWAP64( var ) \
+    (var) = ( ( (var) << 8u  ) & 0xFF00FF00FF00FF00ull ) | ( ( (var) >> 8u  ) & 0x00FF00FF00FF00FFull );  \
+    (var) = ( ( (var) << 16u ) & 0xFFFF0000FFFF0000ull ) | ( ( (var) >> 16u ) & 0x0000FFFF0000FFFFull );  \
+    (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
 
 
-/////////////////////////// DANGER ///////////////////////////
-//union REGISTER
-//{
-//    // machine word deps on the architecture
-//    dsize word;
-//
-//    REGISTER64  T64;
-//    REGISTER32  T32;
-//    REGISTER16  T16;
-//    REGISTER8   T8;
-//};
+typedef union INSTRUCTION64 INSTRUCTION64;
+typedef union INSTRUCTION32 INSTRUCTION32;
 
-VOID dvm_sendMessage(DVM* state, const char* message);
+typedef INSTRUCTION64 INSTRUCTION;
 
-//ADDRESS dvm_getLabel(const char* labelName);
-//vm_code dvm_precompileFromLabel(ADDRESS functionAddress);
-/////////////////////////// DANGER ///////////////////////////
+union INSTRUCTION64 {
+    duint64 i64;
+    struct {
+        duint32 i32H;
+        duint32 i32L;
+    };
+};
+
+union INSTRUCTION32 {
+    duint32 v32;
+    struct {
+        duint16 v16H;
+        duint16 v16L;
+    };
+};
+
+struct FLREGISTER {
+    duint8  vm_control;
+    duint8  vm_status;
+    duint8  vm_privilege;
+    duint8  vm_reserved;
+    duint32 vm_user;
+};
 
 #endif // VIRTUALDRAGON_DVMDEF_H

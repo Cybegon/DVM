@@ -1,6 +1,20 @@
 # DVM - Dragon Virtual Machine
 
 
+### Build
+
+| Target      | Dependencies                   | Description                               |
+|-------------|--------------------------------|-------------------------------------------|
+| dvm         | libdvm, libdvm-base            | Build an executable file                  |
+| libdvm      |                                | Build dvm as static library               |
+| libdvm-base | geff, zip, libdvm-headers only | Library that provides basic functionality |
+| geff        |                                | General executable file format            |
+
+Build an executable file:
+```
+cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --target dvm
+```
+
 ## External libraries used by DVM
 
 -   [ZIP](https://github.com/kuba--/zip) is under the [Unlicense](https://github.com/kuba--/zip/blob/master/UNLICENSE)

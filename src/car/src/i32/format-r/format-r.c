@@ -1,9 +1,9 @@
 
 
-#include <dvm_p.h>
+#include "dvm_state.h"
 #include "format-r.h"
 
-#include "dvmdef_p.h"
+#include "dvmdef.h"
 #include "opcodes.h"
 #include "vcpu.h"
 

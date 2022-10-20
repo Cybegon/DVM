@@ -2,7 +2,6 @@
 #define VIRTUALDRAGON_VCPU_H
 
 #include "dvm.h"
-#include "dvm_p.h"
 
 vm_code DVM_CALLBACK cpu_init        (DVM* state);
 vm_code DVM_CALLBACK cpu_attach      (DVM* state);

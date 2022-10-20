@@ -1,6 +1,6 @@
 #include "format-c.h"
 
-#include "dvmdef_p.h"
+#include "dvm_state.h"
 #include "lopcodes.h"
 #include "vcpu.h"
 

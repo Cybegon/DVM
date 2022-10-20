@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_AUXILIARY_H
 #define VIRTUALDRAGON_AUXILIARY_H
 
-#include "dvmdef_p.h"
+#include "dvmdef.h"
 
 #define C4146_FIX(o, m) (REGISTER)(o(IREGISTER)m)
 
