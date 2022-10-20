@@ -3,12 +3,14 @@
 
 ### Build
 
-| Target      | Dependencies                   | Description                               |
-|-------------|--------------------------------|-------------------------------------------|
-| dvm         | libdvm, libdvm-base            | Build an executable file                  |
-| libdvm      |                                | Build dvm as static library               |
-| libdvm-base | geff, zip, libdvm-headers only | Library that provides basic functionality |
-| geff        |                                | General executable file format            |
+| Target      | Dependencies                      | Description                               |
+|-------------|-----------------------------------|-------------------------------------------|
+| dvm         | libdvm, libdvm-base               | Build an executable file                  |
+| libdvm      |                                   | Build dvm as static library               |
+| libdvm-base | libgeff, zip, libdvm-headers only | Library that provides basic functionality |
+| libgeff     |                                   | General executable file format            |
+| libcar      | libdvm-headers only               | CAR - Cybegon Architecture                |
+
 
 Build an executable file:
 ```
