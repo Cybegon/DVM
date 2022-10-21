@@ -18,7 +18,7 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_PUSH) {
-            PUSH(REGISTER, R(GET_R0(instruction)));
+            PUSH(REGISTER, GET_IMM16(instruction));
             vmbreak;
         }
         vmcase(OP_POP) {
@@ -30,14 +30,14 @@ VOID format_i(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_LD) { // make
-            PUSH(REGISTER, IP += (IREGISTER)GET_IMM16(instruction));
+            PUSH(REGISTER, DP += (IREGISTER)GET_IMM16(instruction));
             state->SVI[ 0x10 ](state);
 
             R(GET_R0(instruction)) = POP(REGISTER);
             vmbreak;
         }
         vmcase(OP_ST) { // make
-            PUSH(REGISTER, IP += (IREGISTER)GET_IMM16(instruction));
+            PUSH(REGISTER, DP += (IREGISTER)GET_IMM16(instruction));
             PUSH(REGISTER, R(GET_R0(instruction)));
             state->SVI[ 0x11 ](state);
             vmbreak;
@@ -180,7 +180,7 @@ vmslot(FLOW)
     vmswitch(GET_OPCODE(instruction)) {
         // !~F - Flow
         vmcase(OP_JMP) {
-            IP = CP + GET_IMM16(instruction);
+            JUMP16();
             vmbreak;
         }
         vmcase(OP_JEQ) {
@@ -276,6 +276,5 @@ vmslot(FLOW)
             vmbreak;
         }
     }
-
     cpu_stateHandler(state, DVM_LOAD_PAGE);
 }

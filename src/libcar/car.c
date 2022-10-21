@@ -4,11 +4,12 @@
 #include "flags.h"
 
 #include "format-i/format-i.h"
+#include "format-r/format-r.h"
 #include "format-j/format-j.h"
 #include "format-c/format-c.h"
 
-#define DVM_LONG_MODE   (7)
-#define DVM_FORMAT_NOP  (0)
+#define CAR_LONG_MODE   (7)
+#define CAR_FORMAT_NOP  (0)
 
 // 1 bit transfer control,
 // 3 bits for format
@@ -27,7 +28,7 @@ vm_code DVM_CALLBACK load(DVM* state)
     return DVM_SUCCESS;
 }
 
-vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION in);
+vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in);
 vm_code DVM_CALLBACK entry(DVM* state)
 {
     DVM_CLASS* dvmClass = dvm_getClass(state);
@@ -43,68 +44,77 @@ vm_code DVM_CALLBACK entry(DVM* state)
             in = &tmp;                      // set pointer to temporary instruction
         }
 
-        vmdispatch(GET_FORMAT(in->i32L)) {
-            vmcase(DVM_FORMAT_NOP) {
-                // No operation
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_I) {
-                format_i(state, in->i32L);
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_J) {
-                format_j(state, in->i32L);
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_C) {
-                format_c(state, in->i32L);
-                vmbreak;
-            }
-            vmcase(DVM_LONG_MODE) {
-                R(3u) = in->i32H;
-                vmsignal(SKIP);
-            }
-            vmdefault: {
-                return DVM_TRANSFER_CONTROL;
-            }
-        }
-        vmdispatch(GET_FORMAT(in->i32H)) {
-            vmcase(DVM_FORMAT_NOP) {
-                // No operation
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_I) {
-                format_i(state, in->i32H);
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_J) {
-                format_j(state, in->i32H);
-                vmbreak;
-            }
-            vmcase(DVM_FORMAT_C) {
-                format_c(state, in->i32H);
-                vmbreak;
-            }
-            vmdefault: {
-                return DVM_TRANSFER_CONTROL;
-            }
-        }
-        vmslot(SKIP)
-        IP += sizeof(INSTRUCTION);
-    } /*afterexec {
-        // global ip ++
-        GIP += IP;
-        IP  = 0;
-    } */
+        step(state, in);
+    }
 
 vmslot(OUT)
     return DVM_LOAD_PAGE;
 }
 
-vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION in)
+vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION* in)
 {
 //    vmdispatch()
     return DVM_SUCCESS;
+}
+
+vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
+{
+    vmdispatch(GET_FORMAT(in->i32L)) {
+        vmcase(CAR_FORMAT_NOP) {
+            // No operation
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_I) {
+            format_i(state, in->i32L);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_R) {
+            format_r(state, in->i32L);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_J) {
+            format_j(state, in->i32L);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_C) {
+            format_c(state, in->i32L);
+            vmbreak;
+        }
+        vmcase(CAR_LONG_MODE) {
+            R(3u) = in->i32H;
+            vmsignal(SKIP);
+        }
+        vmdefault: {
+            return DVM_FAIL;
+        }
+    }
+    vmdispatch(GET_FORMAT(in->i32H)) {
+        vmcase(CAR_FORMAT_NOP) {
+            // No operation
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_I) {
+            format_i(state, in->i32H);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_R) {
+            format_r(state, in->i32H);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_J) {
+            format_j(state, in->i32H);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_C) {
+            format_c(state, in->i32H);
+            vmbreak;
+        }
+        vmdefault: {
+            return DVM_FAIL;
+        }
+    }
+    vmslot(SKIP)
+    IP += sizeof(INSTRUCTION);
 }
 
 vm_code DVM_CALLBACK unload(DVM* state)
@@ -124,7 +134,6 @@ const VCPU CAR = {
                 }
         },
         .vendorID = "CAR",
-        .vcpuOpcodeBitType = BASIC_SET,
         .main   = { load, entry, unload },
         .debug  = { load, entry, unload },
         .jit    = {NULL, NULL, NULL},

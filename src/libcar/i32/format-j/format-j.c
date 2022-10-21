@@ -13,7 +13,7 @@ VOID DVM_FASTCALL format_j(DVM* state, duint32 instruction)
 {
     vmswitch(GET_OPCODE4(instruction)) {
         vmcase(OP_JMP) {
-            IP = CP + GET_IMM24(instruction);
+            JUMP24();
             vmbreak;
         }
         vmcase(OP_JEQ) {

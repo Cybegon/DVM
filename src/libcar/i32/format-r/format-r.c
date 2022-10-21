@@ -129,7 +129,7 @@ VOID DVM_FASTCALL format_r(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_XOR) {
-            R(GET_R0(instruction)) = R(GET_R1(instruction)) ^ R(GET_R1(instruction));
+            R(GET_R0(instruction)) = R(GET_R1(instruction)) ^ R(GET_R2(instruction));
             vmbreak;
         }
         vmcase(OP_NOT) { // make reglist
@@ -138,6 +138,20 @@ VOID DVM_FASTCALL format_r(DVM* state, duint32 instruction)
         }
         vmcase(OP_NEG) { // make reglist
             R(GET_R0(instruction)) = C4146_FIX(-, R(GET_R0(instruction)));
+            vmbreak;
+        }
+        vmcase(OP_CMP) {
+            cvtR2FR(FR)->vm_status &= ~( EQ | LO | LT ); // clear flags
+            cvtR2FR(FR)->vm_status |=
+                    (((REGISTER)R(GET_R0(instruction)) < (REGISTER)R(GET_R1(instruction))) ? LO : 0) |
+                    (((REGISTER)R(GET_R0(instruction)) == (REGISTER)R(GET_R1(instruction))) ? EQ : 0);
+            vmbreak;
+        }
+        vmcase(OP_ICMP) {
+            cvtR2FR(FR)->vm_status &= ~( EQ | LO | LT ); // clear flags
+            cvtR2FR(FR)->vm_status |=
+                    (((IREGISTER)R(GET_R0(instruction)) < (IREGISTER)R(GET_R1(instruction))) ? LT : 0) |
+                    (((IREGISTER)R(GET_R0(instruction)) == (IREGISTER)R(GET_R1(instruction))) ? EQ : 0);
             vmbreak;
         }
         vmdefault: {
@@ -151,7 +165,7 @@ vmslot(FLOW)
     vmswitch(GET_OPCODE(instruction)) {
         // !~F - Flow
         vmcase(OP_JMP) {
-            IP = CP + R(GET_R0(instruction));
+            JUMPR(R(GET_R0(instruction)));
             vmbreak;
         }
         vmcase(OP_JEQ) {

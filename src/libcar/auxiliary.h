@@ -37,15 +37,15 @@
 #endif
 
 #if defined(DVM_ENABLE_JUMP24)
-#   define JUMP24() IP = CP + GET_IMM24(instruction)
+#   define JUMP24() IP += ( (REGISTER)DVM_SIGN_EXTEND(GET_IMM24(instruction), 24) )
 #endif
 
 #if defined(DVM_ENABLE_JUMP16)
-#   define JUMP16() IP = CP + GET_IMM16(instruction)
+#   define JUMP16() IP += ( (REGISTER)DVM_SIGN_EXTEND((IREGISTER)GET_IMM16(instruction), 16) )
 #endif
 
 #if defined(DVM_ENABLE_JUMP8)
-#   define JUMP8() IP = CP + GET_IMM8(instruction)
+#   define JUMP8() IP += (IREGISTER)GET_IMM8(instruction)
 #endif
 
 #define SVI_EXIT            ( 0x00 )
@@ -54,6 +54,7 @@
 #define SVI_BREAKPOINT      ( 0x03 )
 #define SVI_IO              ( 0x04 )
 #define SVI_ILLEGAL_OPCODE  ( 0x05 )
+#define SVI_VCPU            ( 0x06 )
 
 #define SVI_INVOKE          ( 0x0F )
 

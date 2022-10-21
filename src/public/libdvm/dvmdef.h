@@ -89,6 +89,8 @@
     (var) = ( ( (var) << 16u ) & 0xFFFF0000FFFF0000ull ) | ( ( (var) >> 16u ) & 0x0000FFFF0000FFFFull );  \
     (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
 
+#define DVM_SIGN_EXTEND(x, b) \
+    ( ( x ^ (1u << (b - 1)) ) - (1u << (b - 1)) )
 
 typedef union INSTRUCTION64 INSTRUCTION64;
 typedef union INSTRUCTION32 INSTRUCTION32;

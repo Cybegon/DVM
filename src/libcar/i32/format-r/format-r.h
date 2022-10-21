@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_FORMAT_R_H
 #define VIRTUALDRAGON_FORMAT_R_H
 
-#define FORMAT_R (2)
+#define CAR_FORMAT_R (2)
 
 #include "dvm.h"
 
