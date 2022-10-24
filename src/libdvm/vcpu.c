@@ -9,7 +9,7 @@
     vmswitch(c) {                                                                                               \
         vmcase(DVM_LOAD_PAGE)                                                                                   \
             s->text = s->dvmClass                                                                               \
-                    ->getChunk(s->dvmClass->imageDescriptor, IP, s->dvmClass->chunkSize);                       \
+                    ->getChunk(s->dvmClass->imageDescriptor, BL, s->dvmClass->chunkSize);                       \
             vmbreak;                                                                                            \
         vmcase(DVM_SUCCESS)                                                                                     \
         vmcase(DVM_FAIL)                                                                                        \
