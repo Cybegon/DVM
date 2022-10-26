@@ -1,8 +1,0 @@
-//
-// Created by Limaaron on 23.11.2021.
-//
-
-#ifndef VIRTUALDRAGON_OPCODE_TABLE_H
-#define VIRTUALDRAGON_OPCODE_TABLE_H
-
-#endif //VIRTUALDRAGON_OPCODE_TABLE_H
