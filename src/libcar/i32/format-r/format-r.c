@@ -1,15 +1,14 @@
-
-
-#include "dvm_state.h"
 #include "format-r.h"
 
+#include "dvm_state.h"
 #include "dvmdef.h"
-#include "opcodes.h"
 #include "vcpu.h"
+#include "flags.h"
+
+#define CAR_FORMAT_R
+#include "opcodes.h"
 
 #define DVM_ENABLE_JUMPR
-
-#include "flags.h"
 #include "auxiliary.h"
 
 // rename later

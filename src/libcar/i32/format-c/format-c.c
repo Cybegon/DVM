@@ -1,12 +1,13 @@
 #include "format-c.h"
 
 #include "dvm_state.h"
-#include "lopcodes.h"
 #include "vcpu.h"
+#include "flags.h"
+
+#define CAR_FORMAT_C
+#include "opcodes.h"
 
 #define DVM_ENABLE_JUMP24
-
-#include "flags.h"
 #include "auxiliary.h"
 
 VOID DVM_FASTCALL format_c(DVM* state, duint32 instruction) {

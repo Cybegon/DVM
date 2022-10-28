@@ -1,13 +1,14 @@
-#include <dvm_state.h>
 #include "format-i.h"
 
+#include "dvm_state.h"
 #include "dvmdef.h"
+#include "vcpu.h"
+#include "flags.h"
+
+#define CAR_FORMAT_I
 #include "opcodes.h"
-#include "libdvm/vcpu.h"
 
 #define DVM_ENABLE_JUMP16
-
-#include "flags.h"
 #include "auxiliary.h"
 
 VOID format_i(DVM* state, duint32 instruction)

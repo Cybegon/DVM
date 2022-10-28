@@ -88,8 +88,8 @@ vm_code dvm_reset( DVM* state )
         state->sr[i] = 0;
     }
 
-//    state->text = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
-//    state->data = dvmClass->viewMemoryMap( dvmClass->imageDescriptor, IP, dvmClass->codeChunkSize );
+    state->text = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
+    state->data = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
 
     return DVM_SUCCESS; // TODO: replace
 }
@@ -103,8 +103,6 @@ vm_code dvm_exit( DVM* state, dint exitCode )
 
 vm_code dvm_call( DVM* state, REGISTER address )
 {
-    DVM_CLASS* dvmClass = state->dvmClass;
-
     IP = address;
     cpu_stateHandler( state, DVM_LOAD_PAGE);
 

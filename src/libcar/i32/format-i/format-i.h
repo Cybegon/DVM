@@ -1,8 +1,6 @@
 #ifndef VIRTUALDRAGON_FORMAT_I_H
 #define VIRTUALDRAGON_FORMAT_I_H
 
-#define CAR_FORMAT_I (1)
-
 #include "dvm.h"
 
 // I - immediate format

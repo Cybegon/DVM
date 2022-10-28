@@ -9,6 +9,11 @@ typedef struct DVM DVM;
 typedef struct VCPU VCPU;
 typedef dint32 vm_code;
 
+typedef union INSTRUCTION64 INSTRUCTION64;
+typedef union INSTRUCTION32 INSTRUCTION32;
+
+typedef INSTRUCTION64 INSTRUCTION;
+
 typedef duint64         REGISTER;
 typedef dint64          IREGISTER;
 typedef double          FREGISTER;
@@ -23,10 +28,11 @@ typedef dint16          IREGISTER16;
 
 typedef struct FLREGISTER FLREGISTER;
 
-typedef vm_code (*DVM_INT)          (DVM* state);
-typedef vm_code (*DVM_LOAD)         (DVM* state);
-typedef vm_code (*DVM_ENTRY)        (DVM* state);
-typedef vm_code (*DVM_UNLOAD)       (DVM* state);
+typedef vm_code (*DVM_INT)          ( DVM* state );
+typedef vm_code (*DVM_LOAD)         ( DVM* state );
+typedef vm_code (*DVM_STEP)         ( DVM* state, INSTRUCTION* instruction );
+typedef vm_code (*DVM_ENTRY)        ( DVM* state );
+typedef vm_code (*DVM_UNLOAD)       ( DVM* state );
 
 vm_code     dvm_validateClass       ( DVM_CLASS* dvmClass );
 

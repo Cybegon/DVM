@@ -92,11 +92,6 @@
 #define DVM_SIGN_EXTEND(x, b) \
     ( ( x ^ (1u << (b - 1)) ) - (1u << (b - 1)) )
 
-typedef union INSTRUCTION64 INSTRUCTION64;
-typedef union INSTRUCTION32 INSTRUCTION32;
-
-typedef INSTRUCTION64 INSTRUCTION;
-
 union INSTRUCTION64 {
     duint64 i64;
     struct {

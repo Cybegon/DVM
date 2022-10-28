@@ -5,6 +5,7 @@ file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 #file(GLOB_RECURSE TEST ${PROJECT_SOURCE_DIR}/?opcode*.h)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/public)
+include_directories(${PROJECT_SOURCE_DIR}/src/public/libcar-gen)
 include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
 
 if(MSVC)

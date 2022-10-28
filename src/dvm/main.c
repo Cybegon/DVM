@@ -13,7 +13,7 @@ static DVM* state;
 VOID DVM_CALLBACK msgVM (Msg_t type, const char* message)
 {
     if (type)
-#ifdef CYBEGON_COMPILER_CLANG
+#if defined(CYBEGON_COMPILER_CLANG) && defined(CYBEGON_PLATFORM_APPLE)
         printf("%s R0 = %lu | R1 = %lu\n", message, dvm_getRegisterValue(state, 0),
             dvm_getRegisterValue(state, 1));
 #else

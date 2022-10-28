@@ -8,11 +8,9 @@
 #include "format-j/format-j.h"
 #include "format-c/format-c.h"
 
-#define CAR_LONG_MODE   (7)
-#define CAR_FORMAT_NOP  (0)
+#include "formats.h"
 
-// 1 bit transfer control,
-// 3 bits for format
+// 4 bits for format
 #define GET_FORMAT(i)   ( (i & 0xF0000000u) >> 28u )
 
 extern const VCPU CAR;
@@ -60,7 +58,7 @@ vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION* in)
 vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
 {
     vmdispatch(GET_FORMAT(in->i32L)) {
-        vmcase(CAR_FORMAT_NOP) {
+        vmcase(CAR_FORMAT_N) {
             // No operation
             vmbreak;
         }
@@ -80,7 +78,7 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
             format_c(state, in->i32L);
             vmbreak;
         }
-        vmcase(CAR_LONG_MODE) {
+        vmcase(CAR_FORMAT_L) {
             R(3u) = in->i32H;
             vmsignal(SKIP);
         }
@@ -89,7 +87,7 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
         }
     }
     vmdispatch(GET_FORMAT(in->i32H)) {
-        vmcase(CAR_FORMAT_NOP) {
+        vmcase(CAR_FORMAT_N) {
             // No operation
             vmbreak;
         }
@@ -115,6 +113,8 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
     }
     vmslot(SKIP)
     IP += sizeof(INSTRUCTION);
+
+    return DVM_SUCCESS;
 }
 
 vm_code DVM_CALLBACK unload(DVM* state)
@@ -133,10 +133,11 @@ const VCPU CAR = {
                     .node_l = 0x5222866b
                 }
         },
-        .vendorID = "CAR",
-        .main   = { load, entry, unload },
-        .debug  = { load, entry, unload },
-        .jit    = {NULL, NULL, NULL},
+        .vendorID   = "CAR",
+        .init       = load,
+        .step       = step,
+        .pipeline   = entry,
+        .deinit     = unload
 };
 
 ////////////////////////////////////////////

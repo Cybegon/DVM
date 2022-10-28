@@ -1,8 +1,6 @@
 #ifndef VIRTUALDRAGON_FORMAT_C_H
 #define VIRTUALDRAGON_FORMAT_C_H
 
-#define CAR_FORMAT_C (4)
-
 #include "dvm.h"
 
 // jump 24 bit imm

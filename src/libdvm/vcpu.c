@@ -1,7 +1,6 @@
 #include "vcpu.h"
 
 #include "dvm_state.h"
-#include "flags.h"
 
 #define HANDLER(s, c) \
     BL = (IP / s->dvmClass->chunkSize) * s->dvmClass->chunkSize;                                                \
@@ -20,7 +19,7 @@
 
 vm_code cpu_init(DVM* state)
 {
-    return state->vcpu->main.init(state); // return code replace later
+    return state->vcpu->init(state);
 }
 
 vm_code cpu_stateHandler(DVM* state, vm_code vmCode) {
@@ -34,7 +33,7 @@ vm_code cpu_attach(DVM* state)
     vm_code vmCode;
 
     for (;;) {
-        vmCode = state->vcpu->main.pipeline(state);
+        vmCode = state->vcpu->pipeline(state);
 
         HANDLER(state, vmCode)
     }
@@ -42,5 +41,5 @@ vm_code cpu_attach(DVM* state)
 
 vm_code cpu_unload(DVM* state)
 {
-    return state->vcpu->main.unload(state); // return code replace later
+    return state->vcpu->deinit(state);
 }

@@ -26,11 +26,10 @@ struct VCPU
     DVM_GUID guid;
     duint8 vendorID[16];
 
-    struct {
-        DVM_LOAD    init;
-        DVM_ENTRY   pipeline;
-        DVM_UNLOAD  unload;
-    } main, debug, jit;
+    DVM_LOAD    init;
+    DVM_STEP    step;
+    DVM_ENTRY   pipeline;
+    DVM_UNLOAD  deinit;
 };
 
 #endif // VIRTUALDRAGON_VCPUCLASS_H

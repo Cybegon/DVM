@@ -23,8 +23,6 @@ struct DVM_ID
         duint32     bits; // example 64 = 64bit arch
         duint32     archID; // DVM CLASSIFICATION
     } cpu_id; // The architecture on which dvm works
-
-
 };
 
 #endif // VIRTUALDRAGON_DVMID_H
