@@ -1,7 +1,7 @@
-file(GLOB_RECURSE PHSRC ${CMAKE_SOURCE_DIR}/src/public/libgeff/*.h)
+file(GLOB_RECURSE PHSRC ${PROJECT_SOURCE_DIR}/src/public/libgeff/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
-include_directories(${CMAKE_SOURCE_DIR}/src/public)
+include_directories(${PROJECT_SOURCE_DIR}/src/public)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/sdl")
