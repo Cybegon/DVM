@@ -12,7 +12,6 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libgeff STATIC ${HSRC} ${SRC})
-set_target_properties(libgeff PROPERTIES OUTPUT_NAME "geff")
 
 target_include_directories(libgeff PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libgeff>

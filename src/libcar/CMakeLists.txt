@@ -11,7 +11,6 @@ include_directories(${PROJECT_SOURCE_DIR}/src/public)
 
 add_library(libcar STATIC ${SRC} ${PHSRC} ${HSRC})
 target_link_libraries(libcar INTERFACE libdvm)
-set_target_properties(libcar PROPERTIES OUTPUT_NAME "car")
 
 target_include_directories(libcar PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libcar>

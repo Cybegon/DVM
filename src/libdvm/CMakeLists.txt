@@ -17,7 +17,6 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libdvm STATIC ${SRC} ${PHSRC} ${HSRC})
-set_target_properties(libdvm PROPERTIES OUTPUT_NAME "dvm")
 
 target_include_directories(libdvm PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm>
