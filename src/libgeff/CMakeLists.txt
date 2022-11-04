@@ -1,4 +1,4 @@
-file(GLOB_RECURSE PHSRC ${PROJECT_SOURCE_DIR}/src/public/libgeff/*.h)
+file(GLOB_RECURSE HSRC ${PROJECT_SOURCE_DIR}/src/public/libgeff/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/public)
@@ -11,7 +11,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libgeff STATIC ${PHSRC} ${SRC})
+add_library(libgeff STATIC ${HSRC} ${SRC})
 set_target_properties(libgeff PROPERTIES OUTPUT_NAME "geff")
 
 target_include_directories(libgeff PUBLIC
