@@ -1,8 +1,8 @@
 #include "format-c.h"
 
-#include "dvm_state.h"
-#include "vcpu.h"
-#include "flags.h"
+#include "libdvm/dvm_state.h"
+#include "libdvm/vcpu.h"
+#include "libdvm/flags.h"
 
 #define CAR_FORMAT_C
 #include "opcodes.h"

@@ -1,9 +1,9 @@
 #include "format-i.h"
 
-#include "dvm_state.h"
-#include "dvmdef.h"
-#include "vcpu.h"
-#include "flags.h"
+#include "libdvm/dvm_state.h"
+#include "libdvm/dvmdef.h"
+#include "libdvm/vcpu.h"
+#include "libdvm/flags.h"
 
 #define CAR_FORMAT_I
 #include "opcodes.h"

@@ -1,7 +1,7 @@
 #include "libcar/car.h"
 
-#include "dvm_state.h"
-#include "flags.h"
+#include "libdvm/dvm_state.h"
+#include "libdvm/flags.h"
 
 #include "format-i/format-i.h"
 #include "format-r/format-r.h"

@@ -5,7 +5,7 @@ file(GLOB_RECURSE PHSRC ${PROJECT_SOURCE_DIR}/src/public/*.h)
 include_directories(${PROJECT_SOURCE_DIR}/src/libdvm-base)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/public)
-include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
+#include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
 include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm-base)
 
 if(MSVC)
@@ -17,7 +17,8 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libdvm-base STATIC dvmbase.c ${PHSRC})
-target_link_libraries(libdvm-base libgeff zip)
+target_link_libraries(libdvm-base INTERFACE libdvm PRIVATE libgeff zip)
+
 set_target_properties(libdvm-base PROPERTIES OUTPUT_NAME "dvm-base")
 
 target_include_directories(libdvm-base PUBLIC

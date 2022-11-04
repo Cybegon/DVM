@@ -6,7 +6,7 @@ file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/public)
 include_directories(${PROJECT_SOURCE_DIR}/src/public/libcar-gen)
-include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
+#include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/sdl")
@@ -17,4 +17,11 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libcar-gen STATIC ${SRC} ${PHSRC} ${HSRC})
+target_link_libraries(libcar INTERFACE libdvm)
+
 set_target_properties(libcar-gen PROPERTIES OUTPUT_NAME "car-gen")
+
+target_include_directories(libcar-gen PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libcar-gen>
+        $<INSTALL_INTERFACE:include/libcar-gen>
+        )

@@ -1,6 +1,6 @@
 #include "libcar-gen/car-gen.h"
 
-#include "dvmdef.h"
+#include "libdvm/dvmdef.h"
 
 #define FORMAT_I (1)
 #define FORMAT_R (2)
