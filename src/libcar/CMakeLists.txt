@@ -6,13 +6,19 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i32)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i64)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${PROJECT_SOURCE_DIR}/src/public)
-#include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
+if(MSVC)
+    set(CMAKE_C_FLAGS "/sdl")
+    set(CMAKE_SHARED_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO /sdl")
+    set(CMAKE_STATIC_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO")
+elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+    set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
+endif()
 
-add_library(libcar STATIC ${SRC} ${PHSRC} ${HSRC})
-target_link_libraries(libcar INTERFACE libdvm)
+add_library(libcar ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
+target_link_libraries(libcar PUBLIC libdvm)
 
 target_include_directories(libcar PUBLIC
+#        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libcar>
-        $<INSTALL_INTERFACE:include/libcar>
+        $<INSTALL_INTERFACE:include>
         )

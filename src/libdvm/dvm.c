@@ -1,8 +1,8 @@
 #include "dvm.h"
 
-#include "dvm_state.h"
+#include "dvmstate.h"
 #include "dvmdef.h"
-#include "flags.h"
+#include "dvmflags.h"
 
 #include "vcpu.h"
 

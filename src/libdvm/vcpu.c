@@ -1,6 +1,6 @@
 #include "vcpu.h"
 
-#include "dvm_state.h"
+#include "dvmstate.h"
 
 #define HANDLER(s, c) \
     BL = (IP / s->dvmClass->chunkSize) * s->dvmClass->chunkSize;                                                \

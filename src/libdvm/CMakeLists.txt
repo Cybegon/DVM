@@ -16,9 +16,10 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libdvm STATIC ${SRC} ${PHSRC} ${HSRC})
+add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
 
 target_include_directories(libdvm PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm>
-        $<INSTALL_INTERFACE:include/libdvm>
+        $<INSTALL_INTERFACE:include>
         )

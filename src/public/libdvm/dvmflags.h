@@ -1,5 +1,5 @@
-#ifndef VIRTUALDRAGON_FLAGS_H
-#define VIRTUALDRAGON_FLAGS_H
+#ifndef VIRTUALDRAGON_DVMFLAGS_H
+#define VIRTUALDRAGON_DVMFLAGS_H
 
 // state
 
@@ -13,4 +13,4 @@
 #define LO ( 1u << 6u ) // unsigned lower
 #define LT ( 1u << 5u ) // signed less than
 
-#endif //VIRTUALDRAGON_FLAGS_H
+#endif //VIRTUALDRAGON_DVMFLAGS_H

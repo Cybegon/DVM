@@ -1,5 +1,5 @@
-#ifndef VIRTUALDRAGON_DVM_STATE_H
-#define VIRTUALDRAGON_DVM_STATE_H
+#ifndef VIRTUALDRAGON_DVMSTATE_H
+#define VIRTUALDRAGON_DVMSTATE_H
 
 #include "datatypes.h"
 
@@ -36,4 +36,4 @@ struct DVM
 //    duint32  id;
 //};
 
-#endif // VIRTUALDRAGON_DVM_STATE_H
+#endif // VIRTUALDRAGON_DVMSTATE_H

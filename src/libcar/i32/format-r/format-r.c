@@ -1,9 +1,9 @@
 #include "format-r.h"
 
-#include "libdvm/dvm_state.h"
-#include "libdvm/dvmdef.h"
-#include "libdvm/vcpu.h"
-#include "libdvm/flags.h"
+#include "dvmstate.h"
+#include "dvmdef.h"
+#include "vcpu.h"
+#include "dvmflags.h"
 
 #define CAR_FORMAT_R
 #include "opcodes.h"

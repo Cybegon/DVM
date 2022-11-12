@@ -11,9 +11,10 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libgeff STATIC ${HSRC} ${SRC})
+add_library(libgeff ${DVM_BUILD_TYPE} ${HSRC} ${SRC})
 
 target_include_directories(libgeff PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libgeff>
-        $<INSTALL_INTERFACE:include/libgeff>
+        $<INSTALL_INTERFACE:include>
         )

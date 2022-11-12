@@ -1,11 +1,8 @@
-#include "libcar-gen/car-gen.h"
+#include "car-gen.h"
 
-#include "libdvm/dvmdef.h"
+#include "dvmdef.h"
 
-#define FORMAT_I (1)
-#define FORMAT_R (2)
-#define FORMAT_J (3)
-#define FORMAT_C (4)
+#include "formats.h"
 
 void writeFormat(duint32* opcode, duint8 format)
 {
@@ -36,13 +33,13 @@ duint32 car_emit_op32(duint8 format, duint8 op,
     writeFormat(&opcode, format);
 
     switch (format) {
-        case FORMAT_I: {
+        case CAR_FORMAT_I: {
             writeOperation(&opcode, op & 0x7F);
             writeReg(&opcode, regDst, 16);
             writeImm(&opcode, imm & 0xFFFF);
             break;
         }
-        case FORMAT_R: {
+        case CAR_FORMAT_R: {
             writeOperation(&opcode, op & 0x7F);
             writeReg(&opcode, regDst, 16);
             writeReg(&opcode, regSrc1, 11);
@@ -53,8 +50,8 @@ duint32 car_emit_op32(duint8 format, duint8 op,
             }
             break;
         }
-        case FORMAT_J:
-        case FORMAT_C: {
+        case CAR_FORMAT_J:
+        case CAR_FORMAT_C: {
             writeOperation(&opcode, op & 0x0F);
             writeImm(&opcode, imm & 0x00FFFFFF);
             break;
