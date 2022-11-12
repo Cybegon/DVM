@@ -9,7 +9,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
 #message(${PHSRC})
 
 if(MSVC)
-    set(CMAKE_C_FLAGS "/sdl")
+    set(CMAKE_C_FLAGS "/sdl /O2")
     set(CMAKE_SHARED_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO /sdl")
     set(CMAKE_STATIC_LINKER_FLAGS "/NODEFAULTLIB /NOLOGO")
 elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
