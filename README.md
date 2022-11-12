@@ -1,5 +1,7 @@
 # DVM - Dragon Virtual Machine
 
+![](https://img.shields.io/github/workflow/status/Cybegon/DVM/CI?logo=GitHub&style=for-the-badge)
+![](https://img.shields.io/github/license/Cybegon/DVM?color=0aa4ff&logo=GitHub&style=for-the-badge)
 
 ### Build
 
