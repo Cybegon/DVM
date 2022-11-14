@@ -28,7 +28,18 @@
 #   define PACKED
 #   define PACKED_END __pragma(pack(pop))
 #else
-#   error PACKED macros are not defined for this compiler
+#   warning PACKED macros are not defined for this compiler
+#endif
+
+#if defined(CYBEGON_PLATFORM_WINDOWS)
+#   define CYBEGON_EXPORT    __declspec(dllexport)
+#   define CYBEGON_IMPORT    __declspec(dllimport)
+#elif defined(CYBEGON_PLATFORM_UNIX)
+#   define CYBEGON_EXPORT    __attribute__((visibility("default")))
+#   define CYBEGON_IMPORT    __attribute__((visibility("default")))
+#else
+#   define CYBEGON_EXPORT
+#   define CYBEGON_IMPORT
 #endif
 
 #if !defined(M_PI)

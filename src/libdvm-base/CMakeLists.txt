@@ -17,7 +17,6 @@ add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC})
 target_link_libraries(libdvm-base INTERFACE libdvm PRIVATE libgeff zip)
 
 target_include_directories(libdvm-base PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm-base>
         $<INSTALL_INTERFACE:include>
         )

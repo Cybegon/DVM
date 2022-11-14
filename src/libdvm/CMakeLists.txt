@@ -4,9 +4,6 @@ file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 #file(GLOB_RECURSE INC ${CMAKE_CURRENT_SOURCE_DIR}/*.inc)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/public)
-include_directories(${PROJECT_SOURCE_DIR}/src/public/libdvm)
-
-#message(${PHSRC})
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/O2")
@@ -19,7 +16,6 @@ endif()
 add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
 
 target_include_directories(libdvm PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm>
         $<INSTALL_INTERFACE:include>
         )

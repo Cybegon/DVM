@@ -14,7 +14,6 @@ endif()
 add_library(libgeff ${DVM_BUILD_TYPE} ${HSRC} ${SRC})
 
 target_include_directories(libgeff PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libgeff>
         $<INSTALL_INTERFACE:include>
         )
