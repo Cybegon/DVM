@@ -5,13 +5,14 @@
 
 ### Build
 
-| Target      | Dependencies                      | Description                               |
-|-------------|-----------------------------------|-------------------------------------------|
-| dvm         | libdvm, libdvm-base, libcar       | Build an executable file                  |
-| libdvm      |                                   | Build dvm as static library               |
-| libdvm-base | libgeff, zip, libdvm-headers only | Library that provides basic functionality |
-| libgeff     |                                   | General executable file format            |
-| libcar      | libdvm-headers only               | CAR - Cybegon Architecture                |
+| Target      | Dependencies                        | Description                               |
+|-------------|-------------------------------------|-------------------------------------------|
+| dvm         | libdvm, libdvm-base, libcar         | Build an executable file                  |
+| libdvm      |                                     | Build dvm as static library               |
+| libdvm-base | libgeff, zip, libdvm-headers only   | Library that provides basic functionality |
+| libgeff     |                                     | General executable file format            |
+| libcar      | libdvm-headers only                 | CAR - Cybegon Architecture                |
+| libcar-gen  | libdvm-headers, libcar-headers only | CAR Bytecode generator                    |
 
 Build an executable file:
 ```
