@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_DVMSTATE_H
 #define VIRTUALDRAGON_DVMSTATE_H
 
-#include "datatypes.h"
+#include "../datatypes.h"
 
 #include "dvm.h"
 #include "dvmdef.h"

@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_GEFF_H
 #define VIRTUALDRAGON_GEFF_H
 
-#include "datatypes.h"
+#include "../datatypes.h"
 
 #define GEFF_SIGNATURE_HEADER   (0x4745464601010000)
 #define GEFF_SIGNATURE_SECTION  (0x4745464601020000)
@@ -23,8 +23,6 @@ struct GEFF_HEADER
     duint64 signature;
     // File type.
     duint16 type;
-    // Entry for dvm.
-    duint64 entry;
     // Compile date.
     duint64 timeDateStamp;
     // Extra header size.
@@ -39,12 +37,41 @@ struct GEFF_SECTION
     duint64 signature;
     // Section name includes NULL
     duint32 crc32;
-    char name[32];
+    char    name[32];
     duint64 sectionSize;
-    duint64 physicalAddress;
     duint64 virtualAddress;
     duint32 flags;
 };
+
+struct GEFF_MODULE // 32 byte per record
+{
+    duint64 namePointer;
+    duint64 exportTablePointer;
+    duint8  reserved[16];
+};
+
+struct GEFF_EXPORT_DIRECTORY // 32 byte per record
+{
+    duint64 namePointer;
+    duint64 addressPointer;
+    // Size of data/function
+    duint32 dataSize;
+    duint8  reserved[8];
+    duint32 flags;
+};
+
+struct GEFF_IMPORT_DIRECTORY
+{
+    duint64 index;
+    duint64 relocationIndex;
+    duint64 name;
+    duint8  reserved[8];
+};
+
+//struct GEFF_RELOC_RECORD
+//{
+//    duint64
+//};
 
 dint geff_validateGEFFHeader(struct GEFF_HEADER* header);
 dsize geff_calculateAllSectionSize(struct GEFF_HEADER* header);

@@ -1,8 +1,8 @@
 #ifndef VIRTUALDRAGON_DVMBASE_H
 #define VIRTUALDRAGON_DVMBASE_H
 
-#include "datatypes.h"
-#include "libdvm/dvmclass.h"
+#include "../datatypes.h"
+#include "dvmclass.h"
 
 #define DVM_BASE_STACK_SIZE MB(1)
 #define DVM_BASE_CHUNK_SIZE MB(4)

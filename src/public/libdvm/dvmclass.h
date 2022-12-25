@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_DVMCLASS_H
 #define VIRTUALDRAGON_DVMCLASS_H
 
-#include "datatypes.h"
+#include "../datatypes.h"
 
 #if defined(CYBEGON_COMPILER_GCC)
 #   define DVM_CALLBACK __attribute__((__cdecl__))

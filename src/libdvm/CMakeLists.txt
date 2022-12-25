@@ -1,9 +1,8 @@
-file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/*.h)
-file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+file(GLOB PHSRC
+        ${PROJECT_SOURCE_DIR}/src/public/*.h
+        ${PROJECT_SOURCE_DIR}/src/public/libdvm/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 #file(GLOB_RECURSE INC ${CMAKE_CURRENT_SOURCE_DIR}/*.inc)
-
-include_directories(${PROJECT_SOURCE_DIR}/src/public)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/O2")
@@ -13,9 +12,19 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
+add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${PHSRC})
 
 target_include_directories(libdvm PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm>
-        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:$<INSTALL_PREFIX>>
         )
+
+install(TARGETS libdvm
+        EXPORT ${CMAKE_PROJECT_NAME}Targets
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        INCLUDES DESTINATION include
+        )
+
+install(FILES ${PHSRC} DESTINATION include/libdvm)

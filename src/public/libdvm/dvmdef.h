@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_DVMDEF_H
 #define VIRTUALDRAGON_DVMDEF_H
 
-#include "datatypes.h"
+#include "../datatypes.h"
 
 #define DVM_DEFAULT_PAGE_SIZE   512u
 #define DVM_DEFAULT_PAGE_SHIFT  3u

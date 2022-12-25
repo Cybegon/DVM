@@ -8,7 +8,7 @@
 #   include "os/win32/dvm_memory.c"
 #endif
 
-#include "libgeff/geff.h"
+#include "geff.h"
 
 DESCRIPTOR dvm_openExecutableFile(const char* fileName)
 {

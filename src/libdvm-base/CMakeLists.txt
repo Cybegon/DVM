@@ -1,9 +1,8 @@
-file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/*.h)
+file(GLOB PHSRC
+        ${PROJECT_SOURCE_DIR}/src/public/*.h
+        ${PROJECT_SOURCE_DIR}/src/public/libdvm-base/*.h)
 #file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 #file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
-
-include_directories(${PROJECT_SOURCE_DIR}/src/libdvm-base)
-include_directories(${PROJECT_SOURCE_DIR}/src/public)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/sdl /O2")
@@ -14,9 +13,22 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC})
-target_link_libraries(libdvm-base INTERFACE libdvm PRIVATE libgeff zip)
+target_link_libraries(libdvm-base PUBLIC libdvm PRIVATE libgeff zip)
 
-target_include_directories(libdvm-base PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm-base>
-        $<INSTALL_INTERFACE:include>
+target_include_directories(libdvm-base
+        PUBLIC
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm-base>
+            $<INSTALL_INTERFACE:include>
+        PRIVATE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         )
+
+install(TARGETS libdvm-base
+        EXPORT ${CMAKE_PROJECT_NAME}Targets
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        INCLUDES DESTINATION include
+        )
+
+install(FILES ${PHSRC} DESTINATION include/libdvm-base)

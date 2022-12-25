@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_VCPUCLASS_H
 #define VIRTUALDRAGON_VCPUCLASS_H
 
-#include "datatypes.h"
+#include "../datatypes.h"
 
 #include "dvm.h"
 

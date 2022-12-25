@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "libdvm/dvm.h"
-#include "libdvm/dvmdef.h"
+#include "dvm.h"
+#include "dvmdef.h"
 
-#include "libdvm-base/dvmbase.h"
+#include "dvmbase.h"
 
-#include "libcar/car.h"
+#include "car.h"
 
 static DVM* state;
 

@@ -3,10 +3,10 @@
 #include "dvmstate.h"
 #include "dvmflags.h"
 
-#include "format-i/format-i.h"
-#include "format-r/format-r.h"
-#include "format-j/format-j.h"
-#include "format-c/format-c.h"
+#include "i32/format-i/format-i.h"
+#include "i32/format-r/format-r.h"
+#include "i32/format-j/format-j.h"
+#include "i32/format-c/format-c.h"
 
 #include "formats.h"
 

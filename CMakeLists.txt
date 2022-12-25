@@ -6,6 +6,8 @@ set(CMAKE_C_STANDARD 99)
 
 option(BUILD_SHARED_LIBS "Build the shared libraries" OFF)
 
+#set(DVM_GLOBAL_C_FLAGS "-s")
+
 set(DVM_BUILD_TYPE STATIC)
 if(BUILD_SHARED_LIBS)
     set(DVM_BUILD_TYPE SHARED)

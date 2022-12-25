@@ -2,10 +2,6 @@ file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/*.h)
 file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
-include_directories(${PROJECT_SOURCE_DIR}/src/public)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i32)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i64)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 if(MSVC)
@@ -17,9 +13,19 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libcar ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
-target_link_libraries(libcar PUBLIC libdvm)
+target_link_libraries(libcar PRIVATE libdvm)
 
 target_include_directories(libcar PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libcar>
         $<INSTALL_INTERFACE:include>
         )
+
+install(TARGETS libcar
+        EXPORT ${CMAKE_PROJECT_NAME}Targets
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        INCLUDES DESTINATION include
+        )
+
+install(FILES ${PHSRC} DESTINATION include/libcar)
