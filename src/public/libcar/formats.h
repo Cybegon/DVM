@@ -7,6 +7,8 @@
 #define CAR_FORMAT_J 3 // Jump
 #define CAR_FORMAT_C 4 // Call
 
-#define CAR_FORMAT_L 8 // Long
+#define CAR_FORMAT_LONG 8 // Long
+
+#define CAR_FORMAT_L 9
 
 #endif //VIRTUALDRAGON_FORMATS_H

@@ -3,7 +3,7 @@
 
 #include "dvm.h"
 
-// jump 24 bit imm
-VOID DVM_FASTCALL format_c32(DVM* state, duint32 instruction);
+// jump 48 bit imm
+VOID DVM_FASTCALL format_c64(DVM* state, duint64 instruction);
 
 #endif //VIRTUALDRAGON_FORMAT_C_H

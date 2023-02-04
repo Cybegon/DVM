@@ -1,7 +1,5 @@
-file(GLOB PHSRC
-        ${PROJECT_SOURCE_DIR}/src/public/*.h
-        ${PROJECT_SOURCE_DIR}/src/public/libdvm-base/*.h)
-#file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/libdvm-base/*.h)
+file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 #file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
 if(MSVC)
@@ -12,7 +10,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-O3")
 endif()
 
-add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC})
+add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC} ${DHSRC})
 target_link_libraries(libdvm-base PUBLIC libdvm PRIVATE libgeff zip)
 
 target_include_directories(libdvm-base

@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_CAR_GEN_H
 #define VIRTUALDRAGON_CAR_GEN_H
 
-#include "datatypes.h"
+#include "../datatypes.h"
 
 #define NO_REG 0xFF
 

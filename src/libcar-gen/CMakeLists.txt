@@ -1,8 +1,6 @@
 file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/*.h)
-file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+file(GLOB_RECURSE HSRC ${PROJECT_SOURCE_DIR}/src/public/libcar-gen/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
-
-include_directories(${PROJECT_SOURCE_DIR}/src/public)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/sdl /O2")
@@ -28,4 +26,5 @@ install(TARGETS libcar-gen
         INCLUDES DESTINATION include
         )
 
-install(FILES ${PHSRC} DESTINATION include/libcar-gen)
+install(FILES ${HSRC} DESTINATION include/libcar-gen)
+install(FILES ${PHSRC} DESTINATION include)

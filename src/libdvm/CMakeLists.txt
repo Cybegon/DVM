@@ -1,6 +1,5 @@
-file(GLOB PHSRC
-        ${PROJECT_SOURCE_DIR}/src/public/*.h
-        ${PROJECT_SOURCE_DIR}/src/public/libdvm/*.h)
+file(GLOB_RECURSE PHSRC ${PROJECT_SOURCE_DIR}/src/public/libdvm/*.h)
+file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 #file(GLOB_RECURSE INC ${CMAKE_CURRENT_SOURCE_DIR}/*.inc)
 
@@ -12,7 +11,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${PHSRC})
+add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${HSRC} ${PHSRC})
 
 target_include_directories(libdvm PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm>

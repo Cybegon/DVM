@@ -8,26 +8,27 @@
 #define CAR_FORMAT_R
 #include "opcodes.h"
 
+#define CAR_32
 #define DVM_ENABLE_JUMPR
 #include "auxiliary.h"
 
 // rename later
-#define IF_REG(inst, sign, typeCast)                    \
-            if (inst & 0x00000001) {                    \
+#define IF_REG(inst, sign, typeCast)                \
+            if (inst & 0x00000001) {                \
             R(GET_R0(inst)) =                       \
                 (((typeCast)R(GET_R1(inst))         \
                 sign (typeCast)R(GET_R2(inst)))     \
                 sign (typeCast)R(GET_R3(inst)));    \
-            }                                           \
-            else {                                      \
+            }                                       \
+            else {                                  \
                 R(GET_R0(inst)) =                   \
                 ((typeCast)R(GET_R1(inst))          \
                 sign (typeCast)R(GET_R2(inst)));    \
             }
 
-VOID DVM_FASTCALL format_r(DVM* state, duint32 instruction)
+VOID DVM_FASTCALL format_r32(DVM* state, duint32 instruction)
 {
-    vmswitch(GET_OPCODE(instruction))
+    vmswitch(GET_OPCODE7(instruction))
     {
         vmcase(OP_MOV) {
             R(GET_R0(instruction)) = R(GET_R1(instruction));
@@ -161,7 +162,7 @@ VOID DVM_FASTCALL format_r(DVM* state, duint32 instruction)
     STUB;
 
 vmslot(FLOW)
-    vmswitch(GET_OPCODE(instruction)) {
+    vmswitch(GET_OPCODE7(instruction)) {
         // !~F - Flow
         vmcase(OP_JMP) {
             JUMPR(R(GET_R0(instruction)));

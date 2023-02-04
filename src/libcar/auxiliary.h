@@ -20,20 +20,40 @@
 #define IF_LO() if ( (cvtR2FR(FR)->vm_status & LO) )        // LOwer
 #define IF_HI() if (!(cvtR2FR(FR)->vm_status & (LO|EQ)) )   // HIgher
 
-#define GET_OPCODE(i)   ( (i & 0x0FE00000u) >> 21u )    // 7    bit
-#define GET_OPCODE4(i)  ( (i & 0x0F000000u) >> 24u )    // 4    bit
-#define GET_R0(i)       ( (i & 0x001F0000u) >> 16u )    // 5    bit
-#define GET_R1(i)       ( (i & 0x0000F800u) >> 11u )    // 5    bit
-#define GET_R2(i)       ( (i & 0x000007C0u) >> 6u )     // 5    bit
-#define GET_R3(i)       ( (i & 0x0000003Eu) >> 1u )     // 5    bit
+#if defined(CAR_32)
+#   define GET_OPCODE7(i)  ( (i & 0x0FE00000u) >> 21u )    // 7    bit
+#   define GET_OPCODE4(i)  ( (i & 0x0F000000u) >> 24u )    // 4    bit
+#   define GET_R0(i)       ( (i & 0x001F0000u) >> 16u )    // 5    bit
+#   define GET_R1(i)       ( (i & 0x0000F800u) >> 11u )    // 5    bit
+#   define GET_R2(i)       ( (i & 0x000007C0u) >> 6u )     // 5    bit
+#   define GET_R3(i)       ( (i & 0x0000003Eu) >> 1u )     // 5    bit
+#elif defined(CAR_64)
+#   define GET_OPCODE8(i)  ( (i & 0x00FF000000000000ull) >> 48u )    // 8    bit
+#   define GET_R0(i)       ( (i & 0x0000F80000000000ull) >> 43u )    // 5    bit
+#   define GET_R1(i)       ( (i & 0x000007C000000000ull) >> 38u )    // 5    bit
+#   define GET_R2(i)       ( (i & 0x0000003E00000000ull) >> 33u )    // 5    bit
+#endif
 
 #define GET_IMM8(i)     ( i & 0x000000FFu )             // 8    bit
 #define GET_IMM16(i)    ( i & 0x0000FFFFu )             // 16   bit
 #define GET_IMM24(i)    ( i & 0x00FFFFFFu )             // 24   bit
 #define GET_IMM32(i)    ( i & 0x00000000FFFFFFFFull)    // 32   bit
+#define GET_IMM48(i)    ( i & 0x0000FFFFFFFFFFFFull)    // 48   bit
 
 #if defined(DVM_ENABLE_JUMPR)
 #   define JUMPR(r) IP = (r)
+#endif
+
+#if defined(DVM_ENABLE_RJUMP48)
+#   define RJUMP48() IP += ( (IREGISTER)GET_IMM48(instruction) )
+#endif
+
+#if defined(DVM_ENABLE_JUMP48)
+#   define JUMP48() IP = ( (REGISTER)GET_IMM48(instruction) )
+#endif
+
+#if defined(DVM_ENABLE_JUMP32)
+#   define JUMP32() IP += ( (IREGISTER)GET_IMM32(instruction) )
 #endif
 
 #if defined(DVM_ENABLE_JUMP24)
@@ -41,7 +61,7 @@
 #endif
 
 #if defined(DVM_ENABLE_JUMP16)
-#   define JUMP16() IP += ( (REGISTER)DVM_SIGN_EXTEND((IREGISTER)GET_IMM16(instruction), 16) )
+#   define JUMP16() IP += ( (IREGISTER)( (REGISTER)GET_IMM16(instruction) ) )
 #endif
 
 #if defined(DVM_ENABLE_JUMP8)

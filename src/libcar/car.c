@@ -11,7 +11,8 @@
 #include "formats.h"
 
 // 4 bits for format
-#define GET_FORMAT(i)   ( (i & 0xF0000000u) >> 28u )
+#define GET_FORMAT32(i)   ( (i & 0xF0000000u) >> 28u )
+//#define GET_FORMAT64(i)   ( (i & 0xF0000000u) >> 28u )
 
 extern const VCPU CAR;
 
@@ -57,28 +58,28 @@ vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION* in)
 
 vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
 {
-    vmdispatch(GET_FORMAT(in->i32L)) {
+    vmdispatch(GET_FORMAT32(in->i32L)) {
         vmcase(CAR_FORMAT_N) {
             // No operation
             vmbreak;
         }
         vmcase(CAR_FORMAT_I) {
-            format_i(state, in->i32L);
+            format_i32(state, in->i32L);
             vmbreak;
         }
         vmcase(CAR_FORMAT_R) {
-            format_r(state, in->i32L);
+            format_r32(state, in->i32L);
             vmbreak;
         }
         vmcase(CAR_FORMAT_J) {
-            format_j(state, in->i32L);
+            format_j32(state, in->i32L);
             vmbreak;
         }
         vmcase(CAR_FORMAT_C) {
-            format_c(state, in->i32L);
+            format_c32(state, in->i32L);
             vmbreak;
         }
-        vmcase(CAR_FORMAT_L) {
+        vmcase(CAR_FORMAT_LONG) {
             R(3u) = in->i32H;
             vmsignal(SKIP);
         }
@@ -86,25 +87,25 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
             return DVM_FAIL;
         }
     }
-    vmdispatch(GET_FORMAT(in->i32H)) {
+    vmdispatch(GET_FORMAT32(in->i32H)) {
         vmcase(CAR_FORMAT_N) {
             // No operation
             vmbreak;
         }
         vmcase(CAR_FORMAT_I) {
-            format_i(state, in->i32H);
+            format_i32(state, in->i32H);
             vmbreak;
         }
         vmcase(CAR_FORMAT_R) {
-            format_r(state, in->i32H);
+            format_r32(state, in->i32H);
             vmbreak;
         }
         vmcase(CAR_FORMAT_J) {
-            format_j(state, in->i32H);
+            format_j32(state, in->i32H);
             vmbreak;
         }
         vmcase(CAR_FORMAT_C) {
-            format_c(state, in->i32H);
+            format_c32(state, in->i32H);
             vmbreak;
         }
         vmdefault: {

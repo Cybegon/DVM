@@ -4,58 +4,58 @@
 #include "vcpu.h"
 #include "dvmflags.h"
 
-#define CAR_FORMAT_J
+#define CAR_FORMAT_C
 #include "opcodes.h"
 
-#define CAR_32
-#define DVM_ENABLE_JUMP24
+#define CAR_64
+#define DVM_ENABLE_JUMP48
 #include "auxiliary.h"
 
-VOID DVM_FASTCALL format_j32(DVM* state, duint32 instruction)
+VOID DVM_FASTCALL format_j64(DVM* state, duint64 instruction)
 {
-    vmswitch(GET_OPCODE4(instruction)) {
+    vmswitch(GET_OPCODE8(instruction)) {
         vmcase(OP_JMP) {
-            JUMP24();
+            JUMP48();
             vmbreak;
         }
         vmcase(OP_JEQ) {
-            IF_EQ() { JUMP24(); }
+            IF_EQ() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JNE) {
-            IF_NE() { JUMP24(); }
+            IF_NE() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JLT) {
-            IF_LT() { JUMP24(); }
+            IF_LT() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JGT) {
-            IF_GT() { JUMP24(); }
+            IF_GT() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JLE) {
-            IF_LE() { JUMP24(); }
+            IF_LE() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JGE) {
-            IF_GE() { JUMP24(); }
+            IF_GE() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JLS) {
-            IF_LS() { JUMP24(); }
+            IF_LS() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JHS) {
-            IF_HS() { JUMP24(); }
+            IF_HS() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JLO) {
-            IF_LO() { JUMP24(); }
+            IF_LO() { JUMP48(); }
             vmbreak;
         }
         vmcase(OP_JHI) {
-            IF_HI() { JUMP24(); }
+            IF_HI() { JUMP48(); }
             vmbreak;
         }
     }
