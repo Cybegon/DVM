@@ -90,7 +90,7 @@
     (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
 
 #define DVM_SIGN_EXTEND(x, b) \
-    ( ( x ^ (1u << (b - 1)) ) - (1u << (b - 1)) )
+    ((x ^ (1u << (b - 1))) - (1u << (b - 1)))
 
 union INSTRUCTION64 {
     duint64 i64;

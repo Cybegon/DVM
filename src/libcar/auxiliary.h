@@ -59,11 +59,11 @@
 #endif
 
 #if defined(DVM_ENABLE_JUMP24)
-#   define JUMP24() IP += ( (REGISTER)DVM_SIGN_EXTEND(GET_IMM24(instruction), 24) )
+#   define JUMP24() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM24(instruction), 24)
 #endif
 
 #if defined(DVM_ENABLE_JUMP16)
-#   define JUMP16() IP += ( (IREGISTER)( (REGISTER)GET_IMM16(instruction) ) )
+#   define JUMP16() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM16(instruction), 16)
 #endif
 
 #if defined(DVM_ENABLE_JUMP8)
