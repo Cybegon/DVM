@@ -82,41 +82,74 @@
 
 #elif defined(CAR_FORMAT_J) || defined(CAR_FORMAT_C)
 
-#define OP_JMP  ( 0x00 ) // JUMPS
-#define OP_JEQ  ( 0x01 )
-#define OP_JNE  ( 0x02 )
+#   define OP_JMP  ( 0x00 ) // JUMPS
+#   define OP_JEQ  ( 0x01 )
+#   define OP_JNE  ( 0x02 )
 
 // Signed
-#define OP_JLT  ( 0x03 )
-#define OP_JGT  ( 0x04 )
-#define OP_JGE  ( 0x05 )
-#define OP_JLE  ( 0x06 )
+#   define OP_JLT  ( 0x03 )
+#   define OP_JGT  ( 0x04 )
+#   define OP_JGE  ( 0x05 )
+#   define OP_JLE  ( 0x06 )
 
 // Unsigned
-#define OP_JLS  ( 0x07 )
-#define OP_JHS  ( 0x08 )
-#define OP_JLO  ( 0x09 )
-#define OP_JHI  ( 0x0A )
+#   define OP_JLS  ( 0x07 )
+#   define OP_JHS  ( 0x08 )
+#   define OP_JLO  ( 0x09 )
+#   define OP_JHI  ( 0x0A )
 
-#define OP_CALL ( 0x00 ) // CALLS
-#define OP_CEQ  ( 0x01 )
-#define OP_CNE  ( 0x02 )
+#   define OP_CALL ( 0x00 ) // CALLS
+#   define OP_CEQ  ( 0x01 )
+#   define OP_CNE  ( 0x02 )
 
 // Signed
-#define OP_CLT  ( 0x03 )
-#define OP_CGT  ( 0x04 )
-#define OP_CGE  ( 0x05 )
-#define OP_CLE  ( 0x06 )
+#   define OP_CLT  ( 0x03 )
+#   define OP_CGT  ( 0x04 )
+#   define OP_CGE  ( 0x05 )
+#   define OP_CLE  ( 0x06 )
 
 // Unsigned
-#define OP_CLS  ( 0x07 )
-#define OP_CHS  ( 0x08 )
-#define OP_CLO  ( 0x09 )
-#define OP_CHI  ( 0x0A )
+#   define OP_CLS  ( 0x07 )
+#   define OP_CHS  ( 0x08 )
+#   define OP_CLO  ( 0x09 )
+#   define OP_CHI  ( 0x0A )
 
-#define OP_RET  ( 0x0B )
-#define OP_INV  ( 0x0F )
+#   define OP_RET  ( 0x0B )
+#   define OP_INV  ( 0x0F )
 
+#   if defined(CAR_64)
+#       define OP_RJMP  ( 0x10 ) // Relative JUMPS
+#       define OP_RJEQ  ( 0x11 )
+#       define OP_RJNE  ( 0x12 )
+
+// Signed
+#       define OP_RJLT  ( 0x13 )
+#       define OP_RJGT  ( 0x14 )
+#       define OP_RJGE  ( 0x15 )
+#       define OP_RJLE  ( 0x16 )
+
+// Unsigned
+#       define OP_RJLS  ( 0x17 )
+#       define OP_RJHS  ( 0x18 )
+#       define OP_RJLO  ( 0x19 )
+#       define OP_RJHI  ( 0x1A )
+
+#       define OP_RCALL ( 0x10 ) // Relative CALLS
+#       define OP_RCEQ  ( 0x11 )
+#       define OP_RCNE  ( 0x12 )
+
+// Signed
+#       define OP_RCLT  ( 0x13 )
+#       define OP_RCGT  ( 0x14 )
+#       define OP_RCGE  ( 0x15 )
+#       define OP_RCLE  ( 0x16 )
+
+// Unsigned
+#       define OP_RCLS  ( 0x17 )
+#       define OP_RCHS  ( 0x18 )
+#       define OP_RCLO  ( 0x19 )
+#       define OP_RCHI  ( 0x1A )
+#   endif
 #endif
 
 #endif //VIRTUALDRAGON_OPCODES_H

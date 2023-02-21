@@ -4,11 +4,12 @@
 #include "vcpu.h"
 #include "dvmflags.h"
 
+#define CAR_64
 #define CAR_FORMAT_C
 #include "opcodes.h"
 
-#define CAR_64
 #define DVM_ENABLE_JUMP48
+#define DVM_ENABLE_RJUMP48
 #include "auxiliary.h"
 
 VOID DVM_FASTCALL format_j64(DVM* state, duint64 instruction)
@@ -56,6 +57,52 @@ VOID DVM_FASTCALL format_j64(DVM* state, duint64 instruction)
         }
         vmcase(OP_JHI) {
             IF_HI() { JUMP48(); }
+            vmbreak;
+        }
+
+        //~! Relative jump
+        vmcase(OP_RJMP) {
+            RJUMP48();
+            vmbreak;
+        }
+        vmcase(OP_RJEQ) {
+            IF_EQ() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJNE) {
+            IF_NE() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLT) {
+            IF_LT() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJGT) {
+            IF_GT() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLE) {
+            IF_LE() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJGE) {
+            IF_GE() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLS) {
+            IF_LS() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJHS) {
+            IF_HS() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLO) {
+            IF_LO() { RJUMP48(); }
+            vmbreak;
+        }
+        vmcase(OP_RJHI) {
+            IF_HI() { RJUMP48(); }
             vmbreak;
         }
     }

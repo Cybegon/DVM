@@ -39,7 +39,7 @@ vm_code emptyInterrupt(DVM* dvmState) {
 }
 
 int main(int argc, char* argv[])
-{   
+{
     DESCRIPTOR fileImage = dvm_openExecutableFile("VM.dex");
     fileImage = dvm_createVMImage(fileImage, 0);
 

@@ -4,21 +4,29 @@
 #include <windows.h>
 
 #define DVM_CVT_PROT_FLAGS(prot, localProt)               \
-        if (prot & DVM_PROT_EXEC) {                       \
-            if (prot & DVM_PROT_READ)                     \
-                localProt |= PAGE_EXECUTE_READ;           \
-            if (prot & DVM_PROT_READWRITE)                \
-                localProt |= PAGE_EXECUTE_READWRITE;      \
-            if (prot & DVM_PROT_WRITECPY)                 \
-                localProt |= PAGE_EXECUTE_WRITECOPY;      \
-        } else {                                          \
             if (prot & DVM_PROT_READ)                     \
                 localProt |= PAGE_READONLY;               \
             if (prot & DVM_PROT_READWRITE)                \
                 localProt |= PAGE_READWRITE;              \
             if (prot & DVM_PROT_WRITECPY)                 \
-                localProt |= PAGE_WRITECOPY;              \
-        }
+                localProt |= PAGE_WRITECOPY;
+
+//#define DVM_CVT_PROT_FLAGS(prot, localProt)               \
+//        if (prot & DVM_PROT_EXEC) {                       \
+//            if (prot & DVM_PROT_READ)                     \
+//                localProt |= PAGE_EXECUTE_READ;           \
+//            if (prot & DVM_PROT_READWRITE)                \
+//                localProt |= PAGE_EXECUTE_READWRITE;      \
+//            if (prot & DVM_PROT_WRITECPY)                 \
+//                localProt |= PAGE_EXECUTE_WRITECOPY;      \
+//        } else {                                          \
+//            if (prot & DVM_PROT_READ)                     \
+//                localProt |= PAGE_READONLY;               \
+//            if (prot & DVM_PROT_READWRITE)                \
+//                localProt |= PAGE_READWRITE;              \
+//            if (prot & DVM_PROT_WRITECPY)                 \
+//                localProt |= PAGE_WRITECOPY;              \
+//        }
 
 MEMORY DVM_CALLBACK dvm_malloc(dsize size)
 {

@@ -12,7 +12,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libcar ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC} i64/format-c/format-c.c i64/format-c/format-c.h i64/format-j/format-j.c i64/format-j/format-j.h)
+add_library(libcar ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
 target_link_libraries(libcar PRIVATE libdvm)
 
 target_include_directories(libcar PUBLIC
