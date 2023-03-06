@@ -13,7 +13,7 @@
 #include "formats.h"
 
 // 4 bits for format
-#define GET_FORMAT32(i)   ( (i & 0xF0000000u) >> 28u )
+#define GET_FORMAT32(i)   ( (i & 0x70000000u) >> 28u )
 //#define GET_FORMAT64(i)   ( (i & 0xF0000000u) >> 28u )
 
 extern const VCPU CAR;

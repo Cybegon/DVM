@@ -67,7 +67,7 @@
 #endif
 
 #if defined(DVM_ENABLE_JUMP8)
-#   define JUMP8() IP += (IREGISTER)GET_IMM8(instruction)
+#   define JUMP8() IP += ( (IREGISTER)GET_IMM8(instruction) )
 #endif
 
 #define STUB return
