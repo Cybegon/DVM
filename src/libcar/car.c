@@ -10,11 +10,17 @@
 #include "i32/format-j/format-j.h"
 #include "i32/format-c/format-c.h"
 
+#include "i64/format-i/format-i.h"
+#include "i64/format-j/format-j.h"
+#include "i64/format-c/format-c.h"
+
 #include "formats.h"
 
 // 4 bits for format
 #define GET_FORMAT32(i)   ( (i & 0x70000000u) >> 28u )
-//#define GET_FORMAT64(i)   ( (i & 0xF0000000u) >> 28u )
+#define GET_FORMAT64(i)   ( (i & 0x3F00000000000000ull) >> 56u )
+
+// 0xC000000000000000ull
 
 extern const VCPU CAR;
 
@@ -54,7 +60,23 @@ vmslot(OUT)
 
 vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION* in)
 {
-//    vmdispatch()
+    vmdispatch(GET_FORMAT64(in->i64)) {
+        vmcase(CAR_FORMAT_I) {
+            format_i64(state, in->i64);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_J) {
+            format_j64(state, in->i64);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_C) {
+            format_c64(state, in->i64);
+            vmbreak;
+        }
+        vmdefault: {
+            return DVM_FAIL;
+        }
+    }
     return DVM_SUCCESS;
 }
 
