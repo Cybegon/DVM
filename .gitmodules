@@ -1,3 +1,6 @@
 [submodule "extlibs/zip"]
 	path = extlibs/zip
 	url = https://github.com/kuba--/zip.git
+[submodule "extlibs/datatypes.h"]
+	path = extlibs/datatypes.h
+	url = https://github.com/Cybegon/datatypes.h

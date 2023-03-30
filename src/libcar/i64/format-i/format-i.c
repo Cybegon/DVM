@@ -115,16 +115,20 @@ VOID DVM_FASTCALL format_i64(DVM* state, duint64 instruction)
             R(GET_R0(instruction)) >>= GET_IMM32(instruction);
             vmbreak;
         }
+        vmcase(OP_ASHL) {
+            R(GET_R0(instruction)) <<= (IREGISTER)GET_IMM32(instruction);
+            vmbreak;
+        }
+        vmcase(OP_ASHR) {
+            R(GET_R0(instruction)) >>= (IREGISTER)GET_IMM32(instruction);
+            vmbreak;
+        }
         vmcase(OP_ROL) {
-            R(GET_R0(instruction)) =
-                    ( R(GET_R0(instruction)) << GET_IMM32(instruction) ) | // or
-                    ( R(GET_R0(instruction)) >> ( C4146_FIX(-,GET_IMM32(instruction)) & 63u ) );
+            ROL(R(GET_R0(instruction)), R(GET_R0(instruction)), GET_IMM32(instruction))
             vmbreak;
         }
         vmcase(OP_ROR) {
-            R(GET_R0(instruction)) =
-                    ( R(GET_R0(instruction)) >> GET_IMM32(instruction) ) | // or
-                    ( R(GET_R0(instruction)) << ( C4146_FIX(-,GET_IMM32(instruction)) & 63u ) );
+            ROR(R(GET_R0(instruction)), R(GET_R0(instruction)), GET_IMM32(instruction))
             vmbreak;
         }
 

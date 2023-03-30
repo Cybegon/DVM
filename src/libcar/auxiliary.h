@@ -72,4 +72,14 @@
 
 #define STUB return
 
+#define ROL(s, d, o)                                \
+            d =                                     \
+                ( s << o ) |                        \
+                ( s >> ( C4146_FIX(-, o) & 63u ) );
+
+#define ROR(s, d, o)                                \
+            d =                                     \
+                ( s >> o ) |                        \
+                ( s << ( C4146_FIX(-, o) & 63u ) );
+
 #endif //VIRTUALDRAGON_AUXILIARY_H

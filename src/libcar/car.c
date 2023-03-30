@@ -13,6 +13,7 @@
 #include "i64/format-i/format-i.h"
 #include "i64/format-j/format-j.h"
 #include "i64/format-c/format-c.h"
+#include "i64/format-l/format-l.h"
 
 #include "formats.h"
 
@@ -71,6 +72,10 @@ vm_code DVM_FASTCALL longMode(DVM* state, INSTRUCTION* in)
         }
         vmcase(CAR_FORMAT_C) {
             format_c64(state, in->i64);
+            vmbreak;
+        }
+        vmcase(CAR_FORMAT_L) {
+            format_l64(state, in->i64);
             vmbreak;
         }
         vmdefault: {

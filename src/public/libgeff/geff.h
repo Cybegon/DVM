@@ -1,7 +1,7 @@
 #ifndef VIRTUALDRAGON_GEFF_H
 #define VIRTUALDRAGON_GEFF_H
 
-#include "../datatypes.h"
+#include "datatypes.h"
 
 #define GEFF_SIGNATURE_HEADER   (0x4745464601010000)
 #define GEFF_SIGNATURE_SECTION  (0x4745464601020000)

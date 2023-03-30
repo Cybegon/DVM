@@ -12,6 +12,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libdvm ${DVM_BUILD_TYPE} ${SRC} ${HSRC} ${PHSRC})
+target_link_libraries(libdvm PRIVATE datatypes)
 
 target_include_directories(libdvm PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libdvm>

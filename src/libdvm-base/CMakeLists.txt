@@ -11,7 +11,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC} ${DHSRC})
-target_link_libraries(libdvm-base PUBLIC libdvm PRIVATE libgeff zip)
+target_link_libraries(libdvm-base PUBLIC libdvm PRIVATE datatypes libgeff zip)
 
 target_include_directories(libdvm-base
         PUBLIC

@@ -62,11 +62,11 @@ VOID DVM_FASTCALL format_r32(DVM* state, duint32 instruction)
             IF_REG(instruction, -, REGISTER)
             vmbreak;
         }
-        vmcase(OP_INC) { // make reglist
+        vmcase(OP_INC) {
             ++R(GET_R0(instruction));
             vmbreak;
         }
-        vmcase(OP_DEC) { // make reglist
+        vmcase(OP_DEC) {
             --R(GET_R0(instruction));
             vmbreak;
         }
@@ -98,16 +98,20 @@ VOID DVM_FASTCALL format_r32(DVM* state, duint32 instruction)
             R(GET_R0(instruction)) = R(GET_R1(instruction)) >> R(GET_R2(instruction));
             vmbreak;
         }
+        vmcase(OP_ASHL) {
+            R(GET_R0(instruction)) = (IREGISTER)R(GET_R1(instruction)) << (IREGISTER)R(GET_R2(instruction));
+            vmbreak;
+        }
+        vmcase(OP_ASHR) {
+            R(GET_R0(instruction)) = (IREGISTER)R(GET_R1(instruction)) >> (IREGISTER)R(GET_R2(instruction));
+            vmbreak;
+        }
         vmcase(OP_ROL) {
-            R(GET_R0(instruction)) =
-                    ( R(GET_R1(instruction)) << R(GET_R2(instruction)) ) | // or
-                    ( R(GET_R1(instruction)) >> ( C4146_FIX(-, R(GET_R2(instruction))) & 63u ) );
+            ROL(R(GET_R0(instruction)), R(GET_R1(instruction)), R(GET_R2(instruction)))
             vmbreak;
         }
         vmcase(OP_ROR) {
-            R(GET_R0(instruction)) =
-                    ( R(GET_R1(instruction)) >> R(GET_R2(instruction)) ) | // or
-                    ( R(GET_R1(instruction)) << ( C4146_FIX(-, R(GET_R2(instruction))) & 63u ) );
+            ROR(R(GET_R0(instruction)), R(GET_R1(instruction)), R(GET_R2(instruction)))
             vmbreak;
         }
 

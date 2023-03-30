@@ -12,6 +12,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libgeff ${DVM_BUILD_TYPE} ${PHSRC} ${SRC})
+target_link_libraries(libgeff PRIVATE datatypes)
 
 target_include_directories(libgeff PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libgeff>

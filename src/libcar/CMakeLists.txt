@@ -13,7 +13,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 add_library(libcar ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
-target_link_libraries(libcar PRIVATE libdvm)
+target_link_libraries(libcar PRIVATE datatypes libdvm)
 
 target_include_directories(libcar PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/public/libcar>

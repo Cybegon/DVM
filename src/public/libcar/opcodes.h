@@ -37,6 +37,8 @@
 
 #define OP_SHL      ( 0x20 )
 #define OP_SHR      ( 0x21 )
+#define OP_ASHL     ( 0x22 )
+#define OP_ASHR     ( 0x23 )
 #define OP_ROL      ( 0x24 )
 #define OP_ROR      ( 0x25 )
 

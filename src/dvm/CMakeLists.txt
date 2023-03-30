@@ -1,5 +1,5 @@
 add_executable(dvm main.c)
-target_link_libraries(dvm libdvm-base libcar)
+target_link_libraries(dvm datatypes libdvm-base libcar)
 
 if(MSVC)
     set(CMAKE_C_FLAGS "/sdl /O2")
