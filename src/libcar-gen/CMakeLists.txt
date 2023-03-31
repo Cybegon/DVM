@@ -1,5 +1,4 @@
-file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/*.h)
-file(GLOB_RECURSE HSRC ${PROJECT_SOURCE_DIR}/src/public/libcar-gen/*.h)
+file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/libcar/*.h)
 file(GLOB_RECURSE SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
 if(MSVC)
@@ -10,7 +9,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -O3")
 endif()
 
-add_library(libcar-gen ${DVM_BUILD_TYPE} ${SRC} ${PHSRC} ${HSRC})
+add_library(libcar-gen ${DVM_BUILD_TYPE} ${SRC} ${PHSRC})
 target_link_libraries(libcar-gen PRIVATE datatypes libdvm libcar)
 
 target_include_directories(libcar-gen PUBLIC
@@ -26,5 +25,4 @@ install(TARGETS libcar-gen
         INCLUDES DESTINATION include
         )
 
-install(FILES ${HSRC} DESTINATION include/libcar-gen)
-install(FILES ${PHSRC} DESTINATION include)
+install(FILES ${PHSRC} DESTINATION include/libcar-gen)

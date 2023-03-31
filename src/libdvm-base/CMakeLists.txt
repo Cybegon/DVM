@@ -10,7 +10,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "-O3")
 endif()
 
-add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC} ${DHSRC})
+add_library(libdvm-base ${DVM_BUILD_TYPE} dvmbase.c ${PHSRC})
 target_link_libraries(libdvm-base PUBLIC libdvm PRIVATE datatypes libgeff zip)
 
 target_include_directories(libdvm-base
