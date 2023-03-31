@@ -11,7 +11,9 @@ if(BUILD_SHARED_LIBS)
     set(DVM_BUILD_TYPE SHARED)
 endif()
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/extlibs/datatypes.h)
+if (NOT TARGET datatypes)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/extlibs/datatypes.h)
+endif()
 add_subdirectory(${PROJECT_SOURCE_DIR}/extlibs/zip)
 
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
