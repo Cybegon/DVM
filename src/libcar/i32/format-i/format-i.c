@@ -9,7 +9,7 @@
 #include "opcodes.h"
 
 #define CAR_32
-#define DVM_ENABLE_JUMP16
+#define DVM_ENABLE_RJUMP16
 #include "auxiliary.h"
 
 VOID format_i32(DVM* state, duint32 instruction)
@@ -186,91 +186,91 @@ vmslot(FLOW)
     vmswitch(GET_OPCODE7(instruction)) {
         // !~F - Flow
         vmcase(OP_JMP) {
-            JUMP16();
+            RJUMP16();
             vmbreak;
         }
         vmcase(OP_JEQ) {
-            IF_EQ() { JUMP16(); }
+            IF_EQ() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JNE) {
-            IF_NE() { JUMP16(); }
+            IF_NE() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JLT) {
-            IF_LT() { JUMP16(); }
+            IF_LT() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JGT) {
-            IF_GT() { JUMP16(); }
+            IF_GT() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JLE) {
-            IF_LE() { JUMP16(); }
+            IF_LE() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JGE) {
-            IF_GE() { JUMP16(); }
+            IF_GE() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JLS) {
-            IF_LS() { JUMP16(); }
+            IF_LS() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JHS) {
-            IF_HS() { JUMP16(); }
+            IF_HS() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JLO) {
-            IF_LO() { JUMP16(); }
+            IF_LO() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_JHI) {
-            IF_HI() { JUMP16(); }
+            IF_HI() { RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CALL) {
-            PUSH(REGISTER, IP); JUMP16();
+            PUSH(REGISTER, IP); RJUMP16();
             vmbreak;
         }
         vmcase(OP_CEQ) {
-            IF_EQ() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_EQ() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CNE) {
-            IF_NE() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_NE() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CLT) {
-            IF_LT() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_LT() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CGT) {
-            IF_GT() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_GT() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CLE) {
-            IF_LE() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_LE() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CGE) {
-            IF_GE() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_GE() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CLS) {
-            IF_LS() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_LS() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CHS) {
-            IF_HS() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_HS() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CLO) {
-            IF_LO() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_LO() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_CHI) {
-            IF_HI() { PUSH(REGISTER, IP); JUMP16(); }
+            IF_HI() { PUSH(REGISTER, IP); RJUMP16(); }
             vmbreak;
         }
         vmcase(OP_RET) {

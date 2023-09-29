@@ -40,34 +40,37 @@
 #define GET_IMM16(i)    ( i & 0x0000FFFFu )             // 16   bit
 #define GET_IMM24(i)    ( i & 0x00FFFFFFu )             // 24   bit
 #define GET_IMM32(i)    ( i & 0x00000000FFFFFFFFull )   // 32   bit
+#define GET_IMM40(i)    ( i & 0x000000FFFFFFFFFFull )   // 40   bit
 #define GET_IMM48(i)    ( i & 0x0000FFFFFFFFFFFFull )   // 48   bit
+#define GET_IMM56(i)    ( i & 0x00FFFFFFFFFFFFFFull )   // 56   bit
+#define GET_IMM64(i)    ( i & 0xFFFFFFFFFFFFFFFFull )   // 64   bit
 
 #if defined(DVM_ENABLE_JUMPR)
 #   define JUMPR(r) IP = (r)
-#endif
-
-#if defined(DVM_ENABLE_RJUMP48)
-#   define RJUMP48() IP += ( (IREGISTER)GET_IMM48(instruction) )
 #endif
 
 #if defined(DVM_ENABLE_JUMP48)
 #   define JUMP48() IP = ( (REGISTER)GET_IMM48(instruction) )
 #endif
 
-#if defined(DVM_ENABLE_JUMP32)
-#   define JUMP32() IP += ( (IREGISTER)GET_IMM32(instruction) )
+#if defined(DVM_ENABLE_RJUMP48)
+#   define RJUMP48() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM48(instruction), 48)
 #endif
 
-#if defined(DVM_ENABLE_JUMP24)
-#   define JUMP24() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM24(instruction), 24)
+#if defined(DVM_ENABLE_RJUMP32)
+#   define RJUMP32() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM32(instruction), 32)
 #endif
 
-#if defined(DVM_ENABLE_JUMP16)
-#   define JUMP16() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM16(instruction), 16)
+#if defined(DVM_ENABLE_RJUMP24)
+#   define RJUMP24() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM24(instruction), 24)
 #endif
 
-#if defined(DVM_ENABLE_JUMP8)
-#   define JUMP8() IP += ( (IREGISTER)GET_IMM8(instruction) )
+#if defined(DVM_ENABLE_RJUMP16)
+#   define RJUMP16() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM16(instruction), 16)
+#endif
+
+#if defined(DVM_ENABLE_RJUMP8)
+#   define RJUMP8() IP += DVM_SIGN_EXTEND((REGISTER)GET_IMM8(instruction), 8)
 #endif
 
 #define STUB return
