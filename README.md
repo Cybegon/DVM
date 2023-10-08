@@ -14,6 +14,12 @@
 | libcar      | libdvm-headers only                 | CAR - Cybegon Architecture                |
 | libcar-gen  | libdvm-headers, libcar-headers only | CAR Bytecode generator                    |
 
+Update git submodules:
+```
+git submodule update --init --recursive
+```
+
+
 Build an executable file:
 ```
 cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --target dvm
