@@ -24,16 +24,16 @@
     if (( (var) << (pos) ) & ( 1u << ((bits) - 1u) ))
 
 #define ARITH_REG2LIST4(i, op, type)                                                                                                            \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i    , 32)   { R(GET_R0(instruction)) = ( (type)R(i) )     op ( (type)R(GET_R0(instruction)) ); }    \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i + 1, 32)   { R(GET_R0(instruction)) = ( (type)R(i + 1) ) op ( (type)R(GET_R0(instruction)) ); }    \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i + 2, 32)   { R(GET_R0(instruction)) = ( (type)R(i + 2) ) op ( (type)R(GET_R0(instruction)) ); }    \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i + 3, 32)   { R(GET_R0(instruction)) = ( (type)R(i + 3) ) op ( (type)R(GET_R0(instruction)) ); }
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 1, 32)   { R(GET_R0(instruction)) = ( (type)R(i - 1) ) op ( (type)R(GET_R0(instruction)) ); }    \
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 2, 32)   { R(GET_R0(instruction)) = ( (type)R(i - 2) ) op ( (type)R(GET_R0(instruction)) ); }    \
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 3, 32)   { R(GET_R0(instruction)) = ( (type)R(i - 3) ) op ( (type)R(GET_R0(instruction)) ); }    \
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 4, 32)   { R(GET_R0(instruction)) = ( (type)R(i - 4) ) op ( (type)R(GET_R0(instruction)) ); }
 
 #define ARITH_LIST2REG4(i, op, type)                                                                                            \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i    , 32)   { R(i)      = ( (type)R(i) )     op ( (type)R(GET_R0(instruction)) ); } \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i + 1, 32)   { R(i + 1)  = ( (type)R(i + 1) ) op ( (type)R(GET_R0(instruction)) ); } \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i + 2, 32)   { R(i + 2)  = ( (type)R(i + 2) ) op ( (type)R(GET_R0(instruction)) ); } \
-    IF_BIT_ENABLED(GET_IMM32(instruction), i + 3, 32)   { R(i + 3)  = ( (type)R(i + 3) ) op ( (type)R(GET_R0(instruction)) ); }
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 1, 32)   { R(i - 1)  = ( (type)R(i - 1) ) op ( (type)R(GET_R0(instruction)) ); } \
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 2, 32)   { R(i - 2)  = ( (type)R(i - 2) ) op ( (type)R(GET_R0(instruction)) ); } \
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 3, 32)   { R(i - 3)  = ( (type)R(i - 3) ) op ( (type)R(GET_R0(instruction)) ); } \
+    IF_BIT_ENABLED(GET_IMM32(instruction), i - 4, 32)   { R(i - 4)  = ( (type)R(i - 4) ) op ( (type)R(GET_R0(instruction)) ); }
 
 
 
