@@ -4,9 +4,36 @@
 
 #include "formats.h"
 
+#define BIT_GET( var, pos ) \
+        ( ((var) >> (pos))  & 0x01u )
+
+#define BIT_SET( var, pos ) \
+        ( (var) |= (1u << (pos) ) )
+
+#define BIT_CLEAR( var, pos ) \
+        ( (var) &= ~(1u << (pos) ) )
+
 duint64 car_op32Pack64(duint32 opFirst, duint32 opSecond)
 {
     return ( (duint64)opFirst << 32u ) | ( (duint64)opSecond );
+}
+
+duint64 bitCount(duint64 list)
+{
+    duint count = 0;
+
+    for (int i = 0; i < sizeof(duint64) * 8; ++i)
+        if ( BIT_GET(list, i) )
+            ++count;
+    return count;
+}
+
+duint getNextEnabledBit(duint64 list)
+{
+    for (int i = sizeof(duint64) * 8; i > 0; --i)
+        if ( BIT_GET(list, i) )
+            return i;
+    return NO_REG;
 }
 
 void writeFormat32(duint32* byteCode, duint8 format)
@@ -29,7 +56,7 @@ void writeImm32(duint32* byteCode, duint32 imm)
     *byteCode |= imm;
 }
 
-duint32 car_emit_op32(duint8 format, duint8 opcode,
+duint32 car_emitOp32(duint8 format, duint8 opcode,
                       duint8 regDst, duint8 regSrc1,
                       duint8 regSrc2, duint8 regSrc3,
                       duint32 imm)
@@ -89,7 +116,7 @@ void writeImm64(duint64* byteCode, duint64 imm)
     *byteCode |= imm;
 }
 
-duint64 car_emit_op64(duint8 format, duint8 opcode, duint8 regDst, duint64 imm)
+duint64 car_emitOp64(duint8 format, duint8 opcode, duint8 regDst, duint64 imm)
 {
     duint64 byteCode = 0;
     writeFormat64(&byteCode, format);
@@ -114,4 +141,57 @@ duint64 car_emit_op64(duint8 format, duint8 opcode, duint8 regDst, duint64 imm)
     }
 
     return byteCode;
+}
+
+duint64 car_EmitOp(car_opcodeStruct opcodeStruct)
+{
+    duint regCount = bitCount(opcodeStruct.regList);
+
+    if (opcodeStruct.regDst == NO_REG) {
+        if (opcodeStruct.opcode >= 0x40 && opcodeStruct.opcode <= 0x4F) {
+            return car_emitOp32(CAR_FORMAT_J, opcodeStruct.opcode - 0x40,
+                         NO_REG,
+                         NO_REG, NO_REG, NO_REG,
+                         opcodeStruct.immediate);
+        }
+        else if ( opcodeStruct.opcode >= 0x50 && opcodeStruct.opcode <= 0x5F ) {
+            return car_emitOp32(CAR_FORMAT_C, opcodeStruct.opcode - 0x50,
+                         NO_REG,
+                         NO_REG, NO_REG, NO_REG,
+                         opcodeStruct.immediate);
+        }
+    }
+
+    switch (regCount) {
+        case 0: {
+            return car_emitOp32(CAR_FORMAT_I, opcodeStruct.opcode,
+                         opcodeStruct.regDst,
+                         NO_REG, NO_REG, NO_REG,
+                         opcodeStruct.immediate);
+        }
+        case 1: {
+            duint8 regSrc1 = getNextEnabledBit( opcodeStruct.regList );
+            BIT_CLEAR( opcodeStruct.regList, regSrc1 );
+            return car_emitOp32(CAR_FORMAT_R, opcodeStruct.opcode,
+                                opcodeStruct.regDst,
+                                opcodeStruct.regDst, regSrc1, NO_REG,
+                                0);
+        }
+        case 2:
+        case 3: {
+            duint8 regSrc1 = getNextEnabledBit( opcodeStruct.regList );
+            BIT_CLEAR( opcodeStruct.regList, regSrc1 );
+            duint8 regSrc2 = getNextEnabledBit( opcodeStruct.regList );
+            BIT_CLEAR( opcodeStruct.regList, regSrc2 );
+            duint8 regSrc3 = getNextEnabledBit( opcodeStruct.regList );
+            BIT_CLEAR( opcodeStruct.regList, regSrc3 );
+
+            return car_emitOp32(CAR_FORMAT_R, opcodeStruct.opcode, opcodeStruct.regDst, regSrc1, regSrc2, regSrc3, 0);
+        }
+        default: {
+            break;
+        }
+    }
+
+    return 0;
 }
