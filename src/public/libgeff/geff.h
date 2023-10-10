@@ -73,9 +73,11 @@ struct GEFF_IMPORT_DIRECTORY // 32 byte per record
 
 struct GEFF_RELOC_RECORD // 32 byte per record
 {
+    duint64 mask;
     duint64 offset;
-    duint64 addend;
-    duint8  reserved[8];
+    duint32 addend;
+    duint16 shift;
+    duint8  reserved[2];
     duint32 info;
     duint32 flags;
 };

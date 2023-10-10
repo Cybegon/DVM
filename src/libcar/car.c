@@ -45,7 +45,9 @@ vm_code DVM_CALLBACK entry(DVM* state)
     INSTRUCTION     tmp;
 
     vmchunkexec() {
-        in = DVM_FETCH(state);
+        in  = DVM_FETCH(state);
+        IP += sizeof(INSTRUCTION);
+
         if (cvtR2FR(FR)->vm_control & EF) {
             tmp = *in;                      // copy to temporary instruction
             DVM_BSWAP64(tmp.i64);           // swap data
@@ -146,7 +148,6 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
         }
     }
     vmslot(SKIP)
-    IP += sizeof(INSTRUCTION);
 
     return DVM_SUCCESS;
 }
