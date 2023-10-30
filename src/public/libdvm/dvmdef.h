@@ -70,13 +70,13 @@
 #define vmrelease(c)    return c;
 
 #define DVM_BIT_GET( var, pos ) \
-        ( ((var) >> (pos))  & 0x01u )
+        ( ((var) >> (pos))  & 0x01ull )
 
 #define DVM_BIT_SET( var, pos ) \
-        ( (var) |= (1u << (pos) ) )
+        ( (var) |= (1ull << (pos) ) )
 
 #define DVM_BIT_CLEAR( var, pos ) \
-        ( (var) &= ~(1u << (pos) ) )
+        ( (var) &= ~(1ull << (pos) ) )
 
 #define DVM_SWAP_UNSAFE( varA, varB ) \
         ( (varA) ^= (varB), (varB) ^= (varA), (varA) ^= (varB) )
