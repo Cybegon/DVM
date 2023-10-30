@@ -7,8 +7,6 @@
 
 #include "i32/format-i/format-i.h"
 #include "i32/format-r/format-r.h"
-#include "i32/format-j/format-j.h"
-#include "i32/format-c/format-c.h"
 
 #include "i64/format-i/format-i.h"
 #include "i64/format-j/format-j.h"
@@ -102,20 +100,11 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
             format_r32(state, in->i32L);
             vmbreak;
         }
-        vmcase(CAR_FORMAT_J) {
-            format_j32(state, in->i32L);
-            vmbreak;
-        }
-        vmcase(CAR_FORMAT_C) {
-            format_c32(state, in->i32L);
-            vmbreak;
-        }
         vmcase(CAR_FORMAT_LONG) {
-            longMode( state, in );
             vmsignal(SKIP);
         }
         vmdefault: {
-            return DVM_FAIL;
+            longMode( state, in );
         }
     }
     vmdispatch(GET_FORMAT32(in->i32H)) {
@@ -131,19 +120,12 @@ vm_code DVM_FASTCALL step(DVM* state, INSTRUCTION* in)
             format_r32(state, in->i32H);
             vmbreak;
         }
-        vmcase(CAR_FORMAT_J) {
-            format_j32(state, in->i32H);
-            vmbreak;
-        }
-        vmcase(CAR_FORMAT_C) {
-            format_c32(state, in->i32H);
-            vmbreak;
-        }
         vmcase(CAR_FORMAT_LONG) {
             state->SVI[ SVI_ILLEGAL_OPCODE ]( state );
             vmsignal(SKIP);
         }
         vmdefault: {
+            state->SVI[ SVI_ILLEGAL_OPCODE ]( state );
             return DVM_FAIL;
         }
     }

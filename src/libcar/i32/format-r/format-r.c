@@ -10,6 +10,7 @@
 
 #define CAR_32
 #define DVM_ENABLE_JUMPR
+#define DVM_ENABLE_RJUMPR
 #include "auxiliary.h"
 
 // rename later
@@ -254,6 +255,95 @@ vmslot(FLOW)
         }
         vmcase(OP_CHI) {
             IF_HI() { PUSH(REGISTER, IP); JUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        // !~RF - Relative Flow
+        vmcase(OP_RJMP) {
+            RJUMPR(R(GET_R0(instruction)));
+            vmbreak;
+        }
+        vmcase(OP_RJEQ) {
+            IF_EQ() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJNE) {
+            IF_NE() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJLT) {
+            IF_LT() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJGT) {
+            IF_GT() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJLE) {
+            IF_LE() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJGE) {
+            IF_GE() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJLS) {
+            IF_LS() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJHS) {
+            IF_HS() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJLO) {
+            IF_LO() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RJHI) {
+            IF_HI() { RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCALL) {
+            PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction)));
+            vmbreak;
+        }
+        vmcase(OP_RCEQ) {
+            IF_EQ() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCNE) {
+            IF_NE() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCLT) {
+            IF_LT() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCGT) {
+            IF_GT() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCLE) {
+            IF_LE() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCGE) {
+            IF_GE() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCLS) {
+            IF_LS() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCHS) {
+            IF_HS() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCLO) {
+            IF_LO() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
+            vmbreak;
+        }
+        vmcase(OP_RCHI) {
+            IF_HI() { PUSH(REGISTER, IP); RJUMPR(R(GET_R0(instruction))); }
             vmbreak;
         }
         vmcase(OP_RET) {

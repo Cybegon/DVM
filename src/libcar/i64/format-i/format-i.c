@@ -9,6 +9,7 @@
 #include "opcodes.h"
 
 #define CAR_64
+#define DVM_ENABLE_JUMP32
 #define DVM_ENABLE_RJUMP32
 #include "auxiliary.h"
 
@@ -186,90 +187,179 @@ vmslot(FLOW)
     vmswitch(GET_OPCODE8(instruction)) {
         // !~F - Flow
         vmcase(OP_JMP) {
-            RJUMP32();
+            JUMP32();
             vmbreak;
         }
         vmcase(OP_JEQ) {
-            IF_EQ() { RJUMP32(); }
+            IF_EQ() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JNE) {
-            IF_NE() { RJUMP32(); }
+            IF_NE() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JLT) {
-            IF_LT() { RJUMP32(); }
+            IF_LT() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JGT) {
-            IF_GT() { RJUMP32(); }
+            IF_GT() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JLE) {
-            IF_LE() { RJUMP32(); }
+            IF_LE() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JGE) {
-            IF_GE() { RJUMP32(); }
+            IF_GE() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JLS) {
-            IF_LS() { RJUMP32(); }
+            IF_LS() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JHS) {
-            IF_HS() { RJUMP32(); }
+            IF_HS() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JLO) {
-            IF_LO() { RJUMP32(); }
+            IF_LO() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_JHI) {
-            IF_HI() { RJUMP32(); }
+            IF_HI() { JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CALL) {
-            PUSH(REGISTER, IP); RJUMP32();
+            PUSH(REGISTER, IP); JUMP32();
             vmbreak;
         }
         vmcase(OP_CEQ) {
-            IF_EQ() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_EQ() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CNE) {
-            IF_NE() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_NE() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CLT) {
-            IF_LT() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_LT() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CGT) {
-            IF_GT() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_GT() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CLE) {
-            IF_LE() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_LE() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CGE) {
-            IF_GE() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_GE() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CLS) {
-            IF_LS() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_LS() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CHS) {
-            IF_HS() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_HS() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CLO) {
-            IF_LO() { PUSH(REGISTER, IP); RJUMP32(); }
+            IF_LO() { PUSH(REGISTER, IP); JUMP32(); }
             vmbreak;
         }
         vmcase(OP_CHI) {
+            IF_HI() { PUSH(REGISTER, IP); JUMP32(); }
+            vmbreak;
+        }
+        //~! Relative Flow
+        vmcase(OP_RJMP) {
+            RJUMP32();
+            vmbreak;
+        }
+        vmcase(OP_RJEQ) {
+            IF_EQ() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJNE) {
+            IF_NE() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLT) {
+            IF_LT() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJGT) {
+            IF_GT() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLE) {
+            IF_LE() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJGE) {
+            IF_GE() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLS) {
+            IF_LS() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJHS) {
+            IF_HS() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJLO) {
+            IF_LO() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RJHI) {
+            IF_HI() { RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCALL) {
+            PUSH(REGISTER, IP); RJUMP32();
+            vmbreak;
+        }
+        vmcase(OP_RCEQ) {
+            IF_EQ() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCNE) {
+            IF_NE() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCLT) {
+            IF_LT() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCGT) {
+            IF_GT() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCLE) {
+            IF_LE() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCGE) {
+            IF_GE() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCLS) {
+            IF_LS() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCHS) {
+            IF_HS() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCLO) {
+            IF_LO() { PUSH(REGISTER, IP); RJUMP32(); }
+            vmbreak;
+        }
+        vmcase(OP_RCHI) {
             IF_HI() { PUSH(REGISTER, IP); RJUMP32(); }
             vmbreak;
         }
