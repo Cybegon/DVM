@@ -108,7 +108,7 @@ void writeOperation64(duint64* byteCode, duint8 op)
 
 void writeReg64(duint64* byteCode, duint8 reg, duint8 offset)
 {
-    *byteCode |= ( nR(reg) << offset );
+    *byteCode |= ( ((duint64)nR(reg)) << offset );
 }
 
 void writeImm64(duint64* byteCode, duint64 imm)
