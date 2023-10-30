@@ -149,25 +149,29 @@ duint64 car_EmitOp(car_opcodeStruct opcodeStruct)
 
     if (opcodeStruct.regDst == NO_REG) {
         if (opcodeStruct.opcode >= 0x40 && opcodeStruct.opcode <= 0x4F) {
-            return car_emitOp32(CAR_FORMAT_J, opcodeStruct.opcode - 0x40,
+            return car_emitOp64(CAR_FORMAT_J, opcodeStruct.opcode - 0x40,
                          NO_REG,
-                         NO_REG, NO_REG, NO_REG,
                          opcodeStruct.immediate);
         }
         else if ( opcodeStruct.opcode >= 0x50 && opcodeStruct.opcode <= 0x5F ) {
-            return car_emitOp32(CAR_FORMAT_C, opcodeStruct.opcode - 0x50,
+            return car_emitOp64(CAR_FORMAT_C, opcodeStruct.opcode - 0x50,
                          NO_REG,
-                         NO_REG, NO_REG, NO_REG,
                          opcodeStruct.immediate);
         }
     }
 
     switch (regCount) {
         case 0: {
-            return car_emitOp32(CAR_FORMAT_I, opcodeStruct.opcode,
-                         opcodeStruct.regDst,
-                         NO_REG, NO_REG, NO_REG,
-                         opcodeStruct.immediate);
+            if (opcodeStruct.immediate <= 0xFFFF) {
+                return car_emitOp32(CAR_FORMAT_I, opcodeStruct.opcode,
+                                    opcodeStruct.regDst,
+                                    NO_REG, NO_REG, NO_REG,
+                                    opcodeStruct.immediate);
+            } else {
+                return car_emitOp64(CAR_FORMAT_I, opcodeStruct.opcode,
+                                    opcodeStruct.regDst,
+                                    opcodeStruct.immediate);
+            }
         }
         case 1: {
             duint8 regSrc1 = getNextEnabledBit( opcodeStruct.regList );
@@ -193,5 +197,5 @@ duint64 car_EmitOp(car_opcodeStruct opcodeStruct)
         }
     }
 
-    return 0;
+    return car_emitOp64(CAR_FORMAT_L, opcodeStruct.opcode, opcodeStruct.regDst, opcodeStruct.regList);
 }
