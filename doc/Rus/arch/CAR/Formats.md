@@ -1,9 +1,16 @@
 # Format-i - Immediate
 
+#### Format-i32
 
 | Mode  | Format | OP     | RegDst | Immediate |
 |-------|--------|--------|--------|-----------|
 | 1 bit | 3 bit  | 7 bit  | 5 bit  | 16 bit    |
+
+#### Format-i64
+
+| Mode  | Format | OP    | RegDst | Immediate |
+|-------|--------|-------|--------|-----------|
+| 2 bit | 6 bit  | 8 bit | 5 bit  | 32 bit    |
 
 # Format-r - Register
 
@@ -13,15 +20,15 @@
 
 # Format-j - Jump
 
-| Mode  | Format | OP     | Immediate |
-|-------|--------|--------|-----------|
-| 1 bit | 3 bit  | 4 bit  | 24 bit    |
+| Mode  | Format | OP    | Immediate |
+|-------|--------|-------|-----------|
+| 2 bit | 6 bit  | 8 bit | 48 bit    |
 
 # Format-c - Call
 
-| Mode  | Format | OP     | Immediate |
-|-------|--------|--------|-----------|
-| 1 bit | 3 bit  | 4 bit  | 24 bit    |
+| Mode  | Format | OP    | Immediate |
+|-------|--------|-------|-----------|
+| 2 bit | 6 bit  | 8 bit | 48 bit    |
 
 # !Format-f - Floating point!
     

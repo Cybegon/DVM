@@ -1,8 +1,8 @@
 # Format-c - Call
 
-| Mode  | Format | OP     | Immediate |
-|-------|--------|--------|-----------|
-| 1 bit | 3 bit  | 4 bit  | 24 bit    |
+| Mode  | Format | OP    | Immediate |
+|-------|--------|-------|-----------|
+| 2 bit | 6 bit  | 8 bit | 48 bit    |
 
 ### Opcodes
 
