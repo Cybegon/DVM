@@ -36,22 +36,22 @@ duint getNextEnabledBit(duint64 list)
     return NO_REG;
 }
 
-void writeFormat32(duint32* byteCode, duint8 format)
+void writeFormat32(duint64* byteCode, duint8 format)
 {
     *byteCode |= ( ((duint32)format) << 28 );
 }
 
-void writeOperation32(duint32* byteCode, duint8 op)
+void writeOperation32(duint64* byteCode, duint8 op)
 {
     *byteCode |= ( ((duint32)op) << 21 );
 }
 
-void writeReg32(duint32* byteCode, duint8 reg, duint8 offset)
+void writeReg32(duint64* byteCode, duint8 reg, duint8 offset)
 {
     *byteCode |= ( nR(reg) << offset );
 }
 
-void writeImm32(duint32* byteCode, duint32 imm)
+void writeImm32(duint64* byteCode, duint32 imm)
 {
     *byteCode |= imm;
 }
@@ -61,7 +61,7 @@ duint64 car_emitOp32(duint8 format, duint8 opcode,
                       duint8 regSrc2, duint8 regSrc3,
                       duint32 imm)
 {
-    duint32 byteCode = 0;
+    duint64 byteCode = 0;
     writeFormat32(&byteCode, format);
 
     switch (format) {
@@ -93,7 +93,7 @@ duint64 car_emitOp32(duint8 format, duint8 opcode,
         }
     }
 
-    return ( (byteCode) << 31ull );
+    return ( (byteCode) << 31 );
 }
 
 void writeFormat64(duint64* byteCode, duint8 format)
