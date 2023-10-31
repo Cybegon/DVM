@@ -56,7 +56,7 @@ void writeImm32(duint32* byteCode, duint32 imm)
     *byteCode |= imm;
 }
 
-duint32 car_emitOp32(duint8 format, duint8 opcode,
+duint64 car_emitOp32(duint8 format, duint8 opcode,
                       duint8 regDst, duint8 regSrc1,
                       duint8 regSrc2, duint8 regSrc3,
                       duint32 imm)
@@ -93,7 +93,7 @@ duint32 car_emitOp32(duint8 format, duint8 opcode,
         }
     }
 
-    return byteCode;
+    return ( (byteCode) << 31ull );
 }
 
 void writeFormat64(duint64* byteCode, duint8 format)
