@@ -93,7 +93,7 @@ duint64 car_emitOp32(duint8 format, duint8 opcode,
         }
     }
 
-    return ( (byteCode) << 31 );
+    return ( (byteCode) << 32 );
 }
 
 void writeFormat64(duint64* byteCode, duint8 format)
