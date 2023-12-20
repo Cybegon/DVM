@@ -41,13 +41,13 @@ DVM* dvm_newState( DVM_CLASS* dvmClass )
     }
 
     // Setting up registers
-    BL = 0;
+    BL = IMAGE_BASE_ADDRESS;
     BH = dvmClass->chunkSize;
     SP = dvmClass->stackSize - sizeof( INSTRUCTION );
 
     state->dvmClass     = dvmClass;
-    state->text         = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
-    state->data         = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
+    state->text         = dvmClass->getChunk( dvmClass->imageDescriptor, BL, BH );
+    state->data         = dvmClass->getChunk( dvmClass->imageDescriptor, BL, BH );
     state->stack        = dvmClass->malloc( dvmClass->stackSize );
 
     dvm_setEndian( state, dvm_getByteOrder() );
@@ -88,8 +88,13 @@ vm_code dvm_reset( DVM* state )
         state->sr[i] = 0;
     }
 
-    state->text = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
-    state->data = dvmClass->getChunk( dvmClass->imageDescriptor, IMAGE_BASE_ADDRESS, dvmClass->chunkSize );
+    // Setting up registers
+    BL = IMAGE_BASE_ADDRESS;
+    BH = dvmClass->chunkSize;
+    SP = dvmClass->stackSize - sizeof( INSTRUCTION );
+
+    state->text = dvmClass->getChunk( dvmClass->imageDescriptor, BL, BH );
+    state->data = dvmClass->getChunk( dvmClass->imageDescriptor, BL, BH );
 
     return DVM_SUCCESS; // TODO: replace
 }
