@@ -1,4 +1,4 @@
-# Cybegon Aachitecture
+# Cybegon Architecture
 
 # CAR Instruction formats
 - N-Type (NOP)
