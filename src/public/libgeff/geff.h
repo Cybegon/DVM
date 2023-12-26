@@ -21,6 +21,8 @@
 //#define GEFF_LOCATOR_TYPE_NONE (0x00000000)
 //#define GEFF_LOCATOR_TYPE_NONE (0x00000000)
 
+PACKED_BEGIN
+
 struct GEFF_HEADER
 {
     duint64 signature;
@@ -33,7 +35,7 @@ struct GEFF_HEADER
     // Number of sections.
     duint16 sectionNumber;
     duint64 sectionTablePointer;
-};
+} PACKED;
 
 struct GEFF_SECTION
 {
@@ -44,7 +46,7 @@ struct GEFF_SECTION
     duint64 sectionSize;
     duint64 virtualAddress;
     duint32 flags;
-};
+} PACKED;
 
 struct GEFF_MODULE // 32 byte per record
 {
@@ -52,7 +54,7 @@ struct GEFF_MODULE // 32 byte per record
     duint8  reserved[16];
     duint32 info;
     duint32 flags;
-};
+} PACKED;
 
 struct GEFF_EXPORT_DIRECTORY // 32 byte per record
 {
@@ -62,14 +64,14 @@ struct GEFF_EXPORT_DIRECTORY // 32 byte per record
     duint32 dataSize;
     duint8  reserved[8];
     duint32 flags;
-};
+} PACKED;
 
 struct GEFF_IMPORT_DIRECTORY // 32 byte per record
 {
     duint64 index;
     duint64 name;
     duint8  reserved[16];
-};
+} PACKED;
 
 struct GEFF_RELOC_RECORD // 32 byte per record
 {
@@ -80,7 +82,9 @@ struct GEFF_RELOC_RECORD // 32 byte per record
     duint8  reserved[2];
     duint32 info;
     duint32 flags;
-};
+} PACKED;
+
+PACKED_END
 
 dint geff_validateGEFFHeader(struct GEFF_HEADER* header);
 dsize geff_calculateAllSectionSize(struct GEFF_HEADER* header);
