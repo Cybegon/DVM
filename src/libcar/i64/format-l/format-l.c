@@ -77,10 +77,10 @@ VOID DVM_FASTCALL format_l64(DVM* state, duint64 instruction)
             }
 
             ITERATE_REGISTERS {
-                IF_BIT_ENABLED(GET_IMM32(instruction), i    , 32)   { DVM_BSWAP64( R(i) );      }
-                IF_BIT_ENABLED(GET_IMM32(instruction), i + 1, 32)   { DVM_BSWAP64( R(i + 1) );  }
-                IF_BIT_ENABLED(GET_IMM32(instruction), i + 2, 32)   { DVM_BSWAP64( R(i + 2) );  }
-                IF_BIT_ENABLED(GET_IMM32(instruction), i + 3, 32)   { DVM_BSWAP64( R(i + 3) );  }
+                IF_BIT_ENABLED(GET_IMM32(instruction), i    , 32)   { _BSWAP64( R(i) );      }
+                IF_BIT_ENABLED(GET_IMM32(instruction), i + 1, 32)   { _BSWAP64( R(i + 1) );  }
+                IF_BIT_ENABLED(GET_IMM32(instruction), i + 2, 32)   { _BSWAP64( R(i + 2) );  }
+                IF_BIT_ENABLED(GET_IMM32(instruction), i + 3, 32)   { _BSWAP64( R(i + 3) );  }
             }
             vmbreak;
         }

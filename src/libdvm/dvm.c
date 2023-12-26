@@ -136,8 +136,8 @@ vm_code dvm_setSWI(DVM* state, DVM_INT* vector)
 
 vm_code dvm_setEndian(DVM* state, duint8 endian) {
     (endian >= 1)
-    ? DVM_BIT_SET(cvtR2FR(FR)->vm_control, 7u)
-    : DVM_BIT_CLEAR(cvtR2FR(FR)->vm_control, 7u);
+    ? _BIT_SET(cvtR2FR(FR)->vm_control, 7u)
+    : _BIT_CLEAR(cvtR2FR(FR)->vm_control, 7u);
 
     return DVM_SUCCESS;
 }

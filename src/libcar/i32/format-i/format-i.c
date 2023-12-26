@@ -29,7 +29,7 @@ VOID format_i32(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_SWP) {
-            DVM_BSWAP64(R(GET_R0(instruction)));
+            _BSWAP64(R(GET_R0(instruction)));
             vmbreak;
         }
         vmcase(OP_LD) { // make

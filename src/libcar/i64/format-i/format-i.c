@@ -29,7 +29,7 @@ VOID DVM_FASTCALL format_i64(DVM* state, duint64 instruction)
             vmbreak;
         }
         vmcase(OP_SWP) {
-            DVM_BSWAP64(R(GET_R0(instruction)));
+            _BSWAP64(R(GET_R0(instruction)));
             vmbreak;
         }
         vmcase(OP_LD) { // make

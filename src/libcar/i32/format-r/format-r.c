@@ -44,7 +44,7 @@ VOID DVM_FASTCALL format_r32(DVM* state, duint32 instruction)
             vmbreak;
         }
         vmcase(OP_SWP) { // make reglist
-            DVM_BSWAP64(R(GET_R0(instruction)));
+            _BSWAP64(R(GET_R0(instruction)));
             vmbreak;
         }
         vmcase(OP_ENTER) {

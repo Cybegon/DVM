@@ -119,7 +119,7 @@ void writeImm64(duint64* byteCode, duint64 imm)
 duint64 car_emitOp64(duint8 format, duint8 opcode, duint8 regDst, duint64 imm)
 {
     duint64 byteCode = 0;
-    DVM_BIT_SET(byteCode, ( ( sizeof(duint64) * 8 ) - 1ull ) );
+    _BIT_SET(byteCode, ( ( sizeof(duint64) * 8 ) - 1ull ) );
     writeFormat64(&byteCode, format);
 
     switch (format) {
