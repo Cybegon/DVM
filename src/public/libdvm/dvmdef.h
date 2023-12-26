@@ -69,25 +69,11 @@
 #define vmsignal(s)     goto s
 #define vmrelease(c)    return c;
 
-#define DVM_BIT_GET( var, pos ) \
-        ( ((var) >> (pos))  & 0x01ull )
-
-#define DVM_BIT_SET( var, pos ) \
-        ( (var) |= (1ull << (pos) ) )
-
-#define DVM_BIT_CLEAR( var, pos ) \
-        ( (var) &= ~(1ull << (pos) ) )
-
 #define DVM_SWAP_UNSAFE( varA, varB ) \
         ( (varA) ^= (varB), (varB) ^= (varA), (varA) ^= (varB) )
 
 #define DVM_SWAP( varA, varB ) \
         ( ( &(varA) == &(varB) ) ? (varA) : DVM_SWAP_UNSAFE( varA, varB ) )
-
-#define DVM_BSWAP64( var ) \
-    (var) = ( ( (var) << 8u  ) & 0xFF00FF00FF00FF00ull ) | ( ( (var) >> 8u  ) & 0x00FF00FF00FF00FFull );  \
-    (var) = ( ( (var) << 16u ) & 0xFFFF0000FFFF0000ull ) | ( ( (var) >> 16u ) & 0x0000FFFF0000FFFFull );  \
-    (var) = ( (var) << 32u ) | ( ( (var) >> 32u ) & 0xFFFFFFFFull )
 
 #define DVM_SIGN_EXTEND(x, b) \
     ((x ^ (1ull << (b - 1ull))) - (1ull << (b - 1ull)))
