@@ -3,6 +3,8 @@
 
 #include "datatypes.h"
 
+#define GEFF_VERSION (0x0000000000000001)
+
 #define GEFF_SIGNATURE_HEADER   (0x4745464601010000)
 #define GEFF_SIGNATURE_SECTION  (0x4745464601020000)
 
@@ -23,13 +25,15 @@
 
 PACKED_BEGIN
 
-struct GEFF_HEADER
+struct GEFF_HEADER // 64 byte per record
 {
     duint64 signature;
+    duint64 geffVersion;
     // File type.
     duint16 type;
     // Compile date.
     duint64 timeDateStamp;
+    duint8  reserved[26];
     // Extra header size.
     duint16 sizeOptionalHeader;
     // Number of sections.
@@ -37,12 +41,13 @@ struct GEFF_HEADER
     duint64 sectionTablePointer;
 } PACKED;
 
-struct GEFF_SECTION
+struct GEFF_SECTION // 64 byte per record
 {
     duint64 signature;
     duint32 crc32;
     // Section name includes NULL
-    char    name[32];
+    duint64 name;
+    duint8  reserved[24];
     duint64 sectionSize;
     duint64 virtualAddress;
     duint32 flags;

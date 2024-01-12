@@ -4,7 +4,12 @@
 
 dint geff_validateGEFFHeader(struct GEFF_HEADER* header)
 {
-    return (header->signature == GEFF_SIGNATURE_SECTION) ? TRUE : FALSE;
+    if (header->signature != GEFF_SIGNATURE_SECTION)
+        return FALSE;
+    if (header->geffVersion != GEFF_VERSION)
+        return FALSE;
+
+    return TRUE;
 }
 
 dsize geff_calculateAllSectionSize(struct GEFF_HEADER* header)

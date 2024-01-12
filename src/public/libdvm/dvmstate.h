@@ -7,7 +7,6 @@
 #include "dvmdef.h"
 #include "dvmid.h"
 
-
 #include "vcpuclass.h"
 
 struct DVM
