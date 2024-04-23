@@ -45,11 +45,10 @@ struct GEFF_SECTION // 64 byte per record
 {
     duint64 signature;
     duint32 crc32;
-    // Section name includes NULL
     duint64 name;
     duint8  reserved[24];
     duint64 sectionSize;
-    duint64 virtualAddress;
+    duint64 va;
     duint32 flags;
 } PACKED;
 
@@ -57,6 +56,7 @@ struct GEFF_MODULE // 32 byte per record
 {
     duint64 name;
     duint8  reserved[16];
+    duint64 numberOfEntry;
     duint32 info;
     duint32 flags;
 } PACKED;
@@ -83,7 +83,6 @@ struct GEFF_RELOC_RECORD // 32 byte per record
     duint64 mask;
     duint64 offset;
     duint32 addend;
-    duint16 shift;
     duint8  reserved[2];
     duint32 info;
     duint32 flags;

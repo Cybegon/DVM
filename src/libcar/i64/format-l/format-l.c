@@ -35,8 +35,6 @@
     IF_BIT_ENABLED(GET_IMM32(instruction), i - 3, 32)   { R(i - 3)  = ( (type)R(i - 3) ) op ( (type)R(GET_R0(instruction)) ); } \
     IF_BIT_ENABLED(GET_IMM32(instruction), i - 4, 32)   { R(i - 4)  = ( (type)R(i - 4) ) op ( (type)R(GET_R0(instruction)) ); }
 
-
-
 #define IF_ALT() if (GET_A(instruction))
 
 VOID DVM_FASTCALL format_l64(DVM* state, duint64 instruction)

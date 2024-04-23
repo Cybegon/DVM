@@ -1,5 +1,5 @@
+#include "dvm_memory.h"
 #include "dvmbase.h"
-#include "dvmbase_p.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -60,7 +60,7 @@ MEMORY DVM_CALLBACK dvm_vAlloc(ADDRESS base, dsize size, duint32 protection)
     return (mem != MAP_FAILED) ? mem : NULL;
 }
 
-dint dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
+dint DVM_CALLBACK dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
 {
     dint32 localProtection  = 0;
     duint32 pageSize        = dvm_getPageSize();
@@ -73,7 +73,7 @@ dint dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
     return (status == 0) ? TRUE : FALSE;
 }
 
-void dvm_vFree(ADDRESS address, dsize size, dint32 freeType)
+void DVM_CALLBACK dvm_vFree(ADDRESS address, dsize size, dint32 freeType)
 {
     munmap(address, size);
 }

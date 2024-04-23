@@ -19,32 +19,6 @@
 #   define DVM_FASTCALL
 #endif
 
-//// Memory map allocator
-//// Protection
-//#define DVM_PROT_READ           ( 0x01u )
-//#define DVM_PROT_READWRITE      ( 0x02u )
-//#define DVM_PROT_STACK          ( 0x10u ) // top down
-//#define DVM_PROT_EXEC           ( 0x20u )
-//
-//// Memory flags
-//#define DVM_MEM_FIXED           ( 0x01u )
-//#define DVM_MEM_PRIVATE         ( 0x02u )
-//#define DVM_MEM_SHARED          ( 0x04u )
-//#define DVM_MEM_ZERO            ( 0x10u )
-//
-//// Open file
-//#define DVM_FILE_READ           ( 0x00 )
-//#define DVM_FILE_READWRITE      ( 0x01 )
-//#define DVM_FILE_SHARED_READ    ( 0x00 )
-//
-//#define DVM_FILE_APPEND         ( 0x04 )
-//#define DVM_FILE_TRUNC          ( 0x08 )
-//#define DVM_FILE_EXISTING       ( 0x10 )
-//#define DVM_FILE_NEW            ( 0x20 )
-
-
-// Finish later
-
 // VM Msg_t
 #define DVM_MSG_INFO    0
 #define DVM_MSG_ERROR   1
@@ -61,9 +35,9 @@ typedef MEMORY      (DVM_CALLBACK *MemReAllocator)      (MEMORY address, dsize s
 typedef VOID        (DVM_CALLBACK *MemFree)             (MEMORY address);
 
 // Memory map
-typedef DESCRIPTOR  (DVM_CALLBACK *CreateMemMapFunc)    (MEMORY address, dsize size, duint32 flags, duint32 protection);
-typedef MEMORY      (DVM_CALLBACK *MemMapAccessFunc)    (DESCRIPTOR handle, duint64 offset, duint64 length);
-typedef void        (DVM_CALLBACK *UnmapMemFunc)        (DESCRIPTOR handle);
+//typedef DESCRIPTOR  (DVM_CALLBACK *CreateMemMapFunc)    (MEMORY address, dsize size, duint32 flags, duint32 protection);
+//typedef MEMORY      (DVM_CALLBACK *MemMapAccessFunc)    (DESCRIPTOR handle, duint64 offset, duint64 length);
+//typedef void        (DVM_CALLBACK *UnmapMemFunc)        (DESCRIPTOR handle);
 
 typedef MEMORY      (DVM_CALLBACK *GetChunk)            (DESCRIPTOR image, dsize offset, dsize size);
 
@@ -94,6 +68,8 @@ struct DVM_CLASS
     // For current processor architecture
     dsize               reservedCodeCacheSize;
     dsize               maxHeapSize;
+
+    duint32             flags;
 };
 
 #endif // VIRTUALDRAGON_DVMCLASS_H

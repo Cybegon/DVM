@@ -4,15 +4,6 @@
 
 #include "formats.h"
 
-#define BIT_GET( var, pos ) \
-        ( ((var) >> (pos))  & 0x01u )
-
-#define BIT_SET( var, pos ) \
-        ( (var) |= (1u << (pos) ) )
-
-#define BIT_CLEAR( var, pos ) \
-        ( (var) &= ~(1u << (pos) ) )
-
 duint64 car_op32Pack64(duint32 opFirst, duint32 opSecond)
 {
     return ( (duint64)opFirst << 32u ) | ( (duint64)opSecond );
@@ -23,7 +14,7 @@ duint64 bitCount(duint64 list)
     duint count = 0;
 
     for (int i = 0; i < sizeof(duint64) * 8; ++i)
-        if ( BIT_GET(list, i) )
+        if ( _BIT_GET(list, i) )
             ++count;
     return count;
 }
@@ -31,7 +22,7 @@ duint64 bitCount(duint64 list)
 duint getNextEnabledBit(duint64 list)
 {
     for (int i = sizeof(duint64) * 8; i > 0; --i)
-        if ( BIT_GET(list, i) )
+        if ( _BIT_GET(list, i) )
             return i;
     return NO_REG;
 }
@@ -176,7 +167,7 @@ duint64 car_EmitOp(car_opcodeStruct opcodeStruct)
         }
         case 1: {
             duint8 regSrc1 = getNextEnabledBit( opcodeStruct.regList );
-            BIT_CLEAR( opcodeStruct.regList, regSrc1 );
+            _BIT_CLEAR( opcodeStruct.regList, regSrc1 );
             return car_emitOp32(CAR_FORMAT_R, opcodeStruct.opcode,
                                 opcodeStruct.regDst,
                                 opcodeStruct.regDst, regSrc1, NO_REG,
@@ -185,11 +176,11 @@ duint64 car_EmitOp(car_opcodeStruct opcodeStruct)
         case 2:
         case 3: {
             duint8 regSrc1 = getNextEnabledBit( opcodeStruct.regList );
-            BIT_CLEAR( opcodeStruct.regList, regSrc1 );
+            _BIT_CLEAR( opcodeStruct.regList, regSrc1 );
             duint8 regSrc2 = getNextEnabledBit( opcodeStruct.regList );
-            BIT_CLEAR( opcodeStruct.regList, regSrc2 );
+            _BIT_CLEAR( opcodeStruct.regList, regSrc2 );
             duint8 regSrc3 = getNextEnabledBit( opcodeStruct.regList );
-            BIT_CLEAR( opcodeStruct.regList, regSrc3 );
+            _BIT_CLEAR( opcodeStruct.regList, regSrc3 );
 
             return car_emitOp32(CAR_FORMAT_R, opcodeStruct.opcode, opcodeStruct.regDst, regSrc1, regSrc2, regSrc3, 0);
         }

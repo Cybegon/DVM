@@ -1,5 +1,5 @@
+#include "dvm_memory.h"
 #include "dvmbase.h"
-#include "dvmbase_p.h"
 
 #include <windows.h>
 
@@ -95,7 +95,7 @@ MEMORY DVM_CALLBACK dvm_vAlloc(ADDRESS base, dsize size, duint32 protection)
     return mem;
 }
 
-dint dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
+dint DVM_CALLBACK dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
 {
     duint32 oldProtection   = 0;
     duint32 localProtection = 0;
@@ -110,7 +110,7 @@ dint dvm_vProt(ADDRESS chunk, dsize size, duint32 protection)
     return (status != 0) ?  TRUE : FALSE;
 }
 
-void dvm_vFree(ADDRESS address, dsize size, dint32 freeType)
+void DVM_CALLBACK dvm_vFree(ADDRESS address, dsize size, dint32 freeType)
 {
     VirtualFree(address, size, MEM_RELEASE);
 }

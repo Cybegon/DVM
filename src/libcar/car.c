@@ -48,7 +48,7 @@ vm_code DVM_CALLBACK entry(DVM* state)
 
         if (cvtR2FR(FR)->vm_control & EF) {
             tmp = *in;                      // copy to temporary instruction
-            _BSWAP64(tmp.i64);           // swap data
+            _BSWAP64(tmp.i64);              // swap data
             in = &tmp;                      // set pointer to temporary instruction
         }
 

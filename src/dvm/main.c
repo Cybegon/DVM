@@ -38,24 +38,41 @@ vm_code emptyInterrupt(DVM* dvmState) {
     return DVM_SUCCESS;
 }
 
+#include "dvmfsapi.h"
+#include "dvmfileapi.h"
+
+#include "common/zipfs/zipfs.h"
+#include "common/osfs/osfs.h"
+
 int main(int argc, char* argv[])
 {
-    DESCRIPTOR fileImage = dvm_openExecutableFile("VM.dex");
-    fileImage = dvm_createVMImage(fileImage, 0);
-
-    for (int i = 0; i < 0xFF; ++i) {
-        swiVector[i] = emptyInterrupt;
-    }
-    swiVector[0] = dvmExit;
-
     DVM_CLASS dvmClass;
-    dvm_initClass(&dvmClass, fileImage);
+    dvm_initClass(&dvmClass);
 
-    state = dvm_newState(&dvmClass);
+    DVM_FS_CONTEXT* ctx = dvm_fsInit(&dvmClass);
 
-    dvm_setVCPU( state, car_getVCPU(state) );
-    dvm_setSWI(state, swiVector);
-    dvm_execute(state);
+    DVM_FIO* dvxFIO     = zipfs_createFs("dvx", "D:/Cybegon/appledragon.zip", &dvmClass);
+    DVM_FIO* osfsFIO    = osfs_createFs("osfs", NULL, &dvmClass);
+
+    if (dvm_registerFs(dvxFIO, ctx) != 0)
+        printf("dvx not loaded");
+    if (dvm_registerFs(osfsFIO, ctx) != 0)
+        printf("osfs not loaded");
+    
+//
+//    DESCRIPTOR fileImage = dvm_openExecutableFile(&dvmClass, argv[1]);
+//    fileImage = dvm_createVMImage(fileImage, 0);
+//
+//    for (int i = 0; i < 0xFF; ++i) {
+//        swiVector[i] = emptyInterrupt;
+//    }
+//    swiVector[0] = dvmExit;
+//
+//    state = dvm_newState(&dvmClass);
+//
+//    dvm_setVCPU( state, car_getVCPU(state) );
+//    dvm_setSWI(state, swiVector);
+//    dvm_execute(state);
 
     printf("END PROGRAM\n");
     return 0;

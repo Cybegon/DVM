@@ -27,4 +27,5 @@ cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --ta
 
 ## External libraries used by DVM
 
--   [ZIP](https://github.com/kuba--/zip) is under the [Unlicense](https://github.com/kuba--/zip/blob/master/UNLICENSE)
+-   [minizip-ng](https://github.com/zlib-ng/minizip-ng) is under the [zlib](https://github.com/zlib-ng/minizip-ng/blob/master/LICENSE)
+-   [hashmap.h](https://github.com/sheredom/hashmap.h) is under the [Unlicense](https://github.com/sheredom/hashmap.h/blob/master/LICENSE)
