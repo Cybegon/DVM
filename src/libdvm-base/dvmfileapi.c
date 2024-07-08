@@ -40,7 +40,7 @@ void dvm_fileClose(DESCRIPTOR file)
     dvmClass->free( wrapper );
 }
 
-dint64 dvm_fileRead(DESCRIPTOR file, MEMORY buffer, dint64 size)
+dint64 dvm_fileRead(DESCRIPTOR file, MEMORY buffer, duint32 size)
 {
     DVM_FS_DESCRIPTOR_WRAPPER* wrapper  = (DVM_FS_DESCRIPTOR_WRAPPER*)file;
 
@@ -48,7 +48,7 @@ dint64 dvm_fileRead(DESCRIPTOR file, MEMORY buffer, dint64 size)
                                wrapper->fIO->deviceDescriptor );
 }
 
-dint64 dvm_fileWrite(DESCRIPTOR file, MEMORY buffer, dint64 size)
+dint64 dvm_fileWrite(DESCRIPTOR file, MEMORY buffer, duint32 size)
 {
     DVM_FS_DESCRIPTOR_WRAPPER* wrapper  = (DVM_FS_DESCRIPTOR_WRAPPER*)file;
 
@@ -71,6 +71,8 @@ dint32 dvm_fileFStat(DESCRIPTOR file, DVM_FSTAT* info)
 {
     DVM_FS_DESCRIPTOR_WRAPPER* wrapper  = (DVM_FS_DESCRIPTOR_WRAPPER*)file;
 
-    return wrapper->fIO->fstat( file, info,
+    info->space     = wrapper->fIO->space;
+
+    return wrapper->fIO->fstat( wrapper->descriptor, info,
                                 wrapper->fIO->deviceDescriptor );
 }

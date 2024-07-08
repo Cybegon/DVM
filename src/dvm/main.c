@@ -40,6 +40,7 @@ vm_code emptyInterrupt(DVM* dvmState) {
 
 #include "dvmfsapi.h"
 #include "dvmfileapi.h"
+#include "dvmoptions.h"
 
 #include "common/zipfs/zipfs.h"
 #include "common/osfs/osfs.h"
@@ -51,15 +52,30 @@ int main(int argc, char* argv[])
 
     DVM_FS_CONTEXT* ctx = dvm_fsInit(&dvmClass);
 
-    DVM_FIO* dvxFIO     = zipfs_createFs("dvx", "D:/Cybegon/appledragon.zip", &dvmClass);
+    DVM_FIO* dvxFIO     = zipfs_createFs("dvx", "G:/appledragon.zip", &dvmClass);
     DVM_FIO* osfsFIO    = osfs_createFs("osfs", NULL, &dvmClass);
 
     if (dvm_registerFs(dvxFIO, ctx) != 0)
         printf("dvx not loaded");
     if (dvm_registerFs(osfsFIO, ctx) != 0)
         printf("osfs not loaded");
-    
-//
+
+    DESCRIPTOR file = dvm_fileOpen( "dvx://manifest.json", 0, ctx );
+
+    DVMOptions* options = dvm_createOptions( &dvmClass );
+    dvm_loadOptionsFile( options, file );
+
+    dvm_fileClose( file );
+
+    printf("%s\n", dvm_optionsGet( options, "interpreter.handler.name" ) );
+    printf("%s\n", dvm_optionsGet( options, "interpreter.handler.instruction.set.name" ) );
+    printf("%s\n", dvm_optionsGet( options, "app.entries.game::main.displayName" ) );
+    printf("%s\n", dvm_optionsGet( options, "app.author" ) );
+    printf("%s\n", dvm_optionsGet( options, "app.version" ) );
+    printf("%s\n", dvm_optionsGet( options, "app.license" ) );
+
+    dvm_optionsDelete( options, &dvmClass );
+
 //    DESCRIPTOR fileImage = dvm_openExecutableFile(&dvmClass, argv[1]);
 //    fileImage = dvm_createVMImage(fileImage, 0);
 //
@@ -73,7 +89,7 @@ int main(int argc, char* argv[])
 //    dvm_setVCPU( state, car_getVCPU(state) );
 //    dvm_setSWI(state, swiVector);
 //    dvm_execute(state);
-
-    printf("END PROGRAM\n");
+//
+//    printf("END PROGRAM\n");
     return 0;
 }

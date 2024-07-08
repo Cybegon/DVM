@@ -1,17 +1,15 @@
 #include "common/zipfs/zipfs.h"
 
-#include "mz.h"
-#include "mz_zip.h"
-#include "mz_os.h"
-#include "mz_strm_os.h"
+#include <mz.h>
+#include <mz_zip.h>
+#include <mz_strm_os.h>
 
 #include "dvmfileapi.h"
 
-#include <stdio.h>
-
-DESCRIPTOR  zipOpen(POINTER path, dint flags, DESCRIPTOR deviceDescriptor);
-void        zipClose(DESCRIPTOR file, DESCRIPTOR deviceDescriptor);
-dint64      zipReadFile(DESCRIPTOR file, MEMORY buf, dsize size, DESCRIPTOR deviceDescriptor);
+DESCRIPTOR  zipfs_open     (POINTER path, dint flags, DESCRIPTOR deviceDescriptor);
+void        zipfs_close    (DESCRIPTOR file, DESCRIPTOR deviceDescriptor);
+dint64      zipfs_readFile (DESCRIPTOR file, MEMORY buf, duint32 size, DESCRIPTOR deviceDescriptor);
+dint32      zipfs_fileStat (DESCRIPTOR file, DVM_FSTAT* info, DESCRIPTOR deviceDescriptor);
 
 DESCRIPTOR zipFileOpen(POINTER path, dint flags)
 {
@@ -48,17 +46,17 @@ DVM_FIO* zipfs_createFs(POINTER space, POINTER path, DVM_CLASS* dvmClass)
     fIO->space              = space;
     fIO->deviceDescriptor   = zipFileOpen( path, 0 );
 
-    fIO->open               = zipOpen;
-    fIO->close              = zipClose;
+    fIO->open               = zipfs_open;
+    fIO->close              = zipfs_close;
 
-    fIO->read               = zipReadFile;
+    fIO->read               = zipfs_readFile;
     fIO->write              = NULL;
 
     fIO->isOpen             = NULL;
-    fIO->fstat              = NULL;
+    fIO->fstat              = zipfs_fileStat;
 
     fIO->flags              = FS_CAN_READ | FS_CAN_COMPRESS |
-                                FS_UNSUPPORTED_IS_OPEN | FS_UNSUPPORTED_FSTAT;
+                                FS_UNSUPPORTED_IS_OPEN;
 
     return fIO;
 }
@@ -79,26 +77,41 @@ void zipfs_destroyFs(DVM_FIO *fIO, DVM_CLASS* dvmClass)
     dvmClass->free( fIO );
 }
 
-DESCRIPTOR zipOpen(POINTER path, dint flags, DESCRIPTOR deviceDescriptor)
+DESCRIPTOR zipfs_open(POINTER path, dint flags, DESCRIPTOR deviceDescriptor)
 {
-    printf("zipOpen\npath: %s\n", (char*)path);
-
     if ( mz_zip_locate_entry( deviceDescriptor, path, 0 ) != MZ_OK )
         return NULL;
     return POINTER_CAST( DESCRIPTOR, mz_zip_get_entry( deviceDescriptor ) );
 }
 
-void zipClose(DESCRIPTOR file, DESCRIPTOR deviceDescriptor)
+void zipfs_close(DESCRIPTOR file, DESCRIPTOR deviceDescriptor)
 {
     zipCloseIfOpen( deviceDescriptor );
 }
 
-dint64 zipReadFile(DESCRIPTOR file, MEMORY buf, dsize size, DESCRIPTOR deviceDescriptor)
+dint64 zipfs_readFile(DESCRIPTOR file, MEMORY buf, duint32 size, DESCRIPTOR deviceDescriptor)
 {
     zipCloseIfOpen( deviceDescriptor );
 
     mz_zip_goto_entry( deviceDescriptor, (dint64)file );
     mz_zip_entry_read_open( deviceDescriptor, 0, NULL );
 
-    return mz_zip_entry_read( deviceDescriptor, buf, size ); // TODO: read using a loop
+    return mz_zip_entry_read( deviceDescriptor, buf, (dint32)size ); // TODO: read using a loop
+}
+
+dint32 zipfs_fileStat(DESCRIPTOR file, DVM_FSTAT* info, DESCRIPTOR deviceDescriptor)
+{
+    zipCloseIfOpen( deviceDescriptor );
+
+    mz_zip_file *file_info = NULL;
+
+    mz_zip_goto_entry( deviceDescriptor, (dint64)file );
+    mz_zip_entry_get_info( deviceDescriptor, &file_info );
+
+    info->crc32             = file_info->crc;
+    info->fileID            = (dint64)file;
+    info->compressedSize    = file_info->compressed_size;
+    info->uncompressedSize  = file_info->uncompressed_size;
+
+    return 0;
 }

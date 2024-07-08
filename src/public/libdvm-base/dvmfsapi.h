@@ -11,8 +11,8 @@ typedef struct DVM_FSTAT        DVM_FSTAT;
 typedef DESCRIPTOR  (*DVM_IO_OPEN)      (POINTER path, dint flags, DESCRIPTOR deviceDescriptor);
 typedef void        (*DVM_IO_CLOSE)     (DESCRIPTOR file, DESCRIPTOR deviceDescriptor);
 
-typedef dint64      (*DVM_IO_READ)      (DESCRIPTOR file, MEMORY buf, dsize size, DESCRIPTOR deviceDescriptor);
-typedef dint64      (*DVM_IO_WRITE)     (DESCRIPTOR file, MEMORY buf, dsize size, DESCRIPTOR deviceDescriptor);
+typedef dint64      (*DVM_IO_READ)      (DESCRIPTOR file, MEMORY buf, duint32 size, DESCRIPTOR deviceDescriptor);
+typedef dint64      (*DVM_IO_WRITE)     (DESCRIPTOR file, MEMORY buf, duint32 size, DESCRIPTOR deviceDescriptor);
 
 typedef dint32      (*DVM_IO_IS_OPEN)   (DESCRIPTOR file, DESCRIPTOR deviceDescriptor);
 typedef dint32      (*DVM_IO_FSTAT)     (DESCRIPTOR file, DVM_FSTAT* info, DESCRIPTOR deviceDescriptor);

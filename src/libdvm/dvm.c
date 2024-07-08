@@ -106,27 +106,27 @@ vm_code dvm_exit( DVM* state, dint exitCode )
     return DVM_EXIT; // TODO: replace
 }
 
-vm_code dvm_call( DVM* state, REGISTER address )
+vm_code dvm_call( DVM* state, REGISTER address ) // TODO: replace
 {
     IP = address;
-    cpu_stateHandler( state, DVM_LOAD_PAGE);
+    cpu_stateHandler( state, DVM_LOAD_PAGE );
 
     return DVM_SUCCESS; // TODO: replace
 }
 
-REGISTER dvm_getRegisterValue(DVM* state, duint8 nReg)
+REGISTER dvm_getRegisterValue( DVM* state, duint8 nReg )
 {
-    return R(nReg);
+    return R( nReg );
 }
 
-REGISTER* dvm_getRegisterRef(DVM* state, duint8 nReg)
+REGISTER* dvm_getRegisterRef( DVM* state, duint8 nReg )
 {
-    return &R(nReg);
+    return &R( nReg );
 }
 
-vm_code dvm_setSWI(DVM* state, DVM_INT* vector)
+vm_code dvm_setSWI( DVM* state, DVM_INT* vector )
 {
-    if (vector == NULL)
+    if ( vector == NULL )
         return DVM_FAIL;
 
     state->SVI = vector;
@@ -134,10 +134,10 @@ vm_code dvm_setSWI(DVM* state, DVM_INT* vector)
     return DVM_SUCCESS;
 }
 
-vm_code dvm_setEndian(DVM* state, duint8 endian) {
-    (endian >= 1)
-    ? _BIT_SET(cvtR2FR(FR)->vm_control, 7u)
-    : _BIT_CLEAR(cvtR2FR(FR)->vm_control, 7u);
+vm_code dvm_setEndian( DVM* state, duint8 endian ) {
+    ( endian >= 1 )
+    ? _BIT_SET( cvtR2FR(FR)->vm_control, 7u )
+    : _BIT_CLEAR( cvtR2FR(FR)->vm_control, 7u );
 
     return DVM_SUCCESS;
 }

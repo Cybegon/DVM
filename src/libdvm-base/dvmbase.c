@@ -1,10 +1,11 @@
 #include "dvmbase.h"
 
-#include "dvm_memory.h"
+#include "dvm.h"
 
-#include <mz.h>
-#include <mz_zip.h>
-#include <mz_strm_os.h>
+#include "dvm_memory.h"
+#include "dvmfsapi.h"
+#include "dvmfileapi.h"
+#include "dvmoptions.h"
 
 #include "geff.h"
 
@@ -29,10 +30,19 @@ DVM_CLASS* dvm_initClass(DVM_CLASS* dvmClass)
     return dvmClass;
 }
 
+void dvm_fastAllInit( DVM_CLASS* dvmClass, DVMOptions* options, DVM* state )
+{
+    dvm_initClass( dvmClass );
+
+
+}
+
 DVM_CLASS* dvm_setVMImage(DVM_CLASS* dvmClass)
 {
     return dvmClass;
 }
+
+
 
 //duint dvm_loadSectionIntoMemory(DVMFileImage* image, MEMORY VMImage, struct GEFF_HEADER* header, duint16 sectionId)
 //{

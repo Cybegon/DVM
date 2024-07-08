@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(VirtualDragon VERSION 0.0.56 LANGUAGES C CXX)
+project(VirtualDragon VERSION 0.6.121 LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 99)
 
@@ -15,12 +15,13 @@ if (NOT TARGET datatypes)
     add_subdirectory(${PROJECT_SOURCE_DIR}/extlibs/datatypes.h)
 endif()
 
+set(ZLIB_TAG "develop")
 set(MZ_COMPAT OFF)
 set(MZ_BZIP2 OFF)
 set(MZ_LZMA OFF)
 set(MZ_ZSTD OFF)
 set(MZ_LIBCOMP OFF)
-set(MZ_FETCH_LIBS OFF)
+set(MZ_FETCH_LIBS ON)
 set(MZ_PKCRYPT OFF)
 set(MZ_WZAES OFF)
 set(MZ_OPENSSL OFF)

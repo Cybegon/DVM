@@ -3,7 +3,8 @@
 
 #include "datatypes.h"
 #include "dvmclass.h"
-#include "hashmap.h"
+
+#include "hashmap/hashmap.h"
 
 struct DVM_FS_CONTEXT
 {

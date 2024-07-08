@@ -7,15 +7,12 @@
 #define DVM_BASE_STACK_SIZE MB(1)
 #define DVM_BASE_CHUNK_SIZE MB(4)
 
-#define FILE_TYPE_RAW 0
-#define FILE_TYPE_VEX 1
-
-typedef struct DVMFileImage DVMFileImage;
+typedef POINTER DVMOptions;
 
 DVM_CLASS*  dvm_initClass(DVM_CLASS* dvmClass);
 
-DVMFileImage*   dvm_openExecutableFile  (DVM_CLASS* dvmClass, const char* path);
-MEMORY          dvm_createVMImage       (DVM_CLASS* dvmClass, DVMFileImage* fileImage);
+void        dvm_fastAllInit         ( DVM_CLASS* dvmClass, DVMOptions* options, DVM* state );
+MEMORY      dvm_createVMImage       ( DVM_CLASS* dvmClass, DVMOptions* options);
 
 // memory
 MEMORY  DVM_CALLBACK dvm_malloc     (dsize size);

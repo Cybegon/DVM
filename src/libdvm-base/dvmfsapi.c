@@ -8,7 +8,7 @@
 #include "dvmbase.h"
 #include "dvmutils.h"
 
-#include "hashmap.h"
+#include "hashmap/hashmap.h"
 
 #define FS_DELIM "://"
 
@@ -32,16 +32,6 @@ dint32 dvm_registerFs(DVM_FIO* fIO, DVM_FS_CONTEXT* fsContext)
             || !fIO->close
             || !fIO->read)
         return 0;
-
-    if ( !(fIO->flags & FS_CAN_WRITE) )
-        if ( !fIO->write )
-            return 0;
-    if ( !(fIO->flags & FS_UNSUPPORTED_IS_OPEN) )
-        if ( !fIO->isOpen )
-            return 0;
-    if ( !(fIO->flags & FS_UNSUPPORTED_FSTAT) )
-        if ( !fIO->fstat )
-            return 0;
 
     dsize size = dvm_strlen( fIO->space );
     if (!size)

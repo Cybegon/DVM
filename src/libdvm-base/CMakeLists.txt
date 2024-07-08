@@ -2,6 +2,7 @@ file(GLOB PHSRC ${PROJECT_SOURCE_DIR}/src/public/libdvm-base/*.h)
 file(GLOB_RECURSE HSRC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB SRC
         ${CMAKE_CURRENT_SOURCE_DIR}/*.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/ext/*/*.c
         ${CMAKE_CURRENT_SOURCE_DIR}/common/*/*.c
         ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.c)
 
@@ -29,6 +30,7 @@ target_include_directories(libdvm-base
             $<INSTALL_INTERFACE:include>
         PRIVATE
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/ext
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/os>
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/utils>
         )
