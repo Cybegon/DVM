@@ -65,6 +65,14 @@ int main(int argc, char* argv[])
     DVMOptions* options = dvm_createOptions( &dvmClass );
     dvm_loadOptionsFile( options, file );
 
+    dvm_optionsAdd( options, "dvm.launch.executable.file.path", argv[1] );
+    // TODO: Make format.
+    //  As example dvm_optionsAdd( options,
+    //              "dvm.launch.executable.file.path",
+    //              "{interpreter.handler.instruction.set.name}"
+    //              );
+    dvm_optionsAdd( options, "dvm.launch.executable.file.path", dvm_optionsGet( options, "interpreter.handler.instruction.set.name" ) );
+
     dvm_fileClose( file );
 
     printf("%s\n", dvm_optionsGet( options, "interpreter.handler.name" ) );
@@ -75,6 +83,8 @@ int main(int argc, char* argv[])
     printf("%s\n", dvm_optionsGet( options, "app.license" ) );
 
     dvm_optionsDelete( options, &dvmClass );
+
+    dvm_createVMImage( &dvmClass, options, ctx );
 
 //    DESCRIPTOR fileImage = dvm_openExecutableFile(&dvmClass, argv[1]);
 //    fileImage = dvm_createVMImage(fileImage, 0);

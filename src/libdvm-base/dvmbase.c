@@ -42,7 +42,18 @@ DVM_CLASS* dvm_setVMImage(DVM_CLASS* dvmClass)
     return dvmClass;
 }
 
+#include <stdio.h>
 
+dint32 dvm_createVMImage(DVM_CLASS* dvmClass, DVMOptions* options, DVM_FS_CONTEXT* ctx)
+{
+    char* headerPath = dvm_optionsGet( options, "app.image.header" );
+    DESCRIPTOR fileHeader = dvm_fileOpen( headerPath, 0, ctx );
+
+    struct GEFF_HEADER geffHeader = { 0 };
+    dvm_fileRead( fileHeader, &geffHeader, sizeof( struct GEFF_HEADER ) );
+
+//    printf("%s", geffHeader.)
+}
 
 //duint dvm_loadSectionIntoMemory(DVMFileImage* image, MEMORY VMImage, struct GEFF_HEADER* header, duint16 sectionId)
 //{
